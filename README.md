@@ -116,6 +116,18 @@ size,nodes,requests,grade,score,ges,water,url,date,resolution
 250.472,76,11,A,85,1.3,1.3,http://www.ecoindex.fr/,2021-01-14 11:23:55.723549,"1920,1080"
 ```
 
+Where:
+- `size` is the size of the page and of the downloaded elements of the page in KB
+- `nodes` is the number of the DOM elements in the page
+- `requests` is the number of external requests made by the page
+- `grade` is the corresponding ecoindex grade of the page (from A to G)
+- `score` is the corresponding ecoindex score of the page (0 to 100)
+- `ges` is the equivalent of greenhouse gases emission (in `gCO2e`) of the page
+- `water`is the equivalent water consumption (in `cl`) of the page
+- `url` is the analysed page url
+- `date` is the datetime of the page analysis
+- `resolution` is the screen resolution used for the page analysis (`width,height`)
+
 ## TODO
 
 - [ ] Tests
