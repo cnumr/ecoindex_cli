@@ -10,11 +10,12 @@ The output is always a CSV file with the results of the analysis.
 
 - Python ^3.8
 - [Poetry](https://python-poetry.org/)
+- Google Chrome installed on your computer
 
 ## Setup
 
 - Get the source
-- Get [Chromedriver](https://chromedriver.chromium.org/downloads) for your system, install it in your PATH and then configure [.env](.env) file
+- Get [Chromedriver](https://chromedriver.chromium.org/downloads) corresponding to your google chrome version, install it in your PATH and then configure [.env](.env) file
 - Install the command: `poetry install`
 - You're good to go
 
@@ -110,11 +111,25 @@ Processing  [####################################]  100%
 The result of the analysis is a CSV file which can be easily used for further analysis:
 
 ```csv
-size,nodes,requests,grade,score,ges,water,url,date,resolution
-496.486,283,52,B,69,1.62,1.62,http://www.ecoindex.fr/apropos/,2021-01-14 11:23:50.277706,"1920,1080"
-97.899,101,7,A,86,1.28,1.28,http://www.ecoindex.fr/quest-ce-que-ecoindex/,2021-01-14 11:23:52.987813,"1920,1080"
-250.472,76,11,A,85,1.3,1.3,http://www.ecoindex.fr/,2021-01-14 11:23:55.723549,"1920,1080"
+size,nodes,requests,grade,score,ges,water,url,date,resolution,page_type
+496.486,283,52,B,69,1.62,1.62,http://www.ecoindex.fr/apropos/,2021-01-14 11:23:50.277706,"1920,1080",
+97.899,101,7,A,86,1.28,1.28,http://www.ecoindex.fr/quest-ce-que-ecoindex/,2021-01-14 11:23:52.987813,"1920,1080",
+250.472,76,11,A,85,1.3,1.3,http://www.ecoindex.fr/,2021-01-14 11:23:55.723549,"1920,1080",
 ```
+
+Where:
+
+- `size` is the size of the page and of the downloaded elements of the page in KB
+- `nodes` is the number of the DOM elements in the page
+- `requests` is the number of external requests made by the page
+- `grade` is the corresponding ecoindex grade of the page (from A to G)
+- `score` is the corresponding ecoindex score of the page (0 to 100)
+- `ges` is the equivalent of greenhouse gases emission (in `gCO2e`) of the page
+- `water`is the equivalent water consumption (in `cl`) of the page
+- `url` is the analysed page url
+- `date` is the datetime of the page analysis
+- `resolution` is the screen resolution used for the page analysis (`width,height`)
+- `page_type` is the type of the page, based ton the [opengraph type tag](https://ogp.me/#types) (when existing, or `None`)
 
 ## TODO
 

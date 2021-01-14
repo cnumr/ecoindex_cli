@@ -3,22 +3,22 @@ from json import loads
 from os import getenv
 from sys import getsizeof
 from time import sleep
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 from ecoindex.ecoindex import get_ecoindex
-from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver import Chrome, DesiredCapabilities
 from selenium.webdriver.chrome.options import Options
 
-from ecoindex_cli.models import Page, PageMetrics, Result
+from ecoindex_cli.models import Page, PageMetrics, PageType, Result
 
 
 def get_page_analysis(
     url: str, window_size: Optional[str] = "1920,1080"
 ) -> List[Result]:
-    page = scrap_page(url=url, window_size=window_size)
-    metrics = get_page_metrics(page=page)
+    page_metrics, page_type = scrap_page(url=url, window_size=window_size)
     ecoindex = get_ecoindex(
-        dom=metrics.nodes, size=metrics.size, requests=metrics.requests
+        dom=page_metrics.nodes, size=page_metrics.size, requests=page_metrics.requests
     )
 
     return Result(
@@ -29,21 +29,22 @@ def get_page_analysis(
         url=url,
         date=datetime.now(),
         resolution=window_size,
-        nodes=metrics.nodes,
-        size=metrics.size,
-        requests=metrics.requests,
+        nodes=page_metrics.nodes,
+        size=page_metrics.size,
+        requests=page_metrics.requests,
+        page_type=page_type,
     )
 
 
-def scrap_page(url: str, window_size: str) -> Page:
+def scrap_page(url: str, window_size: str) -> Tuple[PageMetrics, PageType]:
     chrome_options = Options()
     chrome_options.add_argument("--headless")
     chrome_options.add_argument(f"--window-size={window_size}")
 
-    capbs = webdriver.DesiredCapabilities.CHROME.copy()
+    capbs = DesiredCapabilities.CHROME.copy()
     capbs["goog:loggingPrefs"] = {"performance": "ALL"}
 
-    driver = webdriver.Chrome(
+    driver = Chrome(
         desired_capabilities=capbs,
         executable_path=getenv("CHROMEDRIVER_PATH"),
         chrome_options=chrome_options,
@@ -54,17 +55,20 @@ def scrap_page(url: str, window_size: str) -> Page:
     # TODO : Find a way to wait for all elements downloaded after scrolling to bottom
     sleep(1)
 
+    page_type = get_page_type(driver)
+    page_metrics = get_page_metrics(driver)
+
+    driver.quit()
+
+    return page_metrics, page_type
+
+
+def get_page_metrics(driver: Chrome) -> PageMetrics:
     page = Page(
         logs=driver.get_log("performance"),
         outer_html=driver.execute_script("return document.documentElement.outerHTML"),
         nodes=driver.find_elements_by_xpath("//*"),
     )
-    driver.quit()
-
-    return page
-
-
-def get_page_metrics(page: Page) -> PageMetrics:
     downloaded_data = [
         loads(log["message"])["message"]["params"]["encodedDataLength"]
         for log in page.logs
@@ -76,3 +80,14 @@ def get_page_metrics(page: Page) -> PageMetrics:
         nodes=len(page.nodes),
         requests=len(downloaded_data),
     )
+
+
+def get_page_type(driver: Chrome) -> Optional[PageType]:
+    try:
+        page_type = driver.find_element_by_xpath(
+            "//meta[@property='og:type']"
+        ).get_attribute("content")
+    except (NoSuchElementException):
+        page_type = None
+
+    return page_type
