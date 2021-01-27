@@ -3,7 +3,7 @@ from typing import List, Optional
 from urllib.parse import urlparse
 
 from dotenv import load_dotenv
-from typer import Option, colors, progressbar, secho
+from typer import Option, colors, confirm, progressbar, secho
 from typer.main import Typer
 
 from ecoindex_cli.files import write_results_to_csv
@@ -47,8 +47,17 @@ def main(
         secho(f"⏲️ Crawling root url {main_url} -> Wait a minute !", fg=colors.MAGENTA)
         crawler = Crawler()
         urls = crawler.crawl(url=main_url)
+        with open(file="urls.csv", mode="w") as urls_file:
+            for url in urls:
+                urls_file.write(f"{url}\n")
 
-    if urls:
+    process_urls = confirm(
+        f"There are {len(urls)} url(s), do you want to process?",
+        abort=True,
+        default=True,
+    )
+
+    if urls and process_urls:
         results = []
         secho(f"{len(urls)} urls for {len(window_size)} window size", fg=colors.GREEN)
         with progressbar(

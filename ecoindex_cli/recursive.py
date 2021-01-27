@@ -62,6 +62,9 @@ class Crawler:
         self.total_url_visited += 1
         links = self.get_recursive_urls(url)
 
+        if not links:
+            return
+
         for link in links:
             if self.total_url_visited > self.max_urls:
                 break
