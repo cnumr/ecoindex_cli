@@ -10,11 +10,12 @@ The output is always a CSV file with the results of the analysis.
 
 - Python ^3.8
 - [Poetry](https://python-poetry.org/)
+- Google Chrome installed on your computer
 
 ## Setup
 
 - Get the source
-- Get [Chromedriver](https://chromedriver.chromium.org/downloads) for your system, install it in your PATH and then configure [.env](.env) file
+- Get [Chromedriver](https://chromedriver.chromium.org/downloads) corresponding to your google chrome version, install it in your PATH and then configure [.env](.env) file
 - Install the command: `poetry install`
 - You're good to go
 
@@ -117,6 +118,7 @@ size,nodes,requests,grade,score,ges,water,url,date,resolution
 ```
 
 Where:
+
 - `size` is the size of the page and of the downloaded elements of the page in KB
 - `nodes` is the number of the DOM elements in the page
 - `requests` is the number of external requests made by the page

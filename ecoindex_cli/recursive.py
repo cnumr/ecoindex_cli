@@ -18,7 +18,11 @@ class Crawler:
         Checks whether `url` is a valid URL.
         """
         parsed = urlparse(url)
-        return bool(parsed.netloc) and bool(parsed.scheme)
+        return (
+            bool(parsed.netloc)
+            and bool(parsed.scheme)
+            and bool(not url.lower().endswith(".pdf"))
+        )
 
     def get_recursive_urls(self, url: str) -> List[str]:
         """
@@ -26,9 +30,6 @@ class Crawler:
         """
         urls = set()
         domain_name = urlparse(url).netloc
-
-        if url.endswith(".pdf"):
-            return
 
         soup = BeautifulSoup(requests.get(url).content, "html.parser")
 
