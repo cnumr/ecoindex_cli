@@ -17,9 +17,9 @@ The output is always a CSV file with the results of the analysis.
 ## Setup
 
 ```bash
-➜ git clone git@github.com:cnumr/ecoindex_cli.git    # Clone source
-➜ cd ecoindex_cli                                    # Go to source folder
-➜ poetry install                                     # Install dependencies
+git clone git@github.com:cnumr/ecoindex_cli.git    # Clone source
+cd ecoindex_cli                                    # Go to source folder
+poetry install                                     # Install dependencies
 ```
 
 ## Use case
@@ -150,9 +150,9 @@ Where:
 - `nodes` is the number of the DOM elements in the page
 - `requests` is the number of external requests made by the page
 - `grade` is the corresponding ecoindex grade of the page (from A to G)
-- `score` is the corresponding ecoindex score of the page (0 to 100)
+- `score` is the corresponding ecoindex score of the page (0 to 100)
 - `ges` is the equivalent of greenhouse gases emission (in `gCO2e`) of the page
-- `water`is the equivalent water consumption (in `cl`) of the page
+- `water` is the equivalent water consumption (in `cl`) of the page
 - `url` is the analysed page url
 - `date` is the datetime of the page analysis
 - `resolution` is the screen resolution used for the page analysis (`width,height`)

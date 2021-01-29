@@ -1,0 +1,253 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "Ecoindex API",
+        "description": "This is the implementation of the [`ecoindex_cli`](https://github.com/cnumr/ecoindex_cli) for an API use.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/analysis": {
+            "post": {
+                "tags": [
+                    "ecoindex"
+                ],
+                "summary": "Analyze Websites",
+                "description": "Make an ecoindex analysis on given urls",
+                "operationId": "analyze_websites_analysis_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "title": "List of webpages",
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/WebPage"
+                                },
+                                "description": "Array of urls and window resolution you want to analyze"
+                            },
+                            "example": [
+                                {
+                                    "resolution": {
+                                        "height": 1080,
+                                        "width": 1920
+                                    },
+                                    "url": "http://ecoindex.fr"
+                                },
+                                {
+                                    "resolution": {
+                                        "height": 600,
+                                        "width": 800
+                                    },
+                                    "url": "https://www.greenit.fr/"
+                                }
+                            ]
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Analyze Websites Analysis Post",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Result"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "HTTPValidationError": {
+                "title": "HTTPValidationError",
+                "type": "object",
+                "properties": {
+                    "detail": {
+                        "title": "Detail",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        }
+                    }
+                }
+            },
+            "Result": {
+                "title": "Result",
+                "required": [
+                    "size",
+                    "nodes",
+                    "requests"
+                ],
+                "type": "object",
+                "properties": {
+                    "resolution": {
+                        "title": "Page resolution",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/WindowSize"
+                            }
+                        ],
+                        "description": "Resolution of the simulated window in pixel"
+                    },
+                    "url": {
+                        "title": "Page url",
+                        "maxLength": 2083,
+                        "minLength": 1,
+                        "type": "string",
+                        "description": "Url of the analysed page",
+                        "format": "uri"
+                    },
+                    "size": {
+                        "title": "Page size",
+                        "minimum": 0.0,
+                        "type": "number",
+                        "description": "Is the size of the page and of the downloaded elements of the page in KB"
+                    },
+                    "nodes": {
+                        "title": "Page nodes",
+                        "minimum": 0.0,
+                        "type": "integer",
+                        "description": "Is the number of the DOM elements in the page"
+                    },
+                    "requests": {
+                        "title": "Page requests",
+                        "minimum": 0.0,
+                        "type": "integer",
+                        "description": "Is the number of external requests made by the page"
+                    },
+                    "grade": {
+                        "title": "Ecoindex grade",
+                        "enum": [
+                            "A",
+                            "B",
+                            "C",
+                            "D",
+                            "E",
+                            "F",
+                            "G"
+                        ],
+                        "type": "string",
+                        "description": "Is the corresponding ecoindex grade of the page (from A to G)"
+                    },
+                    "score": {
+                        "title": "Ecoindex score",
+                        "maximum": 100.0,
+                        "minimum": 0.0,
+                        "type": "number",
+                        "description": "Is the corresponding ecoindex score of the page (0 to 100)"
+                    },
+                    "ges": {
+                        "title": "Ecoindex GES equivalent",
+                        "minimum": 0.0,
+                        "type": "number",
+                        "description": "Is the equivalent of greenhouse gases emission (in `gCO2e`) of the page"
+                    },
+                    "water": {
+                        "title": "Ecoindex Water equivalent",
+                        "minimum": 0.0,
+                        "type": "number",
+                        "description": "Is the equivalent water consumption (in `cl`) of the page"
+                    },
+                    "date": {
+                        "title": "Analysis datetime",
+                        "type": "string",
+                        "description": "Date of the analysis",
+                        "format": "date-time"
+                    },
+                    "page_type": {
+                        "title": "Page type",
+                        "type": "string",
+                        "description": "Is the type of the page, based ton the [opengraph type tag](https://ogp.me/#types)"
+                    }
+                }
+            },
+            "ValidationError": {
+                "title": "ValidationError",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "type": "object",
+                "properties": {
+                    "loc": {
+                        "title": "Location",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "msg": {
+                        "title": "Message",
+                        "type": "string"
+                    },
+                    "type": {
+                        "title": "Error Type",
+                        "type": "string"
+                    }
+                }
+            },
+            "WebPage": {
+                "title": "WebPage",
+                "type": "object",
+                "properties": {
+                    "resolution": {
+                        "title": "Page resolution",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/WindowSize"
+                            }
+                        ],
+                        "description": "Resolution of the simulated window in pixel"
+                    },
+                    "url": {
+                        "title": "Page url",
+                        "maxLength": 2083,
+                        "minLength": 1,
+                        "type": "string",
+                        "description": "Url of the analysed page",
+                        "format": "uri"
+                    }
+                }
+            },
+            "WindowSize": {
+                "title": "WindowSize",
+                "required": [
+                    "height",
+                    "width"
+                ],
+                "type": "object",
+                "properties": {
+                    "height": {
+                        "title": "Window height",
+                        "type": "integer",
+                        "description": "Height of the simulated window in pixel"
+                    },
+                    "width": {
+                        "title": "Window width",
+                        "type": "integer",
+                        "description": "Width of the simulated window in pixel"
+                    }
+                }
+            }
+        }
+    }
+}
