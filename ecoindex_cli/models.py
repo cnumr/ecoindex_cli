@@ -4,6 +4,8 @@ from typing import List
 
 from ecoindex.models import Ecoindex
 
+PageType = str
+
 
 @dataclass
 class Page:
@@ -24,6 +26,7 @@ class Result(Ecoindex, PageMetrics):
     url: str
     date: datetime
     resolution: str
+    page_type: PageType
 
     def list_attributes(self):
         print(self)
