@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from datetime import datetime
-from typing import List
+from typing import List, Optional
 
 from ecoindex.models import Ecoindex
 
@@ -14,16 +14,16 @@ class Page:
 
 @dataclass
 class PageMetrics:
-    size: float
-    nodes: int
-    requests: int
+    size: Optional[float] = None
+    nodes: Optional[int] = None
+    requests: Optional[int] = None
 
 
 @dataclass
 class Result(Ecoindex, PageMetrics):
-    url: str
-    date: datetime
-    resolution: str
+    url: str = ""
+    date: datetime = datetime.now()
+    resolution: str = ""
 
     def list_attributes(self):
         print(self)

@@ -65,9 +65,10 @@ def main(
             label="Processing",
         ) as progress:
             for url in urls:
-                for w_s in window_size:
-                    results.append(get_page_analysis(url=url, window_size=w_s))
-                    progress.update(1)
+                if url:
+                    for w_s in window_size:
+                        results.append(get_page_analysis(url=url, window_size=w_s))
+                        progress.update(1)
 
         output_filename = f"export-{time_now}.csv"
         write_results_to_csv(filename=output_filename, results=results)

@@ -7,35 +7,37 @@ from typing import List, Optional
 
 from ecoindex.ecoindex import get_ecoindex
 from selenium import webdriver
+from selenium.common.exceptions import InvalidArgumentException
 from selenium.webdriver.chrome.options import Options
 
 from ecoindex_cli.models import Page, PageMetrics, Result
 
 
-def get_page_analysis(
-    url: str, window_size: Optional[str] = "1920,1080"
-) -> List[Result]:
+def get_page_analysis(url: str, window_size: Optional[str] = "1920,1080") -> Result:
     page = scrap_page(url=url, window_size=window_size)
-    metrics = get_page_metrics(page=page)
-    ecoindex = get_ecoindex(
-        dom=metrics.nodes, size=metrics.size, requests=metrics.requests
-    )
-
-    return Result(
-        score=ecoindex.score,
-        ges=ecoindex.ges,
-        water=ecoindex.ges,
-        grade=ecoindex.grade,
+    result = Result(
         url=url,
         date=datetime.now(),
         resolution=window_size,
-        nodes=metrics.nodes,
-        size=metrics.size,
-        requests=metrics.requests,
     )
 
+    if page:
+        metrics = get_page_metrics(page=page)
+        ecoindex = get_ecoindex(
+            dom=metrics.nodes, size=metrics.size, requests=metrics.requests
+        )
+        result.score = ecoindex.score
+        result.grade = ecoindex.grade
+        result.ges = ecoindex.ges
+        result.water = ecoindex.water
+        result.nodes = metrics.nodes
+        result.requests = metrics.requests
+        result.size = metrics.size
 
-def scrap_page(url: str, window_size: str) -> Page:
+    return result
+
+
+def scrap_page(url: str, window_size: str) -> Optional[Page]:
     chrome_options = Options()
     chrome_options.add_argument("--headless")
     chrome_options.add_argument(f"--window-size={window_size}")
@@ -49,17 +51,22 @@ def scrap_page(url: str, window_size: str) -> Page:
         chrome_options=chrome_options,
     )
     driver.set_script_timeout(10)
-    driver.get(url)
-    driver.execute_script("window.scrollTo(0,document.body.scrollHeight)")
-    # TODO : Find a way to wait for all elements downloaded after scrolling to bottom
-    sleep(1)
+    try:
+        driver.get(url)
+        driver.execute_script("window.scrollTo(0,document.body.scrollHeight)")
+        # TODO : Find a way to wait for all elements downloaded after scrolling to bottom
+        sleep(1)
 
-    page = Page(
-        logs=driver.get_log("performance"),
-        outer_html=driver.execute_script("return document.documentElement.outerHTML"),
-        nodes=driver.find_elements_by_xpath("//*"),
-    )
-    driver.quit()
+        page = Page(
+            logs=driver.get_log("performance"),
+            outer_html=driver.execute_script(
+                "return document.documentElement.outerHTML"
+            ),
+            nodes=driver.find_elements_by_xpath("//*"),
+        )
+        driver.quit()
+    except (InvalidArgumentException):
+        return None
 
     return page
 
