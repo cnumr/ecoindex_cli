@@ -111,10 +111,10 @@ Processing  [####################################]  100%
 The result of the analysis is a CSV file which can be easily used for further analysis:
 
 ```csv
-size,nodes,requests,grade,score,ges,water,url,date,resolution
-496.486,283,52,B,69,1.62,1.62,http://www.ecoindex.fr/apropos/,2021-01-14 11:23:50.277706,"1920,1080"
-97.899,101,7,A,86,1.28,1.28,http://www.ecoindex.fr/quest-ce-que-ecoindex/,2021-01-14 11:23:52.987813,"1920,1080"
-250.472,76,11,A,85,1.3,1.3,http://www.ecoindex.fr/,2021-01-14 11:23:55.723549,"1920,1080"
+size,nodes,requests,grade,score,ges,water,url,date,resolution,page_type
+496.486,283,52,B,69,1.62,1.62,http://www.ecoindex.fr/apropos/,2021-01-14 11:23:50.277706,"1920,1080",
+97.899,101,7,A,86,1.28,1.28,http://www.ecoindex.fr/quest-ce-que-ecoindex/,2021-01-14 11:23:52.987813,"1920,1080",
+250.472,76,11,A,85,1.3,1.3,http://www.ecoindex.fr/,2021-01-14 11:23:55.723549,"1920,1080",
 ```
 
 Where:
@@ -129,6 +129,7 @@ Where:
 - `url` is the analysed page url
 - `date` is the datetime of the page analysis
 - `resolution` is the screen resolution used for the page analysis (`width,height`)
+- `page_type` is the type of the page, based ton the [opengraph type tag](https://ogp.me/#types) (when existing, or `None`)
 
 ## TODO
 
