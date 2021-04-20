@@ -2,6 +2,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import List, Optional
 from urllib.parse import urlparse
+from webbrowser import open as open_webbrowser
 
 from dotenv import load_dotenv
 from typer import Option, colors, confirm, progressbar, secho
@@ -9,6 +10,7 @@ from typer.main import Typer
 
 from ecoindex_cli.files import write_results_to_csv
 from ecoindex_cli.recursive import Crawler
+from ecoindex_cli.report.report import generate_report
 from ecoindex_cli.scrap import get_page_analysis
 
 app = Typer()
@@ -17,18 +19,21 @@ load_dotenv()
 
 @app.command()
 def main(
-    url: Optional[List[str]] = Option(None, help="List of urls to analyze"),
+    url: Optional[List[str]] = Option(default=None, help="List of urls to analyze"),
     window_size: Optional[List[str]] = Option(
-        ["1920,1080"],
+        default=["1920,1080"],
         help="You can set multiple window sizes to make ecoindex test. You have to use the format `width,height` in pixel",
     ),
     recursive: Optional[bool] = Option(
-        False,
+        default=False,
         help="You can make a recursive analysis of a website. In this case, just provide one root url. Be carreful with this option. Can take a loooong long time !",
     ),
     urls_file: Optional[str] = Option(
-        None,
+        default=None,
         help="If you want to analyze multiple urls, you can also set them in a file and provide the file name",
+    ),
+    html_report: Optional[bool] = Option(
+        default=False, help="You can generate a html report of the analysis"
     ),
 ):
 
@@ -80,6 +85,19 @@ def main(
         write_results_to_csv(filename=output_filename, results=results)
         secho(f"🙌️ File {output_filename} written !", fg=colors.GREEN)
 
+        if html_report:
+            generate_report(
+                results_file=output_filename,
+                output_path=output_folder,
+                domain=domain,
+                date=time_now,
+            )
+            secho(
+                f"🦄️ Amazing! A report has been generated to `{Path(__file__).parent.absolute()}/{output_folder}/report.html`"
+            )
+            open_webbrowser(
+                f"file://{Path(__file__).parent.absolute()}/{output_folder}/report.html"
+            )
     else:
         secho("🔥 You must provide an url...", fg=colors.RED)
 

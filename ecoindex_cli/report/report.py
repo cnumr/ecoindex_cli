@@ -1,4 +1,5 @@
 from os.path import dirname
+from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader
 from matplotlib import pyplot
@@ -46,7 +47,7 @@ def generate_report(
 ) -> None:
     df = read_csv(results_file)
     env = Environment(loader=FileSystemLoader("."))
-    template = env.get_template(f"{dirname(__file__)}/template.html")
+    template = env.get_template("ecoindex_cli/report/template.html")
 
     create_histogram(
         dataframe=df,
@@ -113,11 +114,3 @@ def generate_report(
 
     with open(f"{output_path}/report.html", "w") as f:
         f.write(html_out)
-
-
-generate_report(
-    results_file="/home/vvatelot/Devel/ecoindex_cli/output/www.synchrone.fr/2021-04-19 23:32:53.038147/results.csv",
-    output_path="/home/vvatelot/Devel/ecoindex_cli/output/www.synchrone.fr/2021-04-19 23:32:53.038147",
-    domain="www.synchrone.fr",
-    date="2021-04-19",
-)

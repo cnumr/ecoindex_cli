@@ -42,6 +42,10 @@ Options:
                                   can also set them in a file and provide the
                                   file name
 
+  --html-report / --no-html-report
+                                  You can generate a html report of the
+                                  analysis  [default: False]
+
   --install-completion [bash|zsh|fish|powershell|pwsh]
                                   Install completion for the specified shell.
   --show-completion [bash|zsh|fish|powershell|pwsh]
@@ -57,9 +61,10 @@ You give just one web url
 
 ```shell
 ➜ ecoindex-cli --url http://www.ecoindex.fr
+There are 1 url(s), do you want to process? [Y/n]:
 1 urls for 1 window size
 Processing  [####################################]  100%
-🙌️ File export-2021-01-14 11:14:50.098045.csv written !
+🙌️ File output/www.ecoindex.fr/2021-04-20 16:44:33.468755/results.csv written !
 ```
 
 > This makes an analysis with a screen resolution of 1920x1080px by default
@@ -68,9 +73,10 @@ Processing  [####################################]  100%
 
 ```shell
 ➜ ecoindex-cli --url http://www.ecoindex.fr --url https://www.greenit.fr/
+There are 2 url(s), do you want to process? [Y/n]:
 2 urls for 1 window size
 Processing  [####################################]  100%
-🙌️ File export-2021-01-14 11:17:48.833312.csv written !
+🙌️ File output/www.ecoindex.fr/2021-04-20 16:45:24.458052/results.csv written !
 ```
 
 ### Provide urls from a file
@@ -79,9 +85,10 @@ You can use a file with given urls that you want to analyze: One url per line. T
 
 ```shell
 ➜ ecoindex-cli --url http://www.ecoindex.fr --url https://www.greenit.fr/
+There are 2 url(s), do you want to process? [Y/n]:
 2 urls for 1 window size
 Processing  [####################################]  100%
-🙌️ File export-2021-01-14 11:17:48.833312.csv written !
+🙌️ File output/www.ecoindex.fr/2021-04-20 16:45:24.458052/results.csv written !
 ```
 
 ### Make a recursive analysis
@@ -91,9 +98,11 @@ You can make a recursive analysis of a given webiste. This means that the app wi
 ```shell
 ➜ ecoindex-cli --url http://www.ecoindex.fr --recursive
 ⏲️ Crawling root url http://www.ecoindex.fr -> Wait a minute !
+📁️ Urls recorded in file `input/www.ecoindex.fr.csv`
+There are 3 url(s), do you want to process? [Y/n]:
 3 urls for 1 window size
 Processing  [####################################]  100%
-🙌️ File export-2021-01-14 11:23:46.815626.csv written !
+🙌️ File output/www.ecoindex.fr/2021-04-20 16:47:29.072472/results.csv written !
 ```
 
 ### Set other screen resolutions
@@ -102,6 +111,18 @@ You can provide other screen resolutions. By default, the screen resolution is `
 
 ```shell
 ➜ ecoindex-cli --url http://www.ecoindex.fr --window-size 1920,1080 --window-size 386,540
+There are 1 url(s), do you want to process? [Y/n]:
+1 urls for 2 window size
+Processing  [####################################]  100%
+🙌️ File output/www.ecoindex.fr/2021-04-20 16:48:16.252714/results.csv written !
+```
+
+### Generate a html report
+
+You can generate a html report easily at the end of the analysis. You just have to add the option `--html-report`.
+
+```shell
+➜ ecoindex-cli --url http://www.ecoindex.fr --recursive --html-report
 1 urls for 2 window size
 Processing  [####################################]  100%
 🙌️ File export-2021-01-14 11:26:53.368510.csv written !
@@ -113,9 +134,8 @@ The result of the analysis is a CSV file which can be easily used for further an
 
 ```csv
 size,nodes,requests,grade,score,ges,water,url,date,resolution,page_type
-496.486,283,52,B,69,1.62,1.62,http://www.ecoindex.fr/apropos/,2021-01-14 11:23:50.277706,"1920,1080",
-97.899,101,7,A,86,1.28,1.28,http://www.ecoindex.fr/quest-ce-que-ecoindex/,2021-01-14 11:23:52.987813,"1920,1080",
-250.472,76,11,A,85,1.3,1.3,http://www.ecoindex.fr/,2021-01-14 11:23:55.723549,"1920,1080",
+119.095,45,8,A,89,1.22,1.83,http://www.ecoindex.fr,2021-04-20 16:45:28.570179,"1920,1080",
+769.252,730,94,D,41,2.18,3.27,https://www.greenit.fr/,2021-04-20 16:45:32.199242,"1920,1080",website
 ```
 
 Where:
@@ -130,7 +150,7 @@ Where:
 - `url` is the analysed page url
 - `date` is the datetime of the page analysis
 - `resolution` is the screen resolution used for the page analysis (`width,height`)
-- `page_type` is the type of the page, based ton the [opengraph type tag](https://ogp.me/#types) (when existing, or `None`)
+- `page_type` is the type of the page, based ton the [opengraph type tag](https://ogp.me/#types)
 
 ## TODO
 
