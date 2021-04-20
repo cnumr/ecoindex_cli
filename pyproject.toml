@@ -15,7 +15,7 @@ ecoindex-cli = "cli:app"
 
 [tool.poetry.dependencies]
 python = "^3.8"
-ecoindex = "^0.3.0"
+ecoindex = "^0.5.0"
 typer = "^0.3.2"
 selenium = "^3.141.0"
 requests = "^2.25.1"
