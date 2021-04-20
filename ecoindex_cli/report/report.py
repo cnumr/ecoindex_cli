@@ -99,7 +99,8 @@ def generate_report(
             ],
             classes="table is-hoverable is-fullwidth is-bordered",
         ),
-        "summary": df.describe()
+        "summary": df[["score", "size", "nodes", "requests", "ges", "water"]]
+        .describe()
         .loc[["mean", "min", "max"]]
         .round(2)
         .to_html(classes="table is-hoverable is-fullwidth is-bordered"),
