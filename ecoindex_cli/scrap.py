@@ -24,7 +24,7 @@ def get_page_analysis(
     return Result(
         score=ecoindex.score,
         ges=ecoindex.ges,
-        water=ecoindex.ges,
+        water=ecoindex.water,
         grade=ecoindex.grade,
         url=url,
         date=datetime.now(),

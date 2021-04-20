@@ -1,4 +1,5 @@
 from datetime import datetime
+from pathlib import Path
 from typing import List, Optional
 from urllib.parse import urlparse
 
@@ -41,15 +42,19 @@ def main(
         with open(urls_file) as fp:
             urls = [url.replace("\n", "") for url in fp.readlines()]
 
-    if recursive and urls:
+    if urls:
         parsed_url = urlparse(next(iter(urls)))
-        main_url = f"{parsed_url.scheme}://{parsed_url.netloc}"
+        domain = parsed_url.netloc
+
+    if recursive and urls:
+        main_url = f"{parsed_url.scheme}://{domain}"
         secho(f"⏲️ Crawling root url {main_url} -> Wait a minute !", fg=colors.MAGENTA)
         crawler = Crawler()
         urls = crawler.crawl(url=main_url)
-        with open(file="urls.csv", mode="w") as urls_file:
+        with open(file=f"input/{domain}.csv", mode="w") as urls_file:
             for url in urls:
                 urls_file.write(f"{url}\n")
+        secho(f"📁️ Urls recorded in file `input/{domain}.csv`")
 
     process_urls = confirm(
         f"There are {len(urls)} url(s), do you want to process?",
@@ -69,7 +74,9 @@ def main(
                     results.append(get_page_analysis(url=url, window_size=w_s))
                     progress.update(1)
 
-        output_filename = f"export-{time_now}.csv"
+        output_folder = f"output/{domain}/{time_now}"
+        Path(output_folder).mkdir(parents=True, exist_ok=True)
+        output_filename = f"{output_folder}/results.csv"
         write_results_to_csv(filename=output_filename, results=results)
         secho(f"🙌️ File {output_filename} written !", fg=colors.GREEN)
 

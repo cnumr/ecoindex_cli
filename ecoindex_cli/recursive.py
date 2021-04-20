@@ -6,14 +6,15 @@ from bs4 import BeautifulSoup
 
 
 class Crawler:
+    ignored_suffix = (".pdf", ".jpg")
+
     def __init__(self, max_urls: Optional[int] = 50) -> None:
         super().__init__()
         self.internal_urls = set()
         self.total_url_visited = 0
         self.max_urls = max_urls
 
-    @staticmethod
-    def is_valid(url: str) -> bool:
+    def is_valid(self, url: str) -> bool:
         """
         Checks whether `url` is a valid URL.
         """
@@ -21,7 +22,7 @@ class Crawler:
         return (
             bool(parsed.netloc)
             and bool(parsed.scheme)
-            and bool(not url.lower().endswith(".pdf"))
+            and bool(not url.lower().endswith(self.ignored_suffix))
         )
 
     def get_recursive_urls(self, url: str) -> List[str]:
