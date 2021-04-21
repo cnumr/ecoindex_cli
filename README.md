@@ -114,7 +114,7 @@ You can provide other screen resolutions. By default, the screen resolution is `
 There are 1 url(s), do you want to process? [Y/n]:
 1 urls for 2 window size
 Processing  [####################################]  100%
-🙌️ File output/www.ecoindex.fr/2021-04-20 16:48:16.252714/results.csv written !
+🙌️ File output/www.ecoindex.fr/2021-04-21 21:22:44.309077/results.csv written !
 ```
 
 ### Generate a html report
@@ -123,9 +123,13 @@ You can generate a html report easily at the end of the analysis. You just have 
 
 ```shell
 ➜ ecoindex-cli --url http://www.ecoindex.fr --recursive --html-report
-1 urls for 2 window size
+⏲️ Crawling root url http://www.ecoindex.fr -> Wait a minute !
+📁️ Urls recorded in file `input/www.ecoindex.fr.csv`
+There are 3 url(s), do you want to process? [Y/n]:
+3 urls for 1 window size
 Processing  [####################################]  100%
-🙌️ File export-2021-01-14 11:26:53.368510.csv written !
+🙌️ File output/www.ecoindex.fr/2021-04-21 21:21:27.629691/results.csv written !
+🦄️ Amazing! A report has been generated to `/home/vvatelot/Devel/ecoindex_cli/output/www.ecoindex.fr/2021-04-21 21:21:27.629691/report.html`
 ```
 
 Here is a sample result:
