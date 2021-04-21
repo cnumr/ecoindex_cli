@@ -128,6 +128,9 @@ Processing  [####################################]  100%
 🙌️ File export-2021-01-14 11:26:53.368510.csv written !
 ```
 
+Here is a sample result:
+![Sample report](doc/report.png)
+
 ## Results example
 
 The result of the analysis is a CSV file which can be easily used for further analysis:
