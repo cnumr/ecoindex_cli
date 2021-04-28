@@ -24,7 +24,7 @@ python-dotenv = "^0.17.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2"
-black = {version = "^21.4b0", allow-prereleases = true}
+black = {version = "^21.4b1", allow-prereleases = true}
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
