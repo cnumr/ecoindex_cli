@@ -1,7 +1,5 @@
 __pycache__
 **/*.csv
-**/*.txt
 .pytest_cache
-dist
-**/*.svg
+dist**/*.svg
 **/report.html
