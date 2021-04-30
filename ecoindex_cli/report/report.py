@@ -1,6 +1,3 @@
-from os.path import dirname
-from pathlib import Path
-
 from jinja2 import Environment, FileSystemLoader
 from matplotlib import pyplot
 from pandas import read_csv
@@ -28,18 +25,39 @@ def create_histogram(
     fig.savefig(f"{output_path}/{property}.svg")
 
 
-def create_bar_chart(
+def create_grade_chart(
     dataframe: DataFrame,
-    property: str,
-    title: str,
-    xlabel: str,
-    ylabel: str,
     output_path: str,
 ) -> None:
-    prepare_graph(title=title, xlabel=xlabel, ylabel=ylabel)
-    ax = dataframe.groupby([property])[property].count().plot.bar()
+    prepare_graph(
+        title="Répartition écoindex",
+        xlabel="Ecoindex",
+        ylabel="Nombre de pages",
+    )
+
+    dataframe_result = DataFrame(
+        data=[0, 0, 0, 0, 0, 0, 0], index=["A", "B", "C", "D", "E", "F", "G"]
+    )
+
+    dataframe_grouped_by_grade = dataframe.groupby(["grade"])["grade"].count()
+
+    for grade in dataframe_result.index:
+        if grade in dataframe_grouped_by_grade.index:
+            dataframe_result[0][grade] += dataframe_grouped_by_grade[grade]
+
+    ax = dataframe_result[0].plot.bar(
+        color=[
+            "#349A47",
+            "#51B84B",
+            "#CADB2A",
+            "#F6EB15",
+            "#FECD06",
+            "#F99839",
+            "#ED2124",
+        ]
+    )
     fig = ax.get_figure()
-    fig.savefig(f"{output_path}/{property}.svg")
+    fig.savefig(f"{output_path}/grade.svg")
 
 
 def generate_report(
@@ -73,12 +91,8 @@ def generate_report(
         ylabel="Nombre de pages",
         output_path=output_path,
     )
-    create_bar_chart(
+    create_grade_chart(
         dataframe=df,
-        property="grade",
-        title="Répartition écoindex",
-        xlabel="Ecoindex",
-        ylabel="Nombre de pages",
         output_path=output_path,
     )
 
