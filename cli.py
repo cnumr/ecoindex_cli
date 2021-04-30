@@ -76,7 +76,8 @@ def main(
         ) as progress:
             for url in urls:
                 for w_s in window_size:
-                    results.append(get_page_analysis(url=url, window_size=w_s))
+                    if url:
+                        results.append(get_page_analysis(url=url, window_size=w_s))
                     progress.update(1)
 
         output_folder = f"output/{domain}/{time_now}"
