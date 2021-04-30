@@ -3,13 +3,16 @@ from pathlib import Path
 from typing import List, Optional
 from urllib.parse import urlparse
 
+from click.exceptions import Exit
 from dotenv import load_dotenv
 from typer import Option, colors, confirm, progressbar, secho
 from typer.main import Typer
+from validators import url as validate_url
 
 from ecoindex_cli.files import write_results_to_csv
 from ecoindex_cli.recursive import Crawler
 from ecoindex_cli.scrap import get_page_analysis
+from ecoindex_cli.validator import window_size as validate_window_size
 
 app = Typer()
 load_dotenv()
@@ -35,6 +38,13 @@ def main(
     urls = set()
     time_now = datetime.now()
 
+    if not validate_window_size(window_size):
+        secho(
+            f"🔥 {window_size} is not a valid window_size. Must be of type ('1920,1080',...)",
+            fg=colors.RED,
+        )
+        raise Exit(code=1)
+
     if url:
         urls = set(url)
 
@@ -56,13 +66,16 @@ def main(
                 urls_file.write(f"{url}\n")
         secho(f"📁️ Urls recorded in file `input/{domain}.csv`")
 
-    process_urls = confirm(
-        f"There are {len(urls)} url(s), do you want to process?",
-        abort=True,
-        default=True,
-    )
-
-    if urls and process_urls:
+    if urls:
+        for url in urls:
+            if not validate_url(url):
+                secho(f"🔥 {url} is not a valid url", fg=colors.RED)
+                raise Exit(code=1)
+        confirm(
+            f"There are {len(urls)} url(s), do you want to process?",
+            abort=True,
+            default=True,
+        )
         results = []
         secho(f"{len(urls)} urls for {len(window_size)} window size", fg=colors.GREEN)
         with progressbar(
@@ -83,6 +96,7 @@ def main(
 
     else:
         secho("🔥 You must provide an url...", fg=colors.RED)
+        raise Exit(code=1)
 
 
 if __name__ == "__main__":
