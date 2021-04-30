@@ -20,7 +20,7 @@ typer = "^0.3.2"
 selenium = "^3.141.0"
 requests = "^2.25.1"
 bs4 = "^0.0.1"
-python-dotenv = "^0.17.0"
+python-dotenv = "^0.17.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2"
