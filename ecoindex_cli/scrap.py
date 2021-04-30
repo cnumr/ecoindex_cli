@@ -3,7 +3,7 @@ from json import loads
 from os import getenv
 from sys import getsizeof
 from time import sleep
-from typing import List, Optional, Tuple
+from typing import Optional, Tuple
 
 from ecoindex.ecoindex import get_ecoindex
 from selenium.common.exceptions import NoSuchElementException
@@ -13,9 +13,7 @@ from selenium.webdriver.chrome.options import Options
 from ecoindex_cli.models import Page, PageMetrics, PageType, Result
 
 
-def get_page_analysis(
-    url: str, window_size: Optional[str] = "1920,1080"
-) -> List[Result]:
+def get_page_analysis(url: str, window_size: Optional[str] = "1920,1080") -> Result:
     page_metrics, page_type = scrap_page(url=url, window_size=window_size)
     ecoindex = get_ecoindex(
         dom=page_metrics.nodes, size=page_metrics.size, requests=page_metrics.requests
