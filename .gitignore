@@ -3,3 +3,5 @@ __pycache__
 **/*.txt
 .pytest_cache
 dist
+**/*.svg
+**/report.html
