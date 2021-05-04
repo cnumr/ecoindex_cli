@@ -1,5 +1,4 @@
 __pycache__
 **/*.csv
-**/*.txt
 .pytest_cache
 dist
