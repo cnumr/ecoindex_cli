@@ -48,7 +48,7 @@ Commands:
 
 You give just one web url
 
-```shell
+```
 ➜ ecoindex-cli analyze --url http://www.ecoindex.fr
 There are 1 url(s), do you want to process? [Y/n]:
 1 urls for 1 window size
@@ -60,7 +60,7 @@ Processing  [####################################]  100%
 
 ### Multiple url analysis
 
-```shell
+```
 ➜ ecoindex-cli analyze --url http://www.ecoindex.fr --url https://www.greenit.fr/
 There are 2 url(s), do you want to process? [Y/n]:
 2 urls for 1 window size
@@ -72,7 +72,7 @@ Processing  [####################################]  100%
 
 You can use a file with given urls that you want to analyze: One url per line. This is helpful if you want to play the same scenario recurrently.
 
-```shell
+```
 ➜ ecoindex-cli analyze --urls-file input/ecoindex.csv
 There are 2 url(s), do you want to process? [Y/n]:
 2 urls for 1 window size
@@ -84,7 +84,7 @@ Processing  [####################################]  100%
 
 You can make a recursive analysis of a given webiste. This means that the app will try to find out all the pages into your website and launch an analysis on all those web pages. ⚠️ This can process for a very long time! **Use it at your own risks!**
 
-```shell
+```
 ➜ ecoindex-cli analyze --url http://www.ecoindex.fr --recursive
 ⏲️ Crawling root url http://www.ecoindex.fr -> Wait a minute !
 📁️ Urls recorded in file `input/www.ecoindex.fr.csv`
@@ -98,7 +98,7 @@ Processing  [####################################]  100%
 
 You can provide other screen resolutions. By default, the screen resolution is `1920x1080px` but you can provide other resolution for example if you want to test ecoindex for mobile.
 
-```shell
+```
 ➜ ecoindex-cli analyze --url http://www.ecoindex.fr --window-size 1920,1080 --window-size 386,540
 There are 1 url(s), do you want to process? [Y/n]:
 1 urls for 2 window size
@@ -157,9 +157,16 @@ Where:
 - `resolution` is the screen resolution used for the page analysis (`width,height`)
 - `page_type` is the type of the page, based ton the [opengraph type tag](https://ogp.me/#types)
 
+## Testing
+
+We use Pytest to run unit tests for this project. The test suite are in the `tests` folder. Just execute :
+
+```bash
+pytest tests
+```
+
 ## TODO
 
-- [ ] Tests
 - [ ] Use Async capability for crawling and analysis
 - [ ] Is there a way to wait for the end of the page loading?
 - [ ] Chromedriver for windows?
