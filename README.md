@@ -1,4 +1,5 @@
-# Ecoindex-Cli 
+# Ecoindex-Cli
+
 ![GitHub branch checks state](https://img.shields.io/github/workflow/status/cnumr/ecoindex_cli/Quality%20checks)
 
 This tool provides an easy way to analyze websites with [Ecoindex](http://www.ecoindex.fr) from your local computer. You have the ability to make the analysis on multiple pages with multiple screen resolution. You can also make a recursive analysis from a given website.
@@ -55,7 +56,7 @@ Options:
 
 You give just one web url
 
-```shell
+```
 ➜ ecoindex-cli --url http://www.ecoindex.fr
 1 urls for 1 window size
 Processing  [####################################]  100%
@@ -66,7 +67,7 @@ Processing  [####################################]  100%
 
 ### Multiple url analysis
 
-```shell
+```
 ➜ ecoindex-cli --url http://www.ecoindex.fr --url https://www.greenit.fr/
 2 urls for 1 window size
 Processing  [####################################]  100%
@@ -77,7 +78,7 @@ Processing  [####################################]  100%
 
 You can use a file with given urls that you want to analyze: One url per line. This is helpful if you want to play the same scenario recurrently.
 
-```shell
+```
 ➜ ecoindex-cli --url http://www.ecoindex.fr --url https://www.greenit.fr/
 2 urls for 1 window size
 Processing  [####################################]  100%
@@ -88,7 +89,7 @@ Processing  [####################################]  100%
 
 You can make a recursive analysis of a given webiste. This means that the app will try to find out all the pages into your website and launch an analysis on all those web pages. ⚠️ This can process for a very long time! **Use it at your own risks!**
 
-```shell
+```
 ➜ ecoindex-cli --url http://www.ecoindex.fr --recursive
 ⏲️ Crawling root url http://www.ecoindex.fr -> Wait a minute !
 3 urls for 1 window size
@@ -100,7 +101,7 @@ Processing  [####################################]  100%
 
 You can provide other screen resolutions. By default, the screen resolution is `1920x1080px` but you can provide other resolution for example if you want to test ecoindex for mobile.
 
-```shell
+```
 ➜ ecoindex-cli --url http://www.ecoindex.fr --window-size 1920,1080 --window-size 386,540
 1 urls for 2 window size
 Processing  [####################################]  100%
@@ -132,9 +133,16 @@ Where:
 - `resolution` is the screen resolution used for the page analysis (`width,height`)
 - `page_type` is the type of the page, based ton the [opengraph type tag](https://ogp.me/#types) (when existing, or `None`)
 
+## Testing
+
+We use Pytest to run unit tests for this project. The test suite are in the `tests` folder. Just execute :
+
+```bash
+pytest tests
+```
+
 ## TODO
 
-- [ ] Tests
 - [ ] Use Async capability for crawling and analysis
 - [ ] Is there a way to wait for the end of the page loading?
 - [ ] Chromedriver for windows?

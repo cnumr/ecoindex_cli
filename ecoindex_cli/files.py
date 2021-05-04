@@ -13,3 +13,9 @@ def write_results_to_csv(filename: str, results: List[Result]) -> None:
         writer.writeheader()
         for ecoindex in results:
             writer.writerow(ecoindex.__dict__)
+
+
+def write_urls_to_file(domain: str, urls: List[str]) -> None:
+    with open(file=f"input/{domain}.csv", mode="w") as input_urls_file:
+        for url in urls:
+            input_urls_file.write(f"{url}\n")
