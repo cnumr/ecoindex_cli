@@ -27,6 +27,3 @@ class Result(Ecoindex, PageMetrics):
     date: Optional[datetime] = None
     resolution: Optional[str] = None
     page_type: Optional[PageType] = None
-
-    def list_attributes(self):
-        print(self)

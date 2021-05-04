@@ -48,7 +48,7 @@ def test_string_window_size():
     )
 
 
-def test_one_invalid_window_size_():
+def test_one_invalid_window_size():
     valid_window_size = "1920,1080"
     invalid_window_size = "1920,height"
     result = runner.invoke(
