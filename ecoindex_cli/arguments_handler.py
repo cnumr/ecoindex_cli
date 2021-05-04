@@ -1,14 +1,10 @@
-from typing import Optional, Set, Tuple
+from typing import Set, Tuple
 from urllib.parse import urlparse
 
 from click.exceptions import BadParameter
-from typer import colors, secho
 
-from ecoindex_cli.files import write_urls_to_file
 from ecoindex_cli.recursive import Crawler
 from ecoindex_cli.validators import validate_url
-
-# def get_urls(input_urls: Tuple[str], input_urls_file: str) -> Optional[Tuple[str]]:
 
 
 def get_urls_from_file(urls_file: str) -> Set[str]:
