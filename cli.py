@@ -15,7 +15,7 @@ from ecoindex_cli.arguments_handler import (
     get_urls_from_file,
     get_urls_recursive,
 )
-from ecoindex_cli.files import write_results_to_csv, write_urls_to_file
+from ecoindex_cli.files import write_results_to_file, write_urls_to_file
 from ecoindex_cli.report.report import generate_report
 from ecoindex_cli.scrap import get_page_analysis
 from ecoindex_cli.validators import validate_window_size
@@ -100,7 +100,7 @@ def analyze(
     output_folder = f"output/{domain}/{time_now}"
     Path(output_folder).mkdir(parents=True, exist_ok=True)
     output_filename = f"{output_folder}/results.csv"
-    write_results_to_csv(filename=output_filename, results=results)
+    write_results_to_file(filename=output_filename, results=results)
     secho(f"🙌️ File {output_filename} written !", fg=colors.GREEN)
     if html_report:
         generate_report(
