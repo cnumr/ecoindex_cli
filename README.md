@@ -1,4 +1,5 @@
-# Ecoindex-Cli 
+# Ecoindex-Cli
+
 ![GitHub branch checks state](https://img.shields.io/github/workflow/status/cnumr/ecoindex_cli/Quality%20checks)
 
 This tool provides an easy way to analyze websites with [Ecoindex](http://www.ecoindex.fr) from your local computer. You have the ability to make the analysis on multiple pages with multiple screen resolution. You can also make a recursive analysis from a given website.
@@ -22,30 +23,14 @@ The output is always a CSV file with the results of the analysis.
 
 ## Use case
 
+The cli gets 2 commands: `analyze` and `report` which can be used separately:
+
 ```
-➜ ecoindex-cli --help
-Usage: ecoindex-cli [OPTIONS]
+➜ ecoindex-cli --help                                Usage: ecoindex-cli [OPTIONS] COMMAND [ARGS]...
+
+  Ecoindex cli to make analysis of webpages
 
 Options:
-  --url TEXT                      List of urls to analyze
-  --window-size TEXT              You can set multiple window sizes to make
-                                  ecoindex test. You have to use the format
-                                  `width,height` in pixel  [default:
-                                  1920,1080]
-
-  --recursive / --no-recursive    You can make a recursive analysis of a
-                                  website. In this case, just provide one root
-                                  url. Be carreful with this option. Can take
-                                  a loooong long time !  [default: False]
-
-  --urls-file TEXT                If you want to analyze multiple urls, you
-                                  can also set them in a file and provide the
-                                  file name
-
-  --html-report / --no-html-report
-                                  You can generate a html report of the
-                                  analysis  [default: False]
-
   --install-completion [bash|zsh|fish|powershell|pwsh]
                                   Install completion for the specified shell.
   --show-completion [bash|zsh|fish|powershell|pwsh]
@@ -53,6 +38,10 @@ Options:
                                   copy it or customize the installation.
 
   --help                          Show this message and exit.
+
+Commands:
+  analyze  Make an ecoindex analysis of given webpages or website.
+  report   If you already performed an ecoindex analysis and have your...
 ```
 
 ### Make a simple analysis
@@ -60,7 +49,7 @@ Options:
 You give just one web url
 
 ```shell
-➜ ecoindex-cli --url http://www.ecoindex.fr
+➜ ecoindex-cli analyze --url http://www.ecoindex.fr
 There are 1 url(s), do you want to process? [Y/n]:
 1 urls for 1 window size
 Processing  [####################################]  100%
@@ -72,7 +61,7 @@ Processing  [####################################]  100%
 ### Multiple url analysis
 
 ```shell
-➜ ecoindex-cli --url http://www.ecoindex.fr --url https://www.greenit.fr/
+➜ ecoindex-cli analyze --url http://www.ecoindex.fr --url https://www.greenit.fr/
 There are 2 url(s), do you want to process? [Y/n]:
 2 urls for 1 window size
 Processing  [####################################]  100%
@@ -84,7 +73,7 @@ Processing  [####################################]  100%
 You can use a file with given urls that you want to analyze: One url per line. This is helpful if you want to play the same scenario recurrently.
 
 ```shell
-➜ ecoindex-cli --url http://www.ecoindex.fr --url https://www.greenit.fr/
+➜ ecoindex-cli analyze --urls-file input/ecoindex.csv
 There are 2 url(s), do you want to process? [Y/n]:
 2 urls for 1 window size
 Processing  [####################################]  100%
@@ -96,7 +85,7 @@ Processing  [####################################]  100%
 You can make a recursive analysis of a given webiste. This means that the app will try to find out all the pages into your website and launch an analysis on all those web pages. ⚠️ This can process for a very long time! **Use it at your own risks!**
 
 ```shell
-➜ ecoindex-cli --url http://www.ecoindex.fr --recursive
+➜ ecoindex-cli analyze --url http://www.ecoindex.fr --recursive
 ⏲️ Crawling root url http://www.ecoindex.fr -> Wait a minute !
 📁️ Urls recorded in file `input/www.ecoindex.fr.csv`
 There are 3 url(s), do you want to process? [Y/n]:
@@ -110,7 +99,7 @@ Processing  [####################################]  100%
 You can provide other screen resolutions. By default, the screen resolution is `1920x1080px` but you can provide other resolution for example if you want to test ecoindex for mobile.
 
 ```shell
-➜ ecoindex-cli --url http://www.ecoindex.fr --window-size 1920,1080 --window-size 386,540
+➜ ecoindex-cli analyze --url http://www.ecoindex.fr --window-size 1920,1080 --window-size 386,540
 There are 1 url(s), do you want to process? [Y/n]:
 1 urls for 2 window size
 Processing  [####################################]  100%
@@ -122,7 +111,7 @@ Processing  [####################################]  100%
 You can generate a html report easily at the end of the analysis. You just have to add the option `--html-report`.
 
 ```shell
-➜ ecoindex-cli --url http://www.ecoindex.fr --recursive --html-report
+➜ ecoindex-cli analyze --url http://www.ecoindex.fr --recursive --html-report
 ⏲️ Crawling root url http://www.ecoindex.fr -> Wait a minute !
 📁️ Urls recorded in file `input/www.ecoindex.fr.csv`
 There are 3 url(s), do you want to process? [Y/n]:
@@ -134,6 +123,15 @@ Processing  [####################################]  100%
 
 Here is a sample result:
 ![Sample report](doc/report.png)
+
+### Only generate a report from existing result file
+
+If you already performed an anlayzis and (for example), forgot to generate the html report, you do not need to re-run a full analyzis, you can simply request a report from your result file :
+
+```shell
+➜ ecoindex-cli report "/home/vvatelot/Devel/ecoindex_cli/output/www.ecoindex.fr/2021-05-06 19:13:55.735935/results.csv" "www.synchrone.fr"
+🦄️ Amazing! A report has been generated to `/home/vvatelot/Devel/ecoindex_cli/output/www.ecoindex.fr/2021-05-06 19:13:55.735935/report.html`
+```
 
 ## Results example
 

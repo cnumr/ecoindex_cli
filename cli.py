@@ -1,11 +1,12 @@
-from datetime import datetime
+from datetime import datetime, time
+from os.path import dirname
 from pathlib import Path
 from typing import List, Optional
 from urllib.parse import urlparse
 from webbrowser import open as open_webbrowser
 
 from dotenv import load_dotenv
-from typer import Option, colors, confirm, progressbar, secho
+from typer import Argument, Option, colors, confirm, progressbar, secho
 from typer.main import Typer
 
 from ecoindex_cli.files import write_results_to_csv
@@ -13,12 +14,12 @@ from ecoindex_cli.recursive import Crawler
 from ecoindex_cli.report.report import generate_report
 from ecoindex_cli.scrap import get_page_analysis
 
-app = Typer()
+app = Typer(help="Ecoindex cli to make analysis of webpages")
 load_dotenv()
 
 
 @app.command()
-def main(
+def analyze(
     url: Optional[List[str]] = Option(default=None, help="List of urls to analyze"),
     window_size: Optional[List[str]] = Option(
         default=["1920,1080"],
@@ -36,6 +37,10 @@ def main(
         default=False, help="You can generate a html report of the analysis"
     ),
 ):
+    """
+    Make an ecoindex analysis of given webpages or website. You
+    can generate a csv files with the results or an html report
+    """
 
     urls = set()
     time_now = datetime.now()
@@ -101,6 +106,36 @@ def main(
             )
     else:
         secho("🔥 You must provide an url...", fg=colors.RED)
+
+
+@app.command()
+def report(
+    results_file: str = Argument(
+        ..., help="Filename of the results you want to generate a report for"
+    ),
+    domain: str = Argument(
+        ...,
+        help="You have to explicitly tell what is the domain of this result analysis from",
+    ),
+    output_folder: Optional[str] = Option(
+        default=None,
+        help="By default, we generate the report in the same folder of the results file, but you can provide another folder",
+    ),
+):
+    """
+    If you already performed an ecoindex analysis and have your results,
+    you can simply generate an html report using this command
+    """
+    output_folder = output_folder if output_folder else dirname(results_file)
+
+    generate_report(
+        results_file=results_file,
+        output_path=output_folder,
+        domain=domain,
+        date=datetime.now(),
+    )
+    secho(f"🦄️ Amazing! A report has been generated to `{output_folder}/report.html`")
+    open_webbrowser(f"file:///{output_folder}/report.html")
 
 
 if __name__ == "__main__":
