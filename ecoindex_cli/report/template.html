@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Analyse écoconception pour le site {{ site }}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+
+    <!-- Datatable -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+</head>
+
+<body>
+    <nav class="navbar is-light" role="navigation" aria-label="main navigation">
+        <div class="container">
+            <div id="navbarBasicExample" class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item" onclick="show_report()" href="#synthese">Synthese </a>
+                    <a class="navbar-item" onclick="show_report()" href="#top10">Top 10 </a>
+                    <a class="navbar-item" onclick="show_report()" href="#indicateurs">Indicateurs </a>
+                    <a class="navbar-item" onclick="show_datatable()" href="#datatable">Toutes les données</a>
+                </div>
+                <div class="navbar-end">
+                    <span class="navbar-item">{{ site }} le {{ date }}</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="report" class="container section">
+        <div id="synthese">
+            <h1 class="title is-1"><a href="#">⬆️</a> Synthèse</h1>
+            <div class="columns is-mobile is-vcentered">
+                <div class="column ">
+                    <img src='grade.svg'>
+                </div>
+                <div class="column">
+                    <article class="message is-dark">
+                        <div class="message-header">
+                            <p>Le score ecoindex</p>
+                        </div>
+                        <div class="message-body">
+                            <p>L'ecoindex est un indicateur développé par le <a
+                                    href="https://collectif.greenit.fr/outils.html" target="_blank">collectif numérique
+                                    responsable</a>. Il permet
+                                d'analyser une page html et d'en déduire une score en se basant sur trois critères
+                                physiques
+                                d'une page web.</p><br />
+
+                            <p>Le calcul de l'ecoindex permet de déduire un indicateur normé (de A à G) permettant de
+                                décrire l'empreinte environnementale d'une page.</p><br />
+
+                            <p><strong>Cette synthèse est basée sur l'analyse de {{ nb_page }} pages du site internet {{
+                                    site }}</strong></p><br />
+
+                            <p>Plus d'infos sur <a href="http://www.ecoindex.fr/quest-ce-que-ecoindex/"
+                                    target="_blank">Ecoindex.fr</a></p>
+                    </article>
+                </div>
+            </div>
+            {{ summary }}
+        </div>
+        <hr />
+
+        <div id="top10">
+            <h1 class="title is-1"><a href="#">⬆️</a> Top 10</h1>
+            <h2 class="title is-2">✔️ Meilleures pages</h2>
+            {{ best}}
+            <h2 class="title is-2">❌️ Moins bonnes pages</h2>
+            {{ worst}}
+        </div>
+        <hr />
+
+        <div id="indicateurs">
+            <h1 class="title is-1"><a href="#">⬆️</a> Indicateurs écoindex</h1>
+            <h2 class="title is-2">Nombre de requêtes</h2>
+            <div class="columns is-mobile is-vcentered">
+                <div class="column">
+                    <img src='requests.svg'>
+                </div>
+                <div class="column">
+                    <article class="message is-dark">
+                        <div class="message-body">
+                            <strong>Le nombre de requêtes HTTP</strong> donne une bonne idée de la charge serveur. Pour
+                            le dire vite et
+                            de
+                            façon caricaturale, plus le nombre de requêtes est
+                            important pour une même page et plus il faudra de serveurs pour servir cette page.
+                        </div>
+                    </article>
+                </div>
+            </div>
+
+            <h2 class="title is-2">Taille des pages</h2>
+            <div class="columns is-mobile is-vcentered">
+                <div class="column">
+                    <img src='size.svg'>
+                </div>
+                <div class="column">
+                    <article class="message is-dark">
+                        <div class="message-body">
+                            <strong>Le poids des données transférées (Ko)</strong> témoigne des efforts à faire pour
+                            transporter la page
+                            jusqu’au navigateur. Dans cette première version, nous considérons que la connexion est de
+                            type
+                            Wi-Fi via ADSL. Mais dans la prochaine version nous prendrons en compte différents types de
+                            connexions, notamment 4G. En effet, une connexion 4G nécessite jusqu’à 23 fois plus
+                            d’énergie
+                            pour transporter la même quantité de données qu’une connexion ADSL.
+                        </div>
+                    </article>
+                </div>
+            </div>
+
+            <h2 class="title is-2">Nombre d'éléments de la page</h2>
+            <div class="columns is-mobile is-vcentered">
+                <div class="column">
+                    <img src='nodes.svg'>
+                </div>
+                <div class="column">
+                    <article class="message is-dark">
+                        <div class="message-body">
+                            <strong>Le nombre d’éléments du DOM</strong> témoigne de la complexité du site et donc, a
+                            priori, des efforts
+                            à faire par le navigateur pour afficher la page. Plus le site est complexe et plus il faut
+                            de puissance (notamment CPU) pour l’afficher. Et plus on contribue à raccourcir la durée de
+                            vie de l’ordinateur sur lequel il s’exécute. A l’inverse, un site particulièrement simple et
+                            léger contribue à allonger la durée de vie de l’équipement car il nécessite peu de mémoire
+                            et un “petit” processeur.
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="datatable" style="display: none;" class="container section">
+        <h1 class="title is-1"><a href="#" onclick="show_report()">⬆️</a> Toutes les données</h1>
+        {{ all_data }}
+    </div>
+    <footer class="footer">
+        <div class="content has-text-centered">
+            <p>
+                <strong><a href="https://github.com/cnumr/ecoindex_cli">Ecoindex_cli</a></strong> par le <a
+                    href="https://github.com/cnumr">collectif Numérique Responsable</a>
+            </p>
+        </div>
+    </footer>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#datatable table').DataTable();
+        });
+
+        function show_report() {
+            $("#report").show()
+            $("#datatable").hide()
+        }
+
+        function show_datatable() {
+            $("#report").hide()
+            $("#datatable").show()
+        }
+    </script>
+</body>
+
+</html>
