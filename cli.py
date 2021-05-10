@@ -6,6 +6,7 @@ from urllib.parse import urlparse
 from webbrowser import open as open_webbrowser
 
 from click.exceptions import BadParameter, Exit
+from click_spinner import spinner
 from dotenv import load_dotenv
 from typer import Argument, Option, colors, confirm, progressbar, secho
 from typer.main import Typer
@@ -58,13 +59,14 @@ def analyze(
         validate_window_size(window_size)
 
         urls = set()
-        if url:
+        if url and recursive:
+            secho(f"⏲️ Crawling root url {url[0]} -> Wait a minute!", fg=colors.MAGENTA)
+            with spinner():
+                urls = get_urls_recursive(main_url=url[0])
+        elif url:
             urls = get_url_from_args(urls_arg=url)
         elif urls_file:
             urls = get_urls_from_file(urls_file=urls_file)
-        elif recursive and url:
-            secho(f"⏲️ Crawling root url {url[0]} -> Wait a minute!", fg=colors.MAGENTA)
-            urls = get_urls_recursive(main_url=url[0])
 
         else:
             secho("🔥 You must provide an url...", fg=colors.RED)
@@ -93,7 +95,7 @@ def analyze(
         for url in urls:
             for w_s in window_size:
                 if url:
-                    results.append(get_page_analysis(url=url, window_size=w_s))
+                    results.append(get_page_analysis(url=url.strip(), window_size=w_s))
                 progress.update(1)
 
     time_now = datetime.now()

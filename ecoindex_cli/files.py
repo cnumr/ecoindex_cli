@@ -18,4 +18,4 @@ def write_results_to_file(filename: str, results: List[Result]) -> None:
 def write_urls_to_file(domain: str, urls: List[str]) -> None:
     with open(file=f"input/{domain}.csv", mode="w") as input_urls_file:
         for url in urls:
-            input_urls_file.write(f"{url}\n")
+            input_urls_file.write(f"{url.strip()}\n")
