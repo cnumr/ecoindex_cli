@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ecoindex-cli"
-version = "0.1.0"
+version = "0.2.0"
 description = "`ecoindex-cli` is a CLI tool that let you make ecoindex tests on given pages"
 authors = ["Vincent Vatelot <vincent.vatelot@gmail.com>"]
 license = "MIT"
@@ -21,6 +21,9 @@ selenium = "^3.141.0"
 requests = "^2.25.1"
 bs4 = "^0.0.1"
 python-dotenv = "^0.17.1"
+pandas = "^1.2.4"
+Jinja2 = "^2.11.3"
+matplotlib = "^3.4.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2"
