@@ -41,11 +41,13 @@ python-dotenv==0.17.1
 pytz==2021.1; python_full_version >= "3.7.1"
 queuelib==1.6.1; python_version >= "3.6"
 scrapy==2.5.0; python_version >= "3.6"
+selenium==3.141.0
 service-identity==21.1.0; python_version >= "3.6"
 six==1.16.0; python_full_version >= "3.7.1" and python_version >= "3.6" and (python_version >= "3.7" and python_full_version < "3.0.0" or python_full_version >= "3.3.0" and python_version >= "3.7") and (python_version >= "3.6" and python_full_version < "3.0.0" or python_full_version >= "3.3.0" and python_version >= "3.6") and (python_version >= "3.6" and python_full_version < "3.0.0" or python_full_version >= "3.5.0" and python_version >= "3.6")
 twisted-iocpsupport==1.0.1; python_full_version >= "3.5.4" and python_version >= "3.6" and platform_system == "Windows"
 twisted==21.2.0; python_full_version >= "3.5.4" and python_version >= "3.6"
 typer==0.3.2; python_version >= "3.6"
+urllib3==1.26.4; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.5.0" and python_version < "4"
 validators==0.18.2; python_version >= "3.4"
 w3lib==1.22.0; python_version >= "3.6"
 zope.interface==5.4.0; python_full_version >= "3.5.4" and python_version >= "3.6"
