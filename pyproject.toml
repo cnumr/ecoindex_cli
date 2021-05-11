@@ -24,6 +24,7 @@ matplotlib = "^3.4.1"
 validators = "^0.18.2"
 Scrapy = "^2.5.0"
 click-spinner = "^0.1.10"
+selenium = "^3.141.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2"
