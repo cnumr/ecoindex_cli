@@ -29,6 +29,8 @@ selenium = "^3.141.0"
 [tool.poetry.dev-dependencies]
 pytest = "^6.2"
 black = {version = "^21.5b0", allow-prereleases = true}
+pytest-cov = "^2.11.1"
+coverage-badge = "^1.0.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
