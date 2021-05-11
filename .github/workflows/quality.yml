@@ -19,7 +19,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install black pytest pytest-cov coverage-badge
+        pip install black pytest pytest-cov
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Lint with black
       run: |
@@ -27,10 +27,8 @@ jobs:
     - name: Test with pytest
       run: |
         pytest
-    - name: Generate coverage report and badge
+    - name: Generate coverage report
       run : |
-        pytest --cov=ecoindex_cli tests && coverage-badge -o doc/cov.svg
-    - uses : actions/upload-artifact@v2
-      with: 
-        name: coverage-badge
-        path: doc/cov.svg
+        pytest --cache-clear --cov=ecoindex_cli tests > pytest-coverage.txt
+    - name: Comment coverage
+      uses: coroo/pytest-coverage-commentator@v1.0.2
