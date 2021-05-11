@@ -10,8 +10,8 @@ jobs:
       matrix:
         python-version: [3.8]
     env:
-      COVERAGE_SINGLE: 80
-      COVERAGE_TOTAL: 80
+      COVERAGE_SINGLE: 50
+      COVERAGE_TOTAL: 50
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
@@ -42,6 +42,10 @@ jobs:
         # cov-omit-list: 'test/*, temp/main3.py, temp/main4.py'
         cov-threshold-single: ${{ env.COVERAGE_TOTAL }}
         cov-threshold-total: ${{ env.COVERAGE_SINGLE }}
+    - name: Commit pytest coverage table
+      uses: peter-evans/commit-comment@v1
+      with:
+        body: ${{ steps.pytest.outputs.output-table }}
     - name: Coverage single fail - exit
       if: ${{ steps.pytest.outputs.cov-threshold-single-fail == 'true' }}
       run: |
@@ -52,7 +56,3 @@ jobs:
       run: |
         echo "cov single fail ${{ steps.pytest.outputs.cov-threshold-total-fail }}"
         exit 1
-    - name: Commit pytest coverage table
-      uses: peter-evans/commit-comment@v1
-      with:
-        body: ${{ steps.pytest.outputs.output-table }}
