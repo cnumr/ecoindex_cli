@@ -16,6 +16,8 @@ from ecoindex_cli.arguments_handler import (
     get_urls_from_file,
     get_urls_recursive,
 )
+from ecoindex_cli.report.report import generate_report
+
 from ecoindex_cli.files import write_results_to_file, write_urls_to_file
 from ecoindex_cli.report.report import generate_report
 from ecoindex_cli.scrap import get_page_analysis

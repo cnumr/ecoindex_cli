@@ -110,7 +110,7 @@ Processing  [####################################]  100%
 
 You can generate a html report easily at the end of the analysis. You just have to add the option `--html-report`.
 
-```shell
+```
 ➜ ecoindex-cli analyze --url http://www.ecoindex.fr --recursive --html-report
 ⏲️ Crawling root url http://www.ecoindex.fr -> Wait a minute !
 📁️ Urls recorded in file `input/www.ecoindex.fr.csv`
@@ -128,7 +128,7 @@ Here is a sample result:
 
 If you already performed an anlayzis and (for example), forgot to generate the html report, you do not need to re-run a full analyzis, you can simply request a report from your result file :
 
-```shell
+```
 ➜ ecoindex-cli report "/home/vvatelot/Devel/ecoindex_cli/output/www.ecoindex.fr/2021-05-06 19:13:55.735935/results.csv" "www.synchrone.fr"
 🦄️ Amazing! A report has been generated to `/home/vvatelot/Devel/ecoindex_cli/output/www.ecoindex.fr/2021-05-06 19:13:55.735935/report.html`
 ```
@@ -161,7 +161,7 @@ Where:
 
 We use Pytest to run unit tests for this project. The test suite are in the `tests` folder. Just execute :
 
-```bash
+```
 pytest tests
 ```
 
