@@ -26,20 +26,12 @@ jobs:
     - name: Lint with black
       run: |
         black --check .
-    - name: Test with pytest
-      run: |
-        pytest
-    # - name: Generate coverage report
-    #   run : |
-    #     pytest --cache-clear --cov=ecoindex_cli tests > pytest-coverage.txt
-    # - name: Comment coverage
-    #   uses: coroo/pytest-coverage-commentator@v1.0.2
     - name: pytest
       id: pytest
       uses: alexanderdamiani/pytester-cov@v1.0.1
       with:
-        pytest-root-dir: 'tests'
-        cov-omit-list: 'test/**__init__.py'
+        pytest-root-dir: '.'
+        cov-omit-list: '**/__init__.py'
         cov-threshold-single: ${{ env.COVERAGE_TOTAL }}
         cov-threshold-total: ${{ env.COVERAGE_SINGLE }}
     - name: Commit pytest coverage table
