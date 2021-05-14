@@ -22,7 +22,7 @@ requests = "^2.25.1"
 bs4 = "^0.0.1"
 python-dotenv = "^0.17.1"
 pandas = "^1.2.4"
-Jinja2 = "^2.11.3"
+Jinja2 = "^3.0.0"
 matplotlib = "^3.4.1"
 
 [tool.poetry.dev-dependencies]
