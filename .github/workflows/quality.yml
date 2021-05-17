@@ -9,9 +9,6 @@ jobs:
     strategy:
       matrix:
         python-version: [3.8]
-    env:
-      COVERAGE_SINGLE: 10
-      COVERAGE_TOTAL: 50
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
@@ -26,25 +23,6 @@ jobs:
     - name: Lint with black
       run: |
         black --check .
-    - name: pytest
-      id: pytest
-      uses: alexanderdamiani/pytester-cov@v1.0.1
-      with:
-        pytest-root-dir: '.'
-        cov-omit-list: '**/__init__.py'
-        cov-threshold-single: ${{ env.COVERAGE_TOTAL }}
-        cov-threshold-total: ${{ env.COVERAGE_SINGLE }}
-    - name: Commit pytest coverage table
-      uses: peter-evans/commit-comment@v1
-      with:
-        body: ${{ steps.pytest.outputs.output-table }}
-    - name: Coverage single fail - exit
-      if: ${{ steps.pytest.outputs.cov-threshold-single-fail == 'true' }}
+    - name: Tests with pytest
       run: |
-        echo "cov single fail ${{ steps.pytest.outputs.cov-threshold-single-fail }}"
-        exit 1
-    - name: Coverage total fail - exit
-      if: ${{ steps.pytest.outputs.cov-threshold-total-fail == 'true' }}
-      run: |
-        echo "cov single fail ${{ steps.pytest.outputs.cov-threshold-total-fail }}"
-        exit 1
+        pytest --cov-report=html --cov-report=xml --cov=. --cov-fail-under=50 tests
