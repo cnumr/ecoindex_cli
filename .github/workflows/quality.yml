@@ -23,6 +23,15 @@ jobs:
     - name: Lint with black
       run: |
         black --check .
-    - name: Tests with pytest
-      run: |
-        pytest 
+    - name: pytest
+      id: pytest
+      uses: alexanderdamiani/pytester-cov@v1.0.1
+      with:
+        pytest-root-dir: '.'
+        cov-omit-list: 'test/*, temp/main3.py, temp/main4.py'
+        cov-threshold-single: 10
+        cov-threshold-total: 10
+    - name: Commit pytest coverage table
+      uses: peter-evans/commit-comment@v1
+      with:
+        body: ${{ steps.pytest.outputs.output-table }}
