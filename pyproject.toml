@@ -17,17 +17,20 @@ ecoindex-cli = "cli:app"
 python = "^3.8"
 ecoindex = "^0.5.0"
 typer = "^0.3.2"
-selenium = "^3.141.0"
-requests = "^2.25.1"
-bs4 = "^0.0.1"
 python-dotenv = "^0.17.1"
 pandas = "^1.2.4"
 Jinja2 = "^3.0.0"
 matplotlib = "^3.4.1"
+validators = "^0.18.2"
+Scrapy = "^2.5.0"
+click-spinner = "^0.1.10"
+selenium = "^3.141.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2"
 black = {version = "^21.5b0", allow-prereleases = true}
+pytest-cov = "^2.11.1"
+coverage-badge = "^1.0.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
