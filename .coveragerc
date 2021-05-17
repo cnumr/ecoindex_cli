@@ -1,0 +1,9 @@
+[paths]
+source = .
+
+[run]
+omit = tests/*
+
+[report]
+skip_empty = True
+fail_under = 50

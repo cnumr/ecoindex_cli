@@ -1,18 +1,27 @@
-from datetime import datetime, time
+from datetime import datetime
 from os.path import dirname
 from pathlib import Path
 from typing import List, Optional
 from urllib.parse import urlparse
 from webbrowser import open as open_webbrowser
 
+from click.exceptions import BadParameter, Exit
+from click_spinner import spinner
 from dotenv import load_dotenv
 from typer import Argument, Option, colors, confirm, progressbar, secho
 from typer.main import Typer
 
-from ecoindex_cli.files import write_results_to_csv
-from ecoindex_cli.recursive import Crawler
+from ecoindex_cli.arguments_handler import (
+    get_url_from_args,
+    get_urls_from_file,
+    get_urls_recursive,
+)
+from ecoindex_cli.report.report import generate_report
+
+from ecoindex_cli.files import write_results_to_file, write_urls_to_file
 from ecoindex_cli.report.report import generate_report
 from ecoindex_cli.scrap import get_page_analysis
+from ecoindex_cli.validators import validate_window_size
 
 app = Typer(help="Ecoindex cli to make analysis of webpages")
 load_dotenv()
@@ -41,71 +50,75 @@ def analyze(
     Make an ecoindex analysis of given webpages or website. You
     can generate a csv files with the results or an html report
     """
+    if recursive:
+        confirm(
+            text="You are about to perform a recursive website scraping. This can take a long time. Are you sure to want to proceed?",
+            abort=True,
+            default=True,
+        )
 
-    urls = set()
-    time_now = datetime.now()
+    try:
+        validate_window_size(window_size)
 
-    if url:
-        urls = set(url)
+        urls = set()
+        if url and recursive:
+            secho(f"⏲️ Crawling root url {url[0]} -> Wait a minute!", fg=colors.MAGENTA)
+            with spinner():
+                urls = get_urls_recursive(main_url=url[0])
+        elif url:
+            urls = get_url_from_args(urls_arg=url)
+        elif urls_file:
+            urls = get_urls_from_file(urls_file=urls_file)
 
-    if urls_file:
-        with open(urls_file) as fp:
-            urls = [url.replace("\n", "") for url in fp.readlines()]
+        else:
+            secho("🔥 You must provide an url...", fg=colors.RED)
+            raise Exit(code=1)
 
-    if urls:
-        parsed_url = urlparse(next(iter(urls)))
-        domain = parsed_url.netloc
-
-    if recursive and urls:
-        main_url = f"{parsed_url.scheme}://{domain}"
-        secho(f"⏲️ Crawling root url {main_url} -> Wait a minute !", fg=colors.MAGENTA)
-        crawler = Crawler()
-        urls = crawler.crawl(url=main_url)
-        with open(file=f"input/{domain}.csv", mode="w") as urls_file:
-            for url in urls:
-                urls_file.write(f"{url}\n")
+        domain = urlparse(next(iter(urls))).netloc
+        write_urls_to_file(domain=domain, urls=urls)
         secho(f"📁️ Urls recorded in file `input/{domain}.csv`")
 
-    process_urls = confirm(
-        f"There are {len(urls)} url(s), do you want to process?",
+    except (BadParameter) as e:
+        secho(e.format_message(), fg=colors.RED)
+        raise Exit(code=1)
+
+    confirm(
+        text=f"There are {len(urls)} url(s), do you want to process?",
         abort=True,
         default=True,
     )
 
-    if urls and process_urls:
-        results = []
-        secho(f"{len(urls)} urls for {len(window_size)} window size", fg=colors.GREEN)
-        with progressbar(
-            length=len(urls) * len(window_size),
-            label="Processing",
-        ) as progress:
-            for url in urls:
-                for w_s in window_size:
-                    if url:
-                        results.append(get_page_analysis(url=url, window_size=w_s))
-                    progress.update(1)
+    results = []
+    secho(f"{len(urls)} urls for {len(window_size)} window size", fg=colors.GREEN)
+    with progressbar(
+        length=len(urls) * len(window_size),
+        label="Processing",
+    ) as progress:
+        for url in urls:
+            for w_s in window_size:
+                if url:
+                    results.append(get_page_analysis(url=url.strip(), window_size=w_s))
+                progress.update(1)
 
-        output_folder = f"output/{domain}/{time_now}"
-        Path(output_folder).mkdir(parents=True, exist_ok=True)
-        output_filename = f"{output_folder}/results.csv"
-        write_results_to_csv(filename=output_filename, results=results)
-        secho(f"🙌️ File {output_filename} written !", fg=colors.GREEN)
-
-        if html_report:
-            generate_report(
-                results_file=output_filename,
-                output_path=output_folder,
-                domain=domain,
-                date=time_now,
-            )
-            secho(
-                f"🦄️ Amazing! A report has been generated to `{Path(__file__).parent.absolute()}/{output_folder}/report.html`"
-            )
-            open_webbrowser(
-                f"file://{Path(__file__).parent.absolute()}/{output_folder}/report.html"
-            )
-    else:
-        secho("🔥 You must provide an url...", fg=colors.RED)
+    time_now = datetime.now()
+    output_folder = f"output/{domain}/{time_now}"
+    Path(output_folder).mkdir(parents=True, exist_ok=True)
+    output_filename = f"{output_folder}/results.csv"
+    write_results_to_file(filename=output_filename, results=results)
+    secho(f"🙌️ File {output_filename} written !", fg=colors.GREEN)
+    if html_report:
+        generate_report(
+            results_file=output_filename,
+            output_path=output_folder,
+            domain=domain,
+            date=time_now,
+        )
+        secho(
+            f"🦄️ Amazing! A report has been generated to `{Path(__file__).parent.absolute()}/{output_folder}/report.html`"
+        )
+        open_webbrowser(
+            f"file://{Path(__file__).parent.absolute()}/{output_folder}/report.html"
+        )
 
 
 @app.command()
