@@ -25,4 +25,11 @@ jobs:
         black --check .
     - name: Tests with pytest
       run: |
-        pytest --cov-report=html --cov-report=xml --cov=. --cov-fail-under=50 tests
+        pytest --cov-config=.coveragerc --cov-report=xml --cov=. tests
+    - name: Monitor coverage
+      uses: slavcodev/coverage-monitor-action@1.2.0
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        clover_file: "coverage.xml"
+        threshold_alert: 10
+        threshold_warning: 50

@@ -162,8 +162,10 @@ Where:
 We use Pytest to run unit tests for this project. The test suite are in the `tests` folder. Just execute :
 
 ```
-pytest tests
+pytest --cov-report term-missing:skip-covered --cov=. --cov-config=.coveragerc tests
 ```
+
+> This runs pytest and also generate a [coverage report](https://pytest-cov.readthedocs.io/en/latest/) (terminal and html)
 
 ## TODO
 

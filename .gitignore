@@ -5,3 +5,4 @@ dist
 **/*.svg
 **/report.html
 .coverage
+htmlcov
