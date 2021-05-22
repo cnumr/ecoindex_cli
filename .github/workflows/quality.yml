@@ -25,7 +25,7 @@ jobs:
         black --check .
     - name: pytest
       id: pytest
-      uses: alexanderdamiani/pytester-cov@v1.0.1
+      uses: alexanderdamiani/pytester-cov@v1.1.0
       with:
         pytest-root-dir: '.'
         cov-omit-list: 'test/*, temp/main3.py, temp/main4.py'
