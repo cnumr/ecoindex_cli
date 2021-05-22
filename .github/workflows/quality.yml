@@ -18,11 +18,20 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install black pytest pytest-cov
+        pip install black
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Lint with black
       run: |
         black --check .
-    - name: Tests with pytest
-      run: |
-        pytest --cov-config=.coveragerc --cov-report=xml --cov=. tests
+    - name: pytest
+      id: pytest
+      uses: alexanderdamiani/pytester-cov@v1.1.0
+      with:
+        pytest-root-dir: '.'
+        cov-omit-list: 'test/*, temp/main3.py, temp/main4.py'
+        cov-threshold-single: 10
+        cov-threshold-total: 10
+    - name: Commit pytest coverage table
+      uses: peter-evans/commit-comment@v1
+      with:
+        body: ${{ steps.pytest.outputs.output-table }}
