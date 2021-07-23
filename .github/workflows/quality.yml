@@ -32,11 +32,11 @@ jobs:
         cov-threshold-single: 10
         cov-threshold-total: 50
     - name: Commit pytest coverage table
-      uses: peter-evans/commit-comment@v1.3.2
+      uses: peter-evans/commit-comment@v1
       with:
         body: ${{ steps.pytest.outputs.output-table }}
     - name: Coverage total fail - exit
       if: ${{ steps.pytester-cov.outputs.cov-threshold-total-fail == 'true' }}
       run: |
-        echo "cov single fail ${{ steps.pytester-cov.outputs.cov-threshold-total-fail }}"
+        echo "cov total fail ${{ steps.pytester-cov.outputs.cov-threshold-total-fail }}"
         exit 1
