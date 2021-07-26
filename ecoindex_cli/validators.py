@@ -3,15 +3,6 @@ from typing import Tuple
 
 from click.exceptions import BadParameter
 
-from validators import url as url_validator
-
-
-def validate_url(url: str) -> bool:
-    if not url_validator(url):
-        raise BadParameter(message=f"🔥 {url} is not a valid url")
-
-    return True
-
 
 def validate_window_size(window_sizes: Tuple[str]) -> bool:
     for window_size in window_sizes:

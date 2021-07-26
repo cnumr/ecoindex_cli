@@ -1,30 +1,27 @@
 from datetime import datetime
 from os.path import dirname
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Tuple
 from urllib.parse import urlparse
 from webbrowser import open as open_webbrowser
 
 from click.exceptions import BadParameter, Exit
 from click_spinner import spinner
-from dotenv import load_dotenv
+from pydantic.error_wrappers import ValidationError
 from typer import Argument, Option, colors, confirm, progressbar, secho
 from typer.main import Typer
 
-from ecoindex_cli.arguments_handler import (
+from ecoindex_cli.cli.arguments_handler import (
     get_url_from_args,
     get_urls_from_file,
     get_urls_recursive,
 )
-from ecoindex_cli.report.report import generate_report
-
 from ecoindex_cli.files import write_results_to_file, write_urls_to_file
 from ecoindex_cli.report.report import generate_report
 from ecoindex_cli.scrap import get_page_analysis
 from ecoindex_cli.validators import validate_window_size
 
 app = Typer(help="Ecoindex cli to make analysis of webpages")
-load_dotenv()
 
 
 @app.command()
@@ -78,8 +75,8 @@ def analyze(
         write_urls_to_file(domain=domain, urls=urls)
         secho(f"📁️ Urls recorded in file `input/{domain}.csv`")
 
-    except (BadParameter) as e:
-        secho(e.format_message(), fg=colors.RED)
+    except (ValidationError) as e:
+        secho(e, fg=colors.RED)
         raise Exit(code=1)
 
     confirm(
