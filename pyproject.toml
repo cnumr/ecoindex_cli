@@ -15,7 +15,7 @@ ecoindex-cli = "cli:app"
 
 [tool.poetry.dependencies]
 python = "^3.8"
-ecoindex = "^0.7.0"
+ecoindex = "^0.9.0"
 typer = "^0.3.2"
 pandas = "^1.3.0"
 Jinja2 = "^3.0.1"

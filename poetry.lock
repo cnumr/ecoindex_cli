@@ -178,7 +178,7 @@ six = "*"
 
 [[package]]
 name = "ecoindex"
-version = "0.7.0"
+version = "0.9.0"
 description = "Ecoindex module provides a simple way to measure the Ecoindex score based on the 3 parameters: The DOM elements of the page, the size of the page and the number of external requests of the page"
 category = "main"
 optional = false
@@ -799,7 +799,7 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "9947aa794077c3bbd0e20b55031298a9aea06c88413c48d6c66481ee0345a8e3"
+content-hash = "ac84b1ce7d491e04509ab68adb73057f51a7c2dc35f7ee5ccc94db55a13cd2e0"
 
 [metadata.files]
 appdirs = [
@@ -969,8 +969,8 @@ cycler = [
     {file = "cycler-0.10.0.tar.gz", hash = "sha256:cd7b2d1018258d7247a71425e9f26463dfb444d411c39569972f4ce586b0c9d8"},
 ]
 ecoindex = [
-    {file = "ecoindex-0.7.0-py3-none-any.whl", hash = "sha256:d56e26f7a3ba893a22966267e075c3d75c3897c827802fef1f8f1da68269fcb4"},
-    {file = "ecoindex-0.7.0.tar.gz", hash = "sha256:bb4e7203455d5177c3077b145923d3f6dbd92641491c726a3249ae405fd3af49"},
+    {file = "ecoindex-0.9.0-py3-none-any.whl", hash = "sha256:3bc3b874651999337ec8219443bd7346a9cf50e1083309e2a186d5dbc6e63006"},
+    {file = "ecoindex-0.9.0.tar.gz", hash = "sha256:88ceffa2fafebb8c67e7ebad140e08a6ce842da34cfb48def88f33fae90b3e2b"},
 ]
 h2 = [
     {file = "h2-3.2.0-py2.py3-none-any.whl", hash = "sha256:61e0f6601fa709f35cdb730863b4e5ec7ad449792add80d1410d4174ed139af5"},
