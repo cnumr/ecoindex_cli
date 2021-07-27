@@ -1,29 +1,34 @@
-from dataclasses import dataclass
 from datetime import datetime
 from typing import List, Optional
 
 from ecoindex.models import Ecoindex
+from pydantic import BaseModel, HttpUrl
 
 PageType = str
 
 
-@dataclass
-class Page:
-    logs: str
+class WindowSize(BaseModel):
+    height: int
+    width: int
+
+    def __str__(self) -> str:
+        return f"{self.width},{self.height}"
+
+
+class Page(BaseModel):
+    logs: List
     outer_html: str
     nodes: List
 
 
-@dataclass
-class PageMetrics:
+class PageMetrics(BaseModel):
     size: float
     nodes: int
     requests: int
 
 
-@dataclass
 class Result(Ecoindex, PageMetrics):
-    url: Optional[str] = None
+    url: Optional[HttpUrl] = None
     date: Optional[datetime] = None
-    resolution: Optional[str] = None
+    resolution: Optional[WindowSize] = None
     page_type: Optional[PageType] = None

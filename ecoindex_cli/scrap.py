@@ -1,24 +1,27 @@
 from datetime import datetime
 from json import loads
-from os import getenv
 from sys import getsizeof
 from time import sleep
 from typing import Optional, Tuple
 
+import chromedriver_binary
 from ecoindex.ecoindex import get_ecoindex
+from pydantic.networks import HttpUrl
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver import Chrome, DesiredCapabilities
 from selenium.webdriver.chrome.options import Options
 
-from ecoindex_cli.models import Page, PageMetrics, PageType, Result
+from ecoindex_cli.models import Page, PageMetrics, PageType, Result, WindowSize
 
 
-def get_page_analysis(url: str, window_size: Optional[str] = "1920,1080") -> Result:
+def get_page_analysis(
+    url: HttpUrl,
+    window_size: Optional[WindowSize] = WindowSize(width=1920, height=1080),
+) -> Result:
     page_metrics, page_type = scrap_page(url=url, window_size=window_size)
     ecoindex = get_ecoindex(
         dom=page_metrics.nodes, size=page_metrics.size, requests=page_metrics.requests
     )
-
     return Result(
         score=ecoindex.score,
         ges=ecoindex.ges,
@@ -34,7 +37,7 @@ def get_page_analysis(url: str, window_size: Optional[str] = "1920,1080") -> Res
     )
 
 
-def scrap_page(url: str, window_size: str) -> Tuple[PageMetrics, PageType]:
+def scrap_page(url: HttpUrl, window_size: WindowSize) -> Tuple[PageMetrics, PageType]:
     chrome_options = Options()
     chrome_options.add_argument("--headless")
     chrome_options.add_argument(f"--window-size={window_size}")
@@ -44,7 +47,6 @@ def scrap_page(url: str, window_size: str) -> Tuple[PageMetrics, PageType]:
 
     driver = Chrome(
         desired_capabilities=capbs,
-        executable_path=getenv("CHROMEDRIVER_PATH"),
         chrome_options=chrome_options,
     )
     driver.set_script_timeout(10)

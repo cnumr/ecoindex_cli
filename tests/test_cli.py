@@ -1,6 +1,6 @@
 from os import getcwd, remove
 
-from cli import analyze, app
+from cli import app
 from typer.testing import CliRunner
 
 runner = CliRunner()
@@ -16,7 +16,9 @@ def test_analyze_not_valid_url():
     invalid_url = "url"
     result = runner.invoke(app=app, args=["analyze", "--url", invalid_url])
     assert result.exit_code == 1
-    assert f"🔥 {invalid_url} is not a valid url" in result.stdout
+    assert (
+        "invalid or missing URL scheme (type=value_error.url.scheme)" in result.stdout
+    )
 
 
 def test_analyze_one_invalid_url():
@@ -26,7 +28,10 @@ def test_analyze_one_invalid_url():
         app=app, args=["analyze", "--url", valid_url, "--url", invalid_url]
     )
     assert result.exit_code == 1
-    assert f"🔥 {invalid_url} is not a valid url" in result.stdout
+    assert (
+        "1 validation error for GetUrlFromArgs\nurls_arg -> 1\n  URL host invalid, top level domain required (type=value_error.url.host)\n"
+        in result.stdout
+    )
 
 
 def test_analyze_one_valid_url():
@@ -47,7 +52,7 @@ def test_analyze_string_window_size():
     )
     assert result.exit_code == 1
     assert (
-        f"Invalid value: 🔥 {invalid_window_size} is not a valid window size. Must be of type 1920,1080"
+        f"🔥 `{invalid_window_size}` is not a valid window size. Must be of type `1920,1080`"
         in result.stdout
     )
 
@@ -67,7 +72,7 @@ def test_analyze_one_invalid_window_size():
     )
     assert result.exit_code == 1
     assert (
-        f"Invalid value: 🔥 {invalid_window_size} is not a valid window size. Must be of type 1920,1080"
+        f"🔥 `{invalid_window_size}` is not a valid window size. Must be of type `1920,1080`"
         in result.stdout
     )
 

@@ -16,10 +16,11 @@ The output is always a CSV file with the results of the analysis.
 
 ## Setup
 
-- Get the source
-- Get [Chromedriver](https://chromedriver.chromium.org/downloads) corresponding to your google chrome version, install it in your PATH and then configure [.env](.env) file
-- Install the command: `poetry install`
-- You're good to go
+```bash
+➜ git clone git@github.com:cnumr/ecoindex_cli.git    # Clone source
+➜ cd ecoindex_cli                                    # Go to source folder
+➜ poetry install                                     # Install dependencies
+```
 
 ## Use case
 
@@ -48,7 +49,7 @@ Commands:
 
 You give just one web url
 
-```
+```Bash
 ➜ ecoindex-cli analyze --url http://www.ecoindex.fr
 There are 1 url(s), do you want to process? [Y/n]:
 1 urls for 1 window size
@@ -60,7 +61,7 @@ Processing  [####################################]  100%
 
 ### Multiple url analysis
 
-```
+```Bash
 ➜ ecoindex-cli analyze --url http://www.ecoindex.fr --url https://www.greenit.fr/
 There are 2 url(s), do you want to process? [Y/n]:
 2 urls for 1 window size
@@ -72,7 +73,7 @@ Processing  [####################################]  100%
 
 You can use a file with given urls that you want to analyze: One url per line. This is helpful if you want to play the same scenario recurrently.
 
-```
+```Bash
 ➜ ecoindex-cli analyze --urls-file input/ecoindex.csv
 There are 2 url(s), do you want to process? [Y/n]:
 2 urls for 1 window size
@@ -84,7 +85,7 @@ Processing  [####################################]  100%
 
 You can make a recursive analysis of a given webiste. This means that the app will try to find out all the pages into your website and launch an analysis on all those web pages. ⚠️ This can process for a very long time! **Use it at your own risks!**
 
-```
+```Bash
 ➜ ecoindex-cli analyze --url http://www.ecoindex.fr --recursive
 ⏲️ Crawling root url http://www.ecoindex.fr -> Wait a minute !
 📁️ Urls recorded in file `input/www.ecoindex.fr.csv`
@@ -98,7 +99,7 @@ Processing  [####################################]  100%
 
 You can provide other screen resolutions. By default, the screen resolution is `1920x1080px` but you can provide other resolution for example if you want to test ecoindex for mobile.
 
-```
+```Bash
 ➜ ecoindex-cli analyze --url http://www.ecoindex.fr --window-size 1920,1080 --window-size 386,540
 There are 1 url(s), do you want to process? [Y/n]:
 1 urls for 2 window size
@@ -110,7 +111,7 @@ Processing  [####################################]  100%
 
 You can generate a html report easily at the end of the analysis. You just have to add the option `--html-report`.
 
-```
+```Bash
 ➜ ecoindex-cli analyze --url http://www.ecoindex.fr --recursive --html-report
 ⏲️ Crawling root url http://www.ecoindex.fr -> Wait a minute !
 📁️ Urls recorded in file `input/www.ecoindex.fr.csv`
@@ -128,7 +129,7 @@ Here is a sample result:
 
 If you already performed an anlayzis and (for example), forgot to generate the html report, you do not need to re-run a full analyzis, you can simply request a report from your result file :
 
-```
+```Bash
 ➜ ecoindex-cli report "/home/vvatelot/Devel/ecoindex_cli/output/www.ecoindex.fr/2021-05-06 19:13:55.735935/results.csv" "www.synchrone.fr"
 🦄️ Amazing! A report has been generated to `/home/vvatelot/Devel/ecoindex_cli/output/www.ecoindex.fr/2021-05-06 19:13:55.735935/report.html`
 ```
@@ -161,7 +162,7 @@ Where:
 
 We use Pytest to run unit tests for this project. The test suite are in the `tests` folder. Just execute :
 
-```
+```Bash
 pytest --cov-report term-missing:skip-covered --cov=. --cov-config=.coveragerc tests
 ```
 
@@ -171,4 +172,3 @@ pytest --cov-report term-missing:skip-covered --cov=. --cov-config=.coveragerc t
 
 - [ ] Use Async capability for crawling and analysis
 - [ ] Is there a way to wait for the end of the page loading?
-- [ ] Chromedriver for windows?
