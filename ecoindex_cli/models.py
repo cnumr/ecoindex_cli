@@ -30,5 +30,5 @@ class PageMetrics(BaseModel):
 class Result(Ecoindex, PageMetrics):
     url: Optional[HttpUrl] = None
     date: Optional[datetime] = None
-    resolution: Optional[str] = None
+    resolution: Optional[WindowSize] = None
     page_type: Optional[PageType] = None

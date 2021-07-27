@@ -1,11 +1,11 @@
 from datetime import datetime
 from os.path import dirname
 from pathlib import Path
-from typing import List, Optional, Tuple
+from typing import List, Optional
 from urllib.parse import urlparse
 from webbrowser import open as open_webbrowser
 
-from click.exceptions import BadParameter, Exit
+from click.exceptions import Exit
 from click_spinner import spinner
 from pydantic.error_wrappers import ValidationError
 from typer import Argument, Option, colors, confirm, progressbar, secho
@@ -15,11 +15,11 @@ from ecoindex_cli.cli.arguments_handler import (
     get_url_from_args,
     get_urls_from_file,
     get_urls_recursive,
+    get_window_sizes_from_args,
 )
 from ecoindex_cli.files import write_results_to_file, write_urls_to_file
 from ecoindex_cli.report.report import generate_report
 from ecoindex_cli.scrap import get_page_analysis
-from ecoindex_cli.validators import validate_window_size
 
 app = Typer(help="Ecoindex cli to make analysis of webpages")
 
@@ -47,6 +47,7 @@ def analyze(
     Make an ecoindex analysis of given webpages or website. You
     can generate a csv files with the results or an html report
     """
+
     if recursive:
         confirm(
             text="You are about to perform a recursive website scraping. This can take a long time. Are you sure to want to proceed?",
@@ -55,7 +56,7 @@ def analyze(
         )
 
     try:
-        validate_window_size(window_size)
+        window_sizes = get_window_sizes_from_args(window_size)
 
         urls = set()
         if url and recursive:
@@ -76,7 +77,7 @@ def analyze(
         secho(f"📁️ Urls recorded in file `input/{domain}.csv`")
 
     except (ValidationError) as e:
-        secho(e, fg=colors.RED)
+        secho(str(e), fg=colors.RED)
         raise Exit(code=1)
 
     confirm(
@@ -86,13 +87,13 @@ def analyze(
     )
 
     results = []
-    secho(f"{len(urls)} urls for {len(window_size)} window size", fg=colors.GREEN)
+    secho(f"{len(urls)} urls for {len(window_sizes)} window size", fg=colors.GREEN)
     with progressbar(
-        length=len(urls) * len(window_size),
+        length=len(urls) * len(window_sizes),
         label="Processing",
     ) as progress:
         for url in urls:
-            for w_s in window_size:
+            for w_s in window_sizes:
                 if url:
                     results.append(get_page_analysis(url=url.strip(), window_size=w_s))
                 progress.update(1)

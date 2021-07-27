@@ -1,10 +1,11 @@
+from pydantic.error_wrappers import ValidationError
 from pytest import raises
 
 from ecoindex_cli.models import Page, Result
 
 
 def test_model_page():
-    logs = "Logs of my page"
+    logs = ["Logs of my page"]
     outer_html = "Html of my page"
     nodes = ["node1", "node2", "node3"]
 
@@ -18,7 +19,7 @@ def test_model_page():
     assert page.outer_html == outer_html
     assert page.nodes == nodes
 
-    with raises(TypeError):
+    with raises(ValidationError):
         Page(logs=logs)
 
 

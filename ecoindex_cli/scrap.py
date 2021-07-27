@@ -4,7 +4,7 @@ from sys import getsizeof
 from time import sleep
 from typing import Optional, Tuple
 
-from chromedriver_py import binary_path
+import chromedriver_binary
 from ecoindex.ecoindex import get_ecoindex
 from pydantic.networks import HttpUrl
 from selenium.common.exceptions import NoSuchElementException
@@ -22,7 +22,6 @@ def get_page_analysis(
     ecoindex = get_ecoindex(
         dom=page_metrics.nodes, size=page_metrics.size, requests=page_metrics.requests
     )
-
     return Result(
         score=ecoindex.score,
         ges=ecoindex.ges,
@@ -48,7 +47,6 @@ def scrap_page(url: HttpUrl, window_size: WindowSize) -> Tuple[PageMetrics, Page
 
     driver = Chrome(
         desired_capabilities=capbs,
-        executable_path=binary_path,
         chrome_options=chrome_options,
     )
     driver.set_script_timeout(10)
