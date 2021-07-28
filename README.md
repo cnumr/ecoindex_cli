@@ -1,8 +1,7 @@
 # Ecoindex-Cli
 
-![Quality check](https://github.com/cnumr/ecoindex_cli/workflows/Quality checks/badge.svg)
-![Security threat](https://github.com/cnumr/ecoindex_cli/workflows/CodeQL/badge.svg)
-
+![Quality check](https://github.com/cnumr/ecoindex_cli/workflows/Quality%20checks/badge.svg)
+[![PyPI version](https://badge.fury.io/py/ecoindex-cli.svg)](https://badge.fury.io/py/ecoindex-cli)
 
 This tool provides an easy way to analyze websites with [Ecoindex](http://www.ecoindex.fr) from your local computer. You have the ability to make the analysis on multiple pages with multiple screen resolution. You can also make a recursive analysis from a given website.
 
