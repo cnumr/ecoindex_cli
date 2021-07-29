@@ -1,9 +1,12 @@
 # Ecoindex-Cli
 
-![Quality check](https://github.com/cnumr/ecoindex_cli/workflows/Quality%20checks/badge.svg)
-[![PyPI version](https://badge.fury.io/py/ecoindex-cli.svg)](https://badge.fury.io/py/ecoindex-cli)
+[![Quality check](https://github.com/cnumr/ecoindex_cli/workflows/Quality%20checks/badge.svg)](https://github.com/cnumr/ecoindex_cli/actions/workflows/quality.yml)
 
-This tool provides an easy way to analyze websites with [Ecoindex](http://www.ecoindex.fr) from your local computer. You have the ability to make the analysis on multiple pages with multiple screen resolution. You can also make a recursive analysis from a given website.
+This tool provides an easy way to analyze websites with [Ecoindex](http://www.ecoindex.fr) from your local computer. You have the ability to:
+
+- Make the analysis on multiple pages
+- Define multiple screen resolution
+- Make a recursive analysis from a given website
 
 This CLI is built on top of [ecoindex-python](https://pypi.org/project/ecoindex/).
 
@@ -17,7 +20,7 @@ The output is always a CSV file with the results of the analysis.
 
 ## Setup
 
-```bash
+```Bash
 ➜ git clone git@github.com:cnumr/ecoindex_cli.git    # Clone source
 ➜ cd ecoindex_cli                                    # Go to source folder
 ➜ poetry install                                     # Install dependencies
@@ -168,8 +171,3 @@ pytest --cov-report term-missing:skip-covered --cov=. --cov-config=.coveragerc t
 ```
 
 > This runs pytest and also generate a [coverage report](https://pytest-cov.readthedocs.io/en/latest/) (terminal and html)
-
-## TODO
-
-- [ ] Use Async capability for crawling and analysis
-- [ ] Is there a way to wait for the end of the page loading?
