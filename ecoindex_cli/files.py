@@ -1,7 +1,7 @@
 from csv import DictWriter
 from typing import List
 
-from ecoindex_cli.models import Result
+from ecoindex.models import Result
 
 
 def write_results_to_file(filename: str, results: List[Result]) -> None:
