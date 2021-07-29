@@ -18,25 +18,10 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install black
+        pip install black 
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Lint with black
       run: |
         black --check .
-    - name: pytest
-      id: pytest
-      uses: alexanderdamiani/pytester-cov@v1.2.0
-      with:
-        pytest-root-dir: '.'
-        cov-omit-list: 'tests/*'
-        cov-threshold-single: 10
-        cov-threshold-total: 50
-    - name: Commit pytest coverage table
-      uses: peter-evans/commit-comment@v1
-      with:
-        body: ${{ steps.pytest.outputs.output-table }}
-    - name: Coverage total fail - exit
-      if: ${{ steps.pytester-cov.outputs.cov-threshold-total-fail == 'true' }}
-      run: |
-        echo "cov total fail ${{ steps.pytester-cov.outputs.cov-threshold-total-fail }}"
-        exit 1
+    - name: GitHub Action for pytest
+      uses: cclauss/GitHub-Action-for-pytest@0.5.0
