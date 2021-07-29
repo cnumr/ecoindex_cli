@@ -3,8 +3,8 @@ from typing import List, Set, Tuple
 from urllib.parse import urlparse
 
 from click.exceptions import BadParameter
+from ecoindex.models import WindowSize
 from ecoindex_cli.crawl import EcoindexSpider
-from ecoindex_cli.models import WindowSize
 from pydantic import validate_arguments
 from pydantic.error_wrappers import ErrorWrapper, ValidationError
 from pydantic.networks import HttpUrl

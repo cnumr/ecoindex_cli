@@ -1,9 +1,8 @@
-from click.exceptions import BadParameter
+from ecoindex.models import WindowSize
 from ecoindex_cli.cli.arguments_handler import (
     get_url_from_args,
     get_window_sizes_from_args,
 )
-from ecoindex_cli.models import WindowSize
 from pydantic import ValidationError
 from pytest import raises
 

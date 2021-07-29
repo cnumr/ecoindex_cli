@@ -7,6 +7,7 @@ from webbrowser import open as open_webbrowser
 
 from click.exceptions import Exit
 from click_spinner import spinner
+from ecoindex.scrap import get_page_analysis
 from pydantic.error_wrappers import ValidationError
 from typer import Argument, Option, colors, confirm, progressbar, secho
 from typer.main import Typer
@@ -19,7 +20,6 @@ from ecoindex_cli.cli.arguments_handler import (
 )
 from ecoindex_cli.files import write_results_to_file, write_urls_to_file
 from ecoindex_cli.report.report import generate_report
-from ecoindex_cli.scrap import get_page_analysis
 
 app = Typer(help="Ecoindex cli to make analysis of webpages")
 

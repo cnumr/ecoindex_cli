@@ -27,7 +27,7 @@ The output is always a CSV file with the results of the analysis.
 
 The cli gets 2 commands: `analyze` and `report` which can be used separately:
 
-```
+```Bash
 ➜ ecoindex-cli --help                                Usage: ecoindex-cli [OPTIONS] COMMAND [ARGS]...
 
   Ecoindex cli to make analysis of webpages
