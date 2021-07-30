@@ -63,6 +63,19 @@ Processing  [####################################]  100%
 
 > This makes an analysis with a screen resolution of 1920x1080px by default
 
+### Set the output file
+
+You can define the csv output file
+
+```Bash
+➜ ecoindex-cli analyze --url http://www.ecoindex.fr --output-file ~/ecoindex-results/ecoindex.csv
+📁️ Urls recorded in file `input/www.ecoindex.fr.csv`
+There are 1 url(s), do you want to process? [Y/n]: 
+1 urls for 1 window size
+Processing  [####################################]  100%
+🙌️ File /home/vvatelot/ecoindex-results/ecoindex.csv written !
+```
+
 ### Multiple url analysis
 
 ```Bash
