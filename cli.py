@@ -42,6 +42,9 @@ def analyze(
     html_report: Optional[bool] = Option(
         default=False, help="You can generate a html report of the analysis"
     ),
+    output_file: Optional[Path] = Option(
+        default=None, help="You can define an output file for the csv results"
+    ),
 ):
     """
     Make an ecoindex analysis of given webpages or website. You
@@ -99,9 +102,15 @@ def analyze(
                 progress.update(1)
 
     time_now = datetime.now()
+
     output_folder = f"output/{domain}/{time_now}"
-    Path(output_folder).mkdir(parents=True, exist_ok=True)
     output_filename = f"{output_folder}/results.csv"
+
+    if output_file:
+        output_filename = output_file
+        output_folder = dirname(output_filename)
+
+    Path(output_folder).mkdir(parents=True, exist_ok=True)
     write_results_to_file(filename=output_filename, results=results)
     secho(f"🙌️ File {output_filename} written !", fg=colors.GREEN)
     if html_report:
