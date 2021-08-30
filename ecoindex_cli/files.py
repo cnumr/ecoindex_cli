@@ -1,7 +1,14 @@
 from csv import DictWriter
+from os import makedirs
+from os.path import exists
 from typing import List
 
 from ecoindex.models import Result
+
+
+def create_folder(path: str) -> None:
+    if not exists(path):
+        makedirs(path)
 
 
 def write_results_to_file(filename: str, results: List[Result]) -> None:
@@ -16,6 +23,8 @@ def write_results_to_file(filename: str, results: List[Result]) -> None:
 
 
 def write_urls_to_file(domain: str, urls: List[str]) -> None:
-    with open(file=f"input/{domain}.csv", mode="w") as input_urls_file:
+    tmp_input_folder = "/tmp/ecoindex-cli/input"
+    create_folder(tmp_input_folder)
+    with open(file=f"{tmp_input_folder}/{domain}.csv", mode="w") as input_urls_file:
         for url in urls:
             input_urls_file.write(f"{url.strip()}\n")
