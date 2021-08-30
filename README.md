@@ -15,15 +15,13 @@ The output is always a CSV file with the results of the analysis.
 ## Requirements
 
 - Python ^3.8
-- [Poetry](https://python-poetry.org/)
+- [pip](https://pip.pypa.io/en/stable/)
 - Google Chrome installed on your computer
 
 ## Setup
 
 ```Bash
-➜ git clone git@github.com:cnumr/ecoindex_cli.git    # Clone source
-➜ cd ecoindex_cli                                    # Go to source folder
-➜ poetry install                                     # Install dependencies
+➜ pip install --user -U ecoindex-cli
 ```
 
 ## Use case
@@ -176,6 +174,13 @@ Where:
 - `page_type` is the type of the page, based ton the [opengraph type tag](https://ogp.me/#types)
 
 ## Testing
+
+In order to develop or test, you have to use [Poetry](https://python-poetry.org/), install the dependencies and execute a poetry shell:
+
+```bash
+poetry install
+poetry shell
+```
 
 We use Pytest to run unit tests for this project. The test suite are in the `tests` folder. Just execute :
 

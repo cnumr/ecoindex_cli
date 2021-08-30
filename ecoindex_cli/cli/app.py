@@ -8,10 +8,6 @@ from webbrowser import open as open_webbrowser
 from click.exceptions import Exit
 from click_spinner import spinner
 from ecoindex.scrap import get_page_analysis
-from pydantic.error_wrappers import ValidationError
-from typer import Argument, Option, colors, confirm, progressbar, secho
-from typer.main import Typer
-
 from ecoindex_cli.cli.arguments_handler import (
     get_url_from_args,
     get_urls_from_file,
@@ -20,6 +16,9 @@ from ecoindex_cli.cli.arguments_handler import (
 )
 from ecoindex_cli.files import write_results_to_file, write_urls_to_file
 from ecoindex_cli.report.report import generate_report
+from pydantic.error_wrappers import ValidationError
+from typer import Argument, Option, colors, confirm, progressbar, secho
+from typer.main import Typer
 
 app = Typer(help="Ecoindex cli to make analysis of webpages")
 
@@ -77,7 +76,7 @@ def analyze(
 
         domain = urlparse(next(iter(urls))).netloc
         write_urls_to_file(domain=domain, urls=urls)
-        secho(f"📁️ Urls recorded in file `input/{domain}.csv`")
+        secho(f"📁️ Urls recorded in file `/tmp/ecoindex-cli/input/{domain}.csv`")
 
     except (ValidationError) as e:
         secho(str(e), fg=colors.RED)
@@ -103,7 +102,7 @@ def analyze(
 
     time_now = datetime.now()
 
-    output_folder = f"output/{domain}/{time_now}"
+    output_folder = f"/tmp/ecoindex-cli/output/{domain}/{time_now}"
     output_filename = f"{output_folder}/results.csv"
 
     if output_file:
@@ -121,11 +120,9 @@ def analyze(
             date=time_now,
         )
         secho(
-            f"🦄️ Amazing! A report has been generated to `{Path(__file__).parent.absolute()}/{output_folder}/report.html`"
+            f"🦄️ Amazing! A report has been generated to `{output_folder}/report.html`"
         )
-        open_webbrowser(
-            f"file://{Path(__file__).parent.absolute()}/{output_folder}/report.html"
-        )
+        open_webbrowser(f"file://{output_folder}/report.html")
 
 
 @app.command()
