@@ -1,6 +1,7 @@
 # Ecoindex-Cli
 
 [![Quality check](https://github.com/cnumr/ecoindex_cli/workflows/Quality%20checks/badge.svg)](https://github.com/cnumr/ecoindex_cli/actions/workflows/quality.yml)
+[![PyPI version](https://badge.fury.io/py/ecoindex-cli.svg)](https://badge.fury.io/py/ecoindex-cli)
 
 This tool provides an easy way to analyze websites with [Ecoindex](http://www.ecoindex.fr) from your local computer. You have the ability to:
 
@@ -8,9 +9,11 @@ This tool provides an easy way to analyze websites with [Ecoindex](http://www.ec
 - Define multiple screen resolution
 - Make a recursive analysis from a given website
 
-This CLI is built on top of [ecoindex-python](https://pypi.org/project/ecoindex/).
+This CLI is built on top of [ecoindex-python](https://pypi.org/project/ecoindex/) with [Typer](https://typer.tiangolo.com/)
 
 The output is always a CSV file with the results of the analysis.
+
+> **Current limitation:** This does not work well with SPA.
 
 ## Requirements
 
@@ -56,7 +59,7 @@ You give just one web url
 There are 1 url(s), do you want to process? [Y/n]:
 1 urls for 1 window size
 Processing  [####################################]  100%
-🙌️ File output/www.ecoindex.fr/2021-04-20 16:44:33.468755/results.csv written !
+🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-20 16:44:33.468755/results.csv written !
 ```
 
 > This makes an analysis with a screen resolution of 1920x1080px by default
@@ -81,7 +84,7 @@ Processing  [####################################]  100%
 There are 2 url(s), do you want to process? [Y/n]:
 2 urls for 1 window size
 Processing  [####################################]  100%
-🙌️ File output/www.ecoindex.fr/2021-04-20 16:45:24.458052/results.csv written !
+🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-20 16:45:24.458052/results.csv written !
 ```
 
 ### Provide urls from a file
@@ -93,7 +96,7 @@ You can use a file with given urls that you want to analyze: One url per line. T
 There are 2 url(s), do you want to process? [Y/n]:
 2 urls for 1 window size
 Processing  [####################################]  100%
-🙌️ File output/www.ecoindex.fr/2021-04-20 16:45:24.458052/results.csv written !
+🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-20 16:45:24.458052/results.csv written !
 ```
 
 ### Make a recursive analysis
@@ -103,11 +106,11 @@ You can make a recursive analysis of a given webiste. This means that the app wi
 ```Bash
 ➜ ecoindex-cli analyze --url http://www.ecoindex.fr --recursive
 ⏲️ Crawling root url http://www.ecoindex.fr -> Wait a minute !
-📁️ Urls recorded in file `input/www.ecoindex.fr.csv`
+📁️ Urls recorded in file `/tmp/ecoindex-cli/input/www.ecoindex.fr.csv`
 There are 3 url(s), do you want to process? [Y/n]:
 3 urls for 1 window size
 Processing  [####################################]  100%
-🙌️ File output/www.ecoindex.fr/2021-04-20 16:47:29.072472/results.csv written !
+🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-20 16:47:29.072472/results.csv written !
 ```
 
 ### Set other screen resolutions
@@ -119,7 +122,7 @@ You can provide other screen resolutions. By default, the screen resolution is `
 There are 1 url(s), do you want to process? [Y/n]:
 1 urls for 2 window size
 Processing  [####################################]  100%
-🙌️ File output/www.ecoindex.fr/2021-04-21 21:22:44.309077/results.csv written !
+🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-21 21:22:44.309077/results.csv written !
 ```
 
 ### Generate a html report
@@ -134,7 +137,7 @@ There are 3 url(s), do you want to process? [Y/n]:
 3 urls for 1 window size
 Processing  [####################################]  100%
 🙌️ File output/www.ecoindex.fr/2021-04-21 21:21:27.629691/results.csv written !
-🦄️ Amazing! A report has been generated to `/home/vvatelot/Devel/ecoindex_cli/output/www.ecoindex.fr/2021-04-21 21:21:27.629691/report.html`
+🦄️ Amazing! A report has been generated to `/tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-21 21:21:27.629691/report.html`
 ```
 
 Here is a sample result:
@@ -145,8 +148,8 @@ Here is a sample result:
 If you already performed an anlayzis and (for example), forgot to generate the html report, you do not need to re-run a full analyzis, you can simply request a report from your result file :
 
 ```Bash
-➜ ecoindex-cli report "/home/vvatelot/Devel/ecoindex_cli/output/www.ecoindex.fr/2021-05-06 19:13:55.735935/results.csv" "www.synchrone.fr"
-🦄️ Amazing! A report has been generated to `/home/vvatelot/Devel/ecoindex_cli/output/www.ecoindex.fr/2021-05-06 19:13:55.735935/report.html`
+➜ ecoindex-cli report "/tmp/ecoindex-cli/output/www.ecoindex.fr/2021-05-06 19:13:55.735935/results.csv" "www.synchrone.fr"
+🦄️ Amazing! A report has been generated to `/tmp/ecoindex-cli/output/www.ecoindex.fr/2021-05-06 19:13:55.735935/report.html`
 ```
 
 ## Results example
@@ -189,3 +192,7 @@ pytest --cov-report term-missing:skip-covered --cov=. --cov-config=.coveragerc t
 ```
 
 > This runs pytest and also generate a [coverage report](https://pytest-cov.readthedocs.io/en/latest/) (terminal and html)
+
+## [Contributing](CONTRIBUTING.md)
+
+## [Code of conduct](CODE_OF_CONDUCT.md)
