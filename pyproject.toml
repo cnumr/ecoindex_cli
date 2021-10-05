@@ -29,7 +29,7 @@ Scrapy = "^2.5.0"
 pytest = "^6.2"
 black = {version = "^21.9b0", allow-prereleases = true}
 pytest-cov = "^2.12.1"
-coverage-badge = "^1.0.1"
+coverage-badge = "^1.0.2"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
