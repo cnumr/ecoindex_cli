@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ecoindex-cli"
-version = "v2.0.1"
+version = "v2.1.0"
 description = "`ecoindex-cli` is a CLI tool that let you make ecoindex tests on given pages"
 authors = ["Vincent Vatelot <vincent.vatelot@gmail.com>"]
 license = "MIT"
@@ -28,8 +28,7 @@ Scrapy = "^2.5.0"
 [tool.poetry.dev-dependencies]
 pytest = "^6.2"
 black = {version = "^21.9b0", allow-prereleases = true}
-pytest-cov = "^2.12.1"
-coverage-badge = "^1.0.1"
+pytest-cov = "^3.0.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
