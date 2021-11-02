@@ -19,7 +19,6 @@ The output is always a CSV file with the results of the analysis.
 
 - Python ^3.8
 - [pip](https://pip.pypa.io/en/stable/)
-- Google Chrome installed on your computer
 
 ## Setup
 

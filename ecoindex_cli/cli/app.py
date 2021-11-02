@@ -1,3 +1,4 @@
+import asyncio
 from datetime import datetime
 from os.path import dirname
 from pathlib import Path
@@ -97,7 +98,9 @@ def analyze(
         for url in urls:
             for w_s in window_sizes:
                 if url:
-                    results.append(get_page_analysis(url=url.strip(), window_size=w_s))
+                    results.append(
+                        asyncio.run(get_page_analysis(url=url.strip(), window_size=w_s))
+                    )
                 progress.update(1)
 
     time_now = datetime.now()
