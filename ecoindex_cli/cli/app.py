@@ -40,10 +40,13 @@ def analyze(
         help="If you want to analyze multiple urls, you can also set them in a file and provide the file name",
     ),
     html_report: Optional[bool] = Option(
-        default=False, help="You can generate a html report of the analysis"
+        default=False, help="You can generate a html report of the analysis",
     ),
     output_file: Optional[Path] = Option(
-        default=None, help="You can define an output file for the csv results"
+        default=None, help="You can define an output file for the csv results",
+    ),
+    no_interaction: Optional[bool] = Option(
+        default=False, help="Answer 'yes' to all questions",
     ),
 ):
     """
@@ -51,7 +54,7 @@ def analyze(
     can generate a csv files with the results or an html report
     """
 
-    if recursive:
+    if recursive and not no_interaction:
         confirm(
             text="You are about to perform a recursive website scraping. This can take a long time. Are you sure to want to proceed?",
             abort=True,
@@ -83,11 +86,12 @@ def analyze(
         secho(str(e), fg=colors.RED)
         raise Exit(code=1)
 
-    confirm(
-        text=f"There are {len(urls)} url(s), do you want to process?",
-        abort=True,
-        default=True,
-    )
+    if not no_interaction:
+        confirm(
+            text=f"There are {len(urls)} url(s), do you want to process?",
+            abort=True,
+            default=True,
+        )
 
     results = []
     secho(f"{len(urls)} urls for {len(window_sizes)} window size", fg=colors.GREEN)
