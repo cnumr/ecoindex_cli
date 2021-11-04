@@ -82,6 +82,8 @@ def analyze(
             raise Exit(code=1)
 
         domain = urlparse(next(iter(urls))).netloc
+        if urls_file:
+            domain = urls_file.split("/")[-1]
         write_urls_to_file(domain=domain, urls=urls)
         secho(f"📁️ Urls recorded in file `/tmp/ecoindex-cli/input/{domain}.csv`")
 
@@ -105,9 +107,16 @@ def analyze(
         for url in urls:
             for w_s in window_sizes:
                 if url:
-                    results.append(
-                        asyncio.run(get_page_analysis(url=url.strip(), window_size=w_s))
-                    )
+                    if urls_file:
+                        print(" ", url)
+                    try:
+                        results.append(
+                            asyncio.run(
+                                get_page_analysis(url=url.strip(), window_size=w_s)
+                            )
+                        )
+                    except:
+                        print("Error with url:", url)
                 progress.update(1)
 
     time_now = datetime.now()
