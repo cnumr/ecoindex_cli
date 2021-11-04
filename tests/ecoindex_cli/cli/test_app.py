@@ -85,3 +85,9 @@ def test_analyze_abort_recursive():
     )
     assert "Aborted!" in result.stdout
     assert result.exit_code == 1
+
+
+def test_no_interaction():
+    result = runner.invoke(app=app, args=["analyze", "--recursive", "--no-interaction"])
+    assert "[Y/n]" not in result.stdout
+    assert result.exit_code == 1
