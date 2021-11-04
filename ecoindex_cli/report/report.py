@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from jinja2 import Environment, FileSystemLoader
 from matplotlib import pyplot
 from pandas import read_csv
@@ -65,7 +67,7 @@ def generate_report(
 ) -> None:
     df = read_csv(results_file)
     env = Environment(loader=FileSystemLoader("."))
-    template = env.get_template("ecoindex_cli/report/template.html")
+    template = env.get_template(f"{Path(__file__).parent.absolute()}/template.html")
 
     create_histogram(
         dataframe=df,
