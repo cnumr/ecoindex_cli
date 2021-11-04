@@ -42,7 +42,7 @@ def test_analyze_one_valid_url():
     assert result.exit_code == 1
     assert "Aborted!" in result.stdout
     assert f"📁️ Urls recorded in file `input/{domain}.csv`"
-    remove(f"{getcwd()}/input/{domain}.csv")
+    remove(f"/tmp/ecoindex-cli/input/{domain}.csv")
 
 
 def test_analyze_string_window_size():
