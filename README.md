@@ -70,7 +70,7 @@ You can define the csv output file
 ```Bash
 ➜ ecoindex-cli analyze --url http://www.ecoindex.fr --output-file ~/ecoindex-results/ecoindex.csv
 📁️ Urls recorded in file `input/www.ecoindex.fr.csv`
-There are 1 url(s), do you want to process? [Y/n]: 
+There are 1 url(s), do you want to process? [Y/n]:
 1 urls for 1 window size
 Processing  [####################################]  100%
 🙌️ File /home/vvatelot/ecoindex-results/ecoindex.csv written !
@@ -110,6 +110,19 @@ There are 3 url(s), do you want to process? [Y/n]:
 3 urls for 1 window size
 Processing  [####################################]  100%
 🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-20 16:47:29.072472/results.csv written !
+```
+
+### Disable console interaction
+
+You can disable confirmations, and force the app to answer yes to all of them. It can be useful if you need to start the app from another script, or if you have no time to wait it to finish.
+
+```Bash
+➜ ecoindex-cli analyze --url http://www.ecoindex.fr --recursive --no-interaction
+⏲️ Crawling root url http://www.ecoindex.fr -> Wait a minute !
+📁️ Urls recorded in file `/tmp/ecoindex-cli/input/www.ecoindex.fr.csv`
+3 urls for 1 window size
+Processing  [####################################]  100%
+🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-11-04 08:19:13.410571/results.csv written !
 ```
 
 ### Set other screen resolutions
