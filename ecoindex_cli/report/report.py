@@ -66,8 +66,8 @@ def generate_report(
     results_file: str, output_path: str, domain: str, date: str
 ) -> None:
     df = read_csv(results_file)
-    env = Environment(loader=FileSystemLoader("."))
-    template = env.get_template(f"{Path(__file__).parent.absolute()}/template.html")
+    env = Environment(loader=FileSystemLoader(f"{Path(__file__).parent.absolute()}"))
+    template = env.get_template("template.html")
 
     create_histogram(
         dataframe=df,
