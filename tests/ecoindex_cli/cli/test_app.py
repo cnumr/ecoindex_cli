@@ -89,8 +89,5 @@ def test_analyze_abort_recursive():
 
 def test_no_interaction():
     result = runner.invoke(app=app, args=["analyze", "--recursive", "--no-interaction"])
-    assert (
-        "You are about to perform a recursive website scraping. This can take a long time. Are you sure to want to proceed?"
-        not in result.stdout
-    )
+    assert "[Y/n]" not in result.stdout
     assert result.exit_code == 1
