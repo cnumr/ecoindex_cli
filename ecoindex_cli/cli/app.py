@@ -29,19 +29,15 @@ def analyze(
     url: Optional[List[str]] = Option(default=None, help="List of urls to analyze"),
     window_size: Optional[List[str]] = Option(
         default=["1920,1080"],
-        help="You can set multiple window sizes to make ecoindex test. \
-                You have to use the format `width,height` in pixel",
+        help="You can set multiple window sizes to make ecoindex test. You have to use the format `width,height` in pixel",
     ),
     recursive: Optional[bool] = Option(
         default=False,
-        help="You can make a recursive analysis of a website. In this case, \
-                just provide one root url. Be carreful with this option. \
-                Can take a loooong long time !",
+        help="You can make a recursive analysis of a website. In this case, just provide one root url. Be carreful with this option. Can take a loooong long time !",
     ),
     urls_file: Optional[str] = Option(
         default=None,
-        help="If you want to analyze multiple urls, you can also set them in a \
-                file and provide the file name",
+        help="If you want to analyze multiple urls, you can also set them in a file and provide the file name",
     ),
     html_report: Optional[bool] = Option(
         default=False,
@@ -63,8 +59,7 @@ def analyze(
 
     if recursive and not no_interaction:
         confirm(
-            text="You are about to perform a recursive website scraping. \
-                This can take a long time. Are you sure to want to proceed?",
+            text="You are about to perform a recursive website scraping. This can take a long time. Are you sure to want to proceed?",
             abort=True,
             default=True,
         )
@@ -171,8 +166,7 @@ def report(
     ),
     output_folder: Optional[str] = Option(
         default=None,
-        help="By default, we generate the report in the same folder of the \
-                results file, but you can provide another folder",
+        help="By default, we generate the report in the same folder of the results file, but you can provide another folder",
     ),
 ):
     """
