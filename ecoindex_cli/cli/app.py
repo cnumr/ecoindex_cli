@@ -1,6 +1,6 @@
 import asyncio
 from datetime import datetime
-from os.path import dirname
+from os.path import dirname, exists
 from pathlib import Path
 from typing import List, Optional
 from urllib.parse import urlparse
@@ -29,15 +29,19 @@ def analyze(
     url: Optional[List[str]] = Option(default=None, help="List of urls to analyze"),
     window_size: Optional[List[str]] = Option(
         default=["1920,1080"],
-        help="You can set multiple window sizes to make ecoindex test. You have to use the format `width,height` in pixel",
+        help="You can set multiple window sizes to make ecoindex test. \
+                You have to use the format `width,height` in pixel",
     ),
     recursive: Optional[bool] = Option(
         default=False,
-        help="You can make a recursive analysis of a website. In this case, just provide one root url. Be carreful with this option. Can take a loooong long time !",
+        help="You can make a recursive analysis of a website. In this case, \
+                just provide one root url. Be carreful with this option. \
+                Can take a loooong long time !",
     ),
     urls_file: Optional[str] = Option(
         default=None,
-        help="If you want to analyze multiple urls, you can also set them in a file and provide the file name",
+        help="If you want to analyze multiple urls, you can also set them in a \
+                file and provide the file name",
     ),
     html_report: Optional[bool] = Option(
         default=False,
@@ -59,7 +63,8 @@ def analyze(
 
     if recursive and not no_interaction:
         confirm(
-            text="You are about to perform a recursive website scraping. This can take a long time. Are you sure to want to proceed?",
+            text="You are about to perform a recursive website scraping. \
+                This can take a long time. Are you sure to want to proceed?",
             abort=True,
             default=True,
         )
@@ -104,19 +109,30 @@ def analyze(
         length=len(urls) * len(window_sizes),
         label="Processing",
     ) as progress:
+
+        output_log = f"/tmp/ecoindex-cli/output/{domain}.log"
+        if exists(output_log):
+            f = open(output_log, "w")
+            f.close()
         for url in urls:
             for w_s in window_sizes:
                 if url:
-                    if urls_file:
-                        print(" ", url)
                     try:
                         results.append(
                             asyncio.run(
                                 get_page_analysis(url=url.strip(), window_size=w_s)
                             )
                         )
-                    except:
-                        print("Error with url:", url)
+                    except Exception as e:
+                        secho(
+                            f"\nError with: {url} (log in file {output_log})",
+                            fg=colors.RED,
+                        )
+                        f = open(output_log, "a+")
+                        f.write("--------" + str(datetime.now()) + "--------\n")
+                        f.write("--------" + url + "--------\n")
+                        f.write(str(e))
+                        f.close()
                 progress.update(1)
 
     time_now = datetime.now()
@@ -155,7 +171,8 @@ def report(
     ),
     output_folder: Optional[str] = Option(
         default=None,
-        help="By default, we generate the report in the same folder of the results file, but you can provide another folder",
+        help="By default, we generate the report in the same folder of the \
+                results file, but you can provide another folder",
     ),
 ):
     """
