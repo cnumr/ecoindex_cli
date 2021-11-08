@@ -9,6 +9,7 @@ from webbrowser import open as open_webbrowser
 from click.exceptions import Exit
 from click_spinner import spinner
 from ecoindex.scrap import get_page_analysis
+from ecoindex_cli.logger import logger
 from ecoindex_cli.cli.arguments_handler import (
     get_url_from_args,
     get_urls_from_file,
@@ -104,11 +105,9 @@ def analyze(
         length=len(urls) * len(window_sizes),
         label="Processing",
     ) as progress:
-
         output_log = f"/tmp/ecoindex-cli/output/{domain}.log"
-        if exists(output_log):
-            f = open(output_log, "w")
-            f.close()
+        log = logger(str(output_log))
+        err_found = False
         for url in urls:
             for w_s in window_sizes:
                 if url:
@@ -119,16 +118,15 @@ def analyze(
                             )
                         )
                     except Exception as e:
-                        secho(
-                            f"\nError with: {url} (log in file {output_log})",
-                            fg=colors.RED,
-                        )
-                        f = open(output_log, "a+")
-                        f.write("--------" + str(datetime.now()) + "--------\n")
-                        f.write("--------" + url + "--------\n")
-                        f.write(str(e))
-                        f.close()
+                        err_found = True
+                        log.error("\n -- " + url + " --\n" + e.msg)
                 progress.update(1)
+
+        if err_found:
+            secho(
+                f"\nErrors found: please look ar {output_log})",
+                fg=colors.RED,
+            )
 
     time_now = datetime.now()
 
