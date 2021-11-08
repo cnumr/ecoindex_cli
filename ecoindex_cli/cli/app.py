@@ -57,6 +57,10 @@ def analyze(
     Make an ecoindex analysis of given webpages or website. You
     can generate a csv files with the results or an html report
     """
+    # A file for logging analyze errors
+    # the name will be determined below, from the url
+    output_log = None
+    log = None
 
     if recursive and not no_interaction:
         confirm(
@@ -88,6 +92,9 @@ def analyze(
         write_urls_to_file(domain=domain, urls=urls)
         secho(f"📁️ Urls recorded in file `/tmp/ecoindex-cli/input/{domain}.csv`")
 
+        output_log = f"/tmp/ecoindex-cli/output/{domain}.log"
+        log = logger(str(output_log))
+
     except (ValidationError) as e:
         secho(str(e), fg=colors.RED)
         raise Exit(code=1)
@@ -105,8 +112,6 @@ def analyze(
         length=len(urls) * len(window_sizes),
         label="Processing",
     ) as progress:
-        output_log = f"/tmp/ecoindex-cli/output/{domain}.log"
-        log = logger(str(output_log))
         err_found = False
         for url in urls:
             for w_s in window_sizes:
