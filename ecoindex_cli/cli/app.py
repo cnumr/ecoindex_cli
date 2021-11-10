@@ -101,9 +101,6 @@ def analyze(
         if logger_file:
             log = Logger(filename=logger_file)
 
-
-
-
     except (ValidationError) as e:
         secho(str(e), fg=colors.RED)
         raise Exit(code=1)
