@@ -1,6 +1,6 @@
 import asyncio
 from datetime import datetime
-from os.path import dirname, exists
+from os.path import dirname
 from pathlib import Path
 from typing import List, Optional
 from urllib.parse import urlparse
@@ -9,7 +9,7 @@ from webbrowser import open as open_webbrowser
 from click.exceptions import Exit
 from click_spinner import spinner
 from ecoindex.scrap import get_page_analysis
-from ecoindex_cli.logger import logger
+from ecoindex_cli.logger import Logger
 from ecoindex_cli.cli.arguments_handler import (
     get_url_from_args,
     get_urls_from_file,
@@ -57,11 +57,6 @@ def analyze(
     Make an ecoindex analysis of given webpages or website. You
     can generate a csv files with the results or an html report
     """
-    # A file for logging analyze errors
-    # the name will be determined below, from the url
-    output_log = None
-    log = None
-
     if recursive and not no_interaction:
         confirm(
             text="You are about to perform a recursive website scraping. This can take a long time. Are you sure to want to proceed?",
@@ -73,27 +68,41 @@ def analyze(
         window_sizes = get_window_sizes_from_args(window_size)
 
         urls = set()
+        domain = None
+        input_file = None
+        logger_file = None
         if url and recursive:
             secho(f"⏲️ Crawling root url {url[0]} -> Wait a minute!", fg=colors.MAGENTA)
             with spinner():
                 urls = get_urls_recursive(main_url=url[0])
+            domain = urlparse(next(iter(urls))).netloc
+            input_file = f"/tmp/ecoindex-cli/input/{domain}.csv"
+            logger_file = f"{domain}.log"
+
         elif url:
             urls = get_url_from_args(urls_arg=url)
+            domain = urlparse(next(iter(urls))).netloc
+            input_file = f"/tmp/ecoindex-cli/input/{domain}.csv"
+            logger_file = f"{domain}.log"
+
         elif urls_file:
             urls = get_urls_from_file(urls_file=urls_file)
+            file_name = urls_file.split("/")[-1]
+            logger_file = f"{file_name}.log"
 
         else:
             secho("🔥 You must provide an url...", fg=colors.RED)
             raise Exit(code=1)
 
-        domain = urlparse(next(iter(urls))).netloc
-        if urls_file:
-            domain = urls_file.split("/")[-1]
-        write_urls_to_file(domain=domain, urls=urls)
-        secho(f"📁️ Urls recorded in file `/tmp/ecoindex-cli/input/{domain}.csv`")
+        if input_file:
+            write_urls_to_file(domain=domain, urls=urls)
+            secho(f"📁️ Urls recorded in file `{input_file}`")
 
-        output_log = f"/tmp/ecoindex-cli/output/{domain}.log"
-        log = logger(str(output_log))
+        if logger_file:
+            log = Logger(filename=logger_file)
+
+
+
 
     except (ValidationError) as e:
         secho(str(e), fg=colors.RED)
@@ -112,7 +121,7 @@ def analyze(
         length=len(urls) * len(window_sizes),
         label="Processing",
     ) as progress:
-        err_found = False
+        error_found = False
         for url in urls:
             for w_s in window_sizes:
                 if url:
@@ -123,13 +132,13 @@ def analyze(
                             )
                         )
                     except Exception as e:
-                        err_found = True
-                        log.error("\n -- " + url + " --\n" + e.msg)
+                        error_found = True
+                        log.error(" -- " + url + " -- " + e.msg)
                 progress.update(1)
 
-        if err_found:
+        if error_found:
             secho(
-                f"\nErrors found: please look ar {output_log})",
+                f"\nErrors found: please look at {log.path}/{log.file_name})",
                 fg=colors.RED,
             )
 

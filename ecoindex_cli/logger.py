@@ -1,11 +1,16 @@
 import logging
 
+from ecoindex_cli.files import create_folder
 
-class logger:
-    def __init__(self, f_name):
+class Logger:
+    def __init__(self, filename: str) -> None:
+        self.path = "/tmp/ecoindex-cli/logs"
+        self.file_name = filename
+        create_folder(path=self.path)
+
         logging.basicConfig(
-            filemode="w+", filename=f_name, format="%(asctime)s %(message)s"
+            filemode="w+", filename=self.path+'/'+filename, format="%(asctime)s %(message)s"
         )
 
-    def error(self, msg):
+    def error(self, msg: str) -> None:
         logging.error(msg)
