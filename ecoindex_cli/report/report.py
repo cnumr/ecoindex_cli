@@ -63,7 +63,7 @@ def create_grade_chart(
 
 
 def generate_report(
-    results_file: str, output_path: str, domain: str, date: str
+    results_file: str, output_path: str, file_prefix: str, date: str
 ) -> None:
     df = read_csv(results_file)
     env = Environment(loader=FileSystemLoader(f"{Path(__file__).parent.absolute()}"))
@@ -99,7 +99,7 @@ def generate_report(
     )
 
     template_vars = {
-        "site": domain,
+        "site": file_prefix,
         "date": date,
         "nb_page": len(df.index),
         "all_data": df.to_html(

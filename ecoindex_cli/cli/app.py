@@ -9,14 +9,15 @@ from webbrowser import open as open_webbrowser
 from click.exceptions import Exit
 from click_spinner import spinner
 from ecoindex.scrap import get_page_analysis
-from ecoindex_cli.logger import Logger
 from ecoindex_cli.cli.arguments_handler import (
+    get_file_prefix_input_file_logger_file,
     get_url_from_args,
     get_urls_from_file,
     get_urls_recursive,
     get_window_sizes_from_args,
 )
 from ecoindex_cli.files import write_results_to_file, write_urls_to_file
+from ecoindex_cli.logger import Logger
 from ecoindex_cli.report.report import generate_report
 from pydantic.error_wrappers import ValidationError
 from typer import Argument, Option, colors, confirm, progressbar, secho
@@ -68,34 +69,38 @@ def analyze(
         window_sizes = get_window_sizes_from_args(window_size)
 
         urls = set()
-        domain = None
-        input_file = None
-        logger_file = None
         if url and recursive:
             secho(f"⏲️ Crawling root url {url[0]} -> Wait a minute!", fg=colors.MAGENTA)
             with spinner():
                 urls = get_urls_recursive(main_url=url[0])
-            domain = urlparse(next(iter(urls))).netloc
-            input_file = f"/tmp/ecoindex-cli/input/{domain}.csv"
-            logger_file = f"{domain}.log"
+            (
+                file_prefix,
+                input_file,
+                logger_file,
+            ) = get_file_prefix_input_file_logger_file(urls=urls)
 
         elif url:
             urls = get_url_from_args(urls_arg=url)
-            domain = urlparse(next(iter(urls))).netloc
-            input_file = f"/tmp/ecoindex-cli/input/{domain}.csv"
-            logger_file = f"{domain}.log"
+            (
+                file_prefix,
+                input_file,
+                logger_file,
+            ) = get_file_prefix_input_file_logger_file(urls=urls)
 
         elif urls_file:
             urls = get_urls_from_file(urls_file=urls_file)
-            file_name = urls_file.split("/")[-1]
-            logger_file = f"{file_name}.log"
+            (
+                file_prefix,
+                input_file,
+                logger_file,
+            ) = get_file_prefix_input_file_logger_file(urls=urls, urls_file=urls_file)
 
         else:
             secho("🔥 You must provide an url...", fg=colors.RED)
             raise Exit(code=1)
 
         if input_file:
-            write_urls_to_file(domain=domain, urls=urls)
+            write_urls_to_file(file_prefix=file_prefix, urls=urls)
             secho(f"📁️ Urls recorded in file `{input_file}`")
 
         if logger_file:
@@ -141,7 +146,7 @@ def analyze(
 
     time_now = datetime.now()
 
-    output_folder = f"/tmp/ecoindex-cli/output/{domain}/{time_now}"
+    output_folder = f"/tmp/ecoindex-cli/output/{file_prefix}/{time_now}"
     output_filename = f"{output_folder}/results.csv"
 
     if output_file:
@@ -155,7 +160,7 @@ def analyze(
         generate_report(
             results_file=output_filename,
             output_path=output_folder,
-            domain=domain,
+            file_prefix=file_prefix,
             date=time_now,
         )
         secho(
@@ -187,7 +192,7 @@ def report(
     generate_report(
         results_file=results_file,
         output_path=output_folder,
-        domain=domain,
+        file_prefix=domain,
         date=datetime.now(),
     )
     secho(f"🦄️ Amazing! A report has been generated to `{output_folder}/report.html`")
