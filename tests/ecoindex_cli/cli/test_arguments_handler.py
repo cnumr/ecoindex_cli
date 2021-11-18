@@ -1,5 +1,6 @@
 from ecoindex.models import WindowSize
 from ecoindex_cli.cli.arguments_handler import (
+    get_file_prefix_input_file_logger_file,
     get_url_from_args,
     get_window_sizes_from_args,
 )
@@ -36,3 +37,20 @@ def test_validate_invalid_window_size():
 
     with raises(ValidationError):
         get_window_sizes_from_args(("600",))
+
+
+def test_get_file_prefix_input_file_logger_file():
+    urls = ("http://test.com", "https://test.com", "https://www.dummy.com/page/")
+    assert get_file_prefix_input_file_logger_file(urls=urls) == (
+        "test.com",
+        "/tmp/ecoindex-cli/input/test.com.csv",
+        "test.com.log",
+    )
+
+    assert get_file_prefix_input_file_logger_file(
+        urls=urls, urls_file="/home/user/my_urls.csv"
+    ) == (
+        "my_urls.csv",
+        "/home/user/my_urls.csv",
+        "my_urls.csv.log",
+    )

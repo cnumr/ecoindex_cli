@@ -10,12 +10,14 @@ from click.exceptions import Exit
 from click_spinner import spinner
 from ecoindex.scrap import get_page_analysis
 from ecoindex_cli.cli.arguments_handler import (
+    get_file_prefix_input_file_logger_file,
     get_url_from_args,
     get_urls_from_file,
     get_urls_recursive,
     get_window_sizes_from_args,
 )
 from ecoindex_cli.files import write_results_to_file, write_urls_to_file
+from ecoindex_cli.logger import Logger
 from ecoindex_cli.report.report import generate_report
 from pydantic.error_wrappers import ValidationError
 from typer import Argument, Option, colors, confirm, progressbar, secho
@@ -56,7 +58,6 @@ def analyze(
     Make an ecoindex analysis of given webpages or website. You
     can generate a csv files with the results or an html report
     """
-
     if recursive and not no_interaction:
         confirm(
             text="You are about to perform a recursive website scraping. This can take a long time. Are you sure to want to proceed?",
@@ -72,18 +73,38 @@ def analyze(
             secho(f"⏲️ Crawling root url {url[0]} -> Wait a minute!", fg=colors.MAGENTA)
             with spinner():
                 urls = get_urls_recursive(main_url=url[0])
+            (
+                file_prefix,
+                input_file,
+                logger_file,
+            ) = get_file_prefix_input_file_logger_file(urls=urls)
+
         elif url:
             urls = get_url_from_args(urls_arg=url)
+            (
+                file_prefix,
+                input_file,
+                logger_file,
+            ) = get_file_prefix_input_file_logger_file(urls=urls)
+
         elif urls_file:
             urls = get_urls_from_file(urls_file=urls_file)
+            (
+                file_prefix,
+                input_file,
+                logger_file,
+            ) = get_file_prefix_input_file_logger_file(urls=urls, urls_file=urls_file)
 
         else:
             secho("🔥 You must provide an url...", fg=colors.RED)
             raise Exit(code=1)
 
-        domain = urlparse(next(iter(urls))).netloc
-        write_urls_to_file(domain=domain, urls=urls)
-        secho(f"📁️ Urls recorded in file `/tmp/ecoindex-cli/input/{domain}.csv`")
+        if input_file:
+            write_urls_to_file(file_prefix=file_prefix, urls=urls)
+            secho(f"📁️ Urls recorded in file `{input_file}`")
+
+        if logger_file:
+            log = Logger(filename=logger_file)
 
     except (ValidationError) as e:
         secho(str(e), fg=colors.RED)
@@ -102,17 +123,30 @@ def analyze(
         length=len(urls) * len(window_sizes),
         label="Processing",
     ) as progress:
+        error_found = False
         for url in urls:
             for w_s in window_sizes:
                 if url:
-                    results.append(
-                        asyncio.run(get_page_analysis(url=url.strip(), window_size=w_s))
-                    )
+                    try:
+                        results.append(
+                            asyncio.run(
+                                get_page_analysis(url=url.strip(), window_size=w_s)
+                            )
+                        )
+                    except Exception as e:
+                        error_found = True
+                        log.error(" -- " + url + " -- " + e.msg)
                 progress.update(1)
+
+        if error_found:
+            secho(
+                f"\nErrors found: please look at {log.path}/{log.file_name})",
+                fg=colors.RED,
+            )
 
     time_now = datetime.now()
 
-    output_folder = f"/tmp/ecoindex-cli/output/{domain}/{time_now}"
+    output_folder = f"/tmp/ecoindex-cli/output/{file_prefix}/{time_now}"
     output_filename = f"{output_folder}/results.csv"
 
     if output_file:
@@ -126,7 +160,7 @@ def analyze(
         generate_report(
             results_file=output_filename,
             output_path=output_folder,
-            domain=domain,
+            file_prefix=file_prefix,
             date=time_now,
         )
         secho(
@@ -158,7 +192,7 @@ def report(
     generate_report(
         results_file=results_file,
         output_path=output_folder,
-        domain=domain,
+        file_prefix=domain,
         date=datetime.now(),
     )
     secho(f"🦄️ Amazing! A report has been generated to `{output_folder}/report.html`")

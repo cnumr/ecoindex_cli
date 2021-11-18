@@ -1,5 +1,5 @@
 from tempfile import NamedTemporaryFile
-from typing import List, Set, Tuple
+from typing import List, Optional, Set, Tuple
 from urllib.parse import urlparse
 
 from click.exceptions import BadParameter
@@ -81,3 +81,23 @@ def get_window_sizes_from_args(window_sizes: List[str]) -> List[WindowSize]:
         raise ValidationError(errors=errors, model=WindowSize)
 
     return result
+
+
+def get_file_prefix_input_file_logger_file(
+    urls: List[HttpUrl], urls_file: Optional[str] = None
+) -> Tuple[str, str, str]:
+    """
+    Returns file prefix, input file and logger file based on provided urls
+    and provider method: If this is based on an existing csv file, we take
+    the name of the file, else, we take the first provided url's domain
+    """
+    if urls_file:
+        file_prefix = urls_file.split("/")[-1]
+        input_file = urls_file
+        logger_file = f"{file_prefix}.log"
+    else:
+        file_prefix = urlparse(next(iter(urls))).netloc
+        input_file = f"/tmp/ecoindex-cli/input/{file_prefix}.csv"
+        logger_file = f"{file_prefix}.log"
+
+    return (file_prefix, input_file, logger_file)

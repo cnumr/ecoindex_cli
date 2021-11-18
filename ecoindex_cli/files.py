@@ -22,9 +22,11 @@ def write_results_to_file(filename: str, results: List[Result]) -> None:
             writer.writerow(ecoindex.__dict__)
 
 
-def write_urls_to_file(domain: str, urls: List[str]) -> None:
+def write_urls_to_file(file_prefix: str, urls: List[str]) -> None:
     tmp_input_folder = "/tmp/ecoindex-cli/input"
     create_folder(tmp_input_folder)
-    with open(file=f"{tmp_input_folder}/{domain}.csv", mode="w") as input_urls_file:
+    with open(
+        file=f"{tmp_input_folder}/{file_prefix}.csv", mode="w"
+    ) as input_urls_file:
         for url in urls:
             input_urls_file.write(f"{url.strip()}\n")
