@@ -3,7 +3,6 @@ from datetime import datetime
 from os.path import dirname
 from pathlib import Path
 from typing import List, Optional
-from urllib.parse import urlparse
 from webbrowser import open as open_webbrowser
 
 from click.exceptions import Exit
@@ -19,10 +18,12 @@ from ecoindex_cli.cli.arguments_handler import (
 from ecoindex_cli.files import write_results_to_file, write_urls_to_file
 from ecoindex_cli.logger import Logger
 from ecoindex_cli.report.report import generate_report
+from nest_asyncio import apply as nest_asyncio_apply
 from pydantic.error_wrappers import ValidationError
 from typer import Argument, Option, colors, confirm, progressbar, secho
 from typer.main import Typer
 
+nest_asyncio_apply()
 app = Typer(help="Ecoindex cli to make analysis of webpages")
 
 
@@ -120,8 +121,7 @@ def analyze(
     results = []
     secho(f"{len(urls)} urls for {len(window_sizes)} window size", fg=colors.GREEN)
     with progressbar(
-        length=len(urls) * len(window_sizes),
-        label="Processing",
+        length=len(urls) * len(window_sizes), label="Processing", show_pos=True
     ) as progress:
         error_found = False
         for url in urls:
