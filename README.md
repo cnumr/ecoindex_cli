@@ -17,7 +17,7 @@ The output is always a CSV file with the results of the analysis.
 
 ## Requirements
 
-- Python ^3.8
+- Python ^3.10
 - [pip](https://pip.pypa.io/en/stable/)
 
 ## Setup
