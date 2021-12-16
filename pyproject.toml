@@ -24,7 +24,6 @@ matplotlib = "^3.4.3"
 click-spinner = "^0.1.10"
 pydantic = "^1.8.2"
 Scrapy = "^2.5.0"
-nest-asyncio = "^1.5.4"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2"
