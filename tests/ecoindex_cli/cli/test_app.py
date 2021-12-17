@@ -1,4 +1,4 @@
-from os import getcwd, remove
+from os import remove
 
 from ecoindex_cli.cli.app import app
 from typer.testing import CliRunner
