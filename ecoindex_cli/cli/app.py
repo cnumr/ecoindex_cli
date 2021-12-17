@@ -3,7 +3,6 @@ from datetime import datetime
 from os.path import dirname
 from pathlib import Path
 from typing import List, Optional
-from urllib.parse import urlparse
 from webbrowser import open as open_webbrowser
 
 from click.exceptions import Exit
