@@ -27,7 +27,7 @@ Scrapy = "^2.5.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2"
-black = {version = "^21.12b0", allow-prereleases = true}
+black = {version = "^22.1", allow-prereleases = true}
 pytest-cov = "^3.0.0"
 
 [build-system]
