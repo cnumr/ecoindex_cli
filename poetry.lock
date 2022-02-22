@@ -184,7 +184,7 @@ python-versions = ">=3.6"
 
 [[package]]
 name = "ecoindex"
-version = "2.9.0"
+version = "2.10.0"
 description = "Ecoindex module provides a simple way to measure the Ecoindex score based on the 3 parameters: The DOM elements of the page, the size of the page and the number of external requests of the page"
 category = "main"
 optional = false
@@ -1236,8 +1236,8 @@ cycler = [
     {file = "cycler-0.11.0.tar.gz", hash = "sha256:9c87405839a19696e837b3b818fed3f5f69f16f1eec1a1ad77e043dcea9c772f"},
 ]
 ecoindex = [
-    {file = "ecoindex-2.9.0-py3-none-any.whl", hash = "sha256:ca375408f91c9d20e1cdc118098e4086e16cd13467f90c85931579e4bd190d1d"},
-    {file = "ecoindex-2.9.0.tar.gz", hash = "sha256:617f54f1207208af5e79725b3b7f7ec9ae52221dabee418cbe5ef1175f9fdcde"},
+    {file = "ecoindex-2.10.0-py3-none-any.whl", hash = "sha256:30c1ad263e7ee1283c8c0dc0396567506c9bbe67017f07ab6f50c0a39d876a40"},
+    {file = "ecoindex-2.10.0.tar.gz", hash = "sha256:851c672e2104a9f2042fe2ffb57714bd538fafa0db74a818d727be740eba7ed7"},
 ]
 fonttools = [
     {file = "fonttools-4.28.5-py3-none-any.whl", hash = "sha256:edf251d5d2cc0580d5f72de4621c338d8c66c5f61abb50cf486640f73c8194d5"},
