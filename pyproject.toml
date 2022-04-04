@@ -2,7 +2,7 @@
 name = "ecoindex-cli"
 version = "v2.6.0"
 description = "`ecoindex-cli` is a CLI tool that let you make ecoindex tests on given pages"
-authors = ["Vincent Vatelot <vincent.vatelot@gmail.com>"]
+authors = ["Vincent Vatelot <vincent.vatelot@ik.me>"]
 license = "MIT"
 readme = "README.md"
 homepage = "http://www.ecoindex.fr"
