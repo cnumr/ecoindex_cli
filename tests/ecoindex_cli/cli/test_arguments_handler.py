@@ -2,6 +2,7 @@ from ecoindex.models import WindowSize
 from ecoindex_cli.cli.arguments_handler import (
     get_file_prefix_input_file_logger_file,
     get_url_from_args,
+    get_urls_from_file,
     get_window_sizes_from_args,
 )
 from pydantic import ValidationError
@@ -54,3 +55,15 @@ def test_get_file_prefix_input_file_logger_file():
         "/home/user/my_urls.csv",
         "my_urls.csv.log",
     )
+
+
+def test_read_file_with_empty_lines():
+    urls = ("http://test.com", "https://test.com", "https://www.dummy.com/page/", "")
+    with open(file="/tmp/ecoindex-cli/input/test.com.csv", mode="w") as f:
+        f.write("\n".join(urls))
+
+    validated_urls = get_urls_from_file(
+        urls_file="/tmp/ecoindex-cli/input/test.com.csv"
+    )
+    assert len(validated_urls) == 3
+    assert "" not in validated_urls

@@ -24,7 +24,9 @@ def get_urls_from_file(urls_file: FilePath) -> List[HttpUrl]:
 
         for url in fp.readlines():
             url = url.strip()
-            urls_from_file.add(url)
+
+            if url:
+                urls_from_file.add(url)
 
     if validate_list_of_urls(urls_from_file):
         return urls_from_file

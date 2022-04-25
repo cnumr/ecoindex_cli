@@ -22,16 +22,20 @@ The output is always a CSV file with the results of the analysis.
 
 ## Setup
 
-```Bash
-➜ pip install --user -U ecoindex-cli
+```bash
+pip install --user -U ecoindex-cli
 ```
 
 ## Use case
 
 The cli gets 2 commands: `analyze` and `report` which can be used separately:
 
-```Bash
-➜ ecoindex-cli --help                                Usage: ecoindex-cli [OPTIONS] COMMAND [ARGS]...
+```bash
+ecoindex-cli --help                                
+```
+
+```bash
+Usage: ecoindex-cli [OPTIONS] COMMAND [ARGS]...
 
   Ecoindex cli to make analysis of webpages
 
@@ -53,13 +57,20 @@ Commands:
 
 You give just one web url
 
-```Bash
-➜ ecoindex-cli analyze --url http://www.ecoindex.fr
+```bash
+ecoindex-cli analyze --url http://www.ecoindex.fr
+```
+
+<details><summary>Result</summary>
+
+```bash
 There are 1 url(s), do you want to process? [Y/n]:
 1 urls for 1 window size
 Processing  [####################################]  100%
 🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-20 16:44:33.468755/results.csv written !
 ```
+
+</details>
 
 > This makes an analysis with a screen resolution of 1920x1080px by default
 
@@ -67,8 +78,13 @@ Processing  [####################################]  100%
 
 You can define the csv output file
 
-```Bash
-➜ ecoindex-cli analyze --url http://www.ecoindex.fr --output-file ~/ecoindex-results/ecoindex.csv
+```bash
+ecoindex-cli analyze --url http://www.ecoindex.fr --output-file ~/ecoindex-results/ecoindex.csv
+```
+
+<details><summary>Result</summary>
+
+```bash
 📁️ Urls recorded in file `input/www.ecoindex.fr.csv`
 There are 1 url(s), do you want to process? [Y/n]:
 1 urls for 1 window size
@@ -76,34 +92,55 @@ Processing  [####################################]  100%
 🙌️ File /home/vvatelot/ecoindex-results/ecoindex.csv written !
 ```
 
+</details>
+
 ### Multiple url analysis
 
-```Bash
-➜ ecoindex-cli analyze --url http://www.ecoindex.fr --url https://www.greenit.fr/
+```bash
+ecoindex-cli analyze --url http://www.ecoindex.fr --url https://www.greenit.fr/
+```
+
+<details><summary>Result</summary>
+
+```bash
 There are 2 url(s), do you want to process? [Y/n]:
 2 urls for 1 window size
 Processing  [####################################]  100%
 🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-20 16:45:24.458052/results.csv written !
 ```
+
+</details>
 
 ### Provide urls from a file
 
 You can use a file with given urls that you want to analyze: One url per line. This is helpful if you want to play the same scenario recurrently.
 
-```Bash
-➜ ecoindex-cli analyze --urls-file input/ecoindex.csv
+```bash
+ecoindex-cli analyze --urls-file input/ecoindex.csv
+```
+
+<details><summary>Result</summary>
+
+```bash
 There are 2 url(s), do you want to process? [Y/n]:
 2 urls for 1 window size
 Processing  [####################################]  100%
 🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-20 16:45:24.458052/results.csv written !
 ```
 
+</details>
+
 ### Make a recursive analysis
 
 You can make a recursive analysis of a given webiste. This means that the app will try to find out all the pages into your website and launch an analysis on all those web pages. ⚠️ This can process for a very long time! **Use it at your own risks!**
 
-```Bash
-➜ ecoindex-cli analyze --url http://www.ecoindex.fr --recursive
+```bash
+ecoindex-cli analyze --url http://www.ecoindex.fr --recursive
+```
+
+<details><summary>Result</summary>
+
+```bash
 ⏲️ Crawling root url http://www.ecoindex.fr -> Wait a minute !
 📁️ Urls recorded in file `/tmp/ecoindex-cli/input/www.ecoindex.fr.csv`
 There are 3 url(s), do you want to process? [Y/n]:
@@ -112,12 +149,19 @@ Processing  [####################################]  100%
 🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-20 16:47:29.072472/results.csv written !
 ```
 
+</details>
+
 ### Disable console interaction
 
 You can disable confirmations, and force the app to answer yes to all of them. It can be useful if you need to start the app from another script, or if you have no time to wait it to finish.
 
-```Bash
-➜ ecoindex-cli analyze --url http://www.ecoindex.fr --recursive --no-interaction
+```bash
+ecoindex-cli analyze --url http://www.ecoindex.fr --recursive --no-interaction
+```
+
+<details><summary>Result</summary>
+
+```bash
 ⏲️ Crawling root url http://www.ecoindex.fr -> Wait a minute !
 📁️ Urls recorded in file `/tmp/ecoindex-cli/input/www.ecoindex.fr.csv`
 3 urls for 1 window size
@@ -125,24 +169,38 @@ Processing  [####################################]  100%
 🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-11-04 08:19:13.410571/results.csv written !
 ```
 
+</details>
+
 ### Set other screen resolutions
 
 You can provide other screen resolutions. By default, the screen resolution is `1920x1080px` but you can provide other resolution for example if you want to test ecoindex for mobile.
 
-```Bash
-➜ ecoindex-cli analyze --url http://www.ecoindex.fr --window-size 1920,1080 --window-size 386,540
+```bash
+ecoindex-cli analyze --url http://www.ecoindex.fr --window-size 1920,1080 --window-size 386,540
+```
+
+<details><summary>Result</summary>
+
+```bash
 There are 1 url(s), do you want to process? [Y/n]:
 1 urls for 2 window size
 Processing  [####################################]  100%
 🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-21 21:22:44.309077/results.csv written !
 ```
 
+</details>
+
 ### Generate a html report
 
 You can generate a html report easily at the end of the analysis. You just have to add the option `--html-report`.
 
-```Bash
-➜ ecoindex-cli analyze --url http://www.ecoindex.fr --recursive --html-report
+```bash
+ecoindex-cli analyze --url http://www.ecoindex.fr --recursive --html-report
+```
+
+<details><summary>Result</summary>
+
+```bash
 ⏲️ Crawling root url http://www.ecoindex.fr -> Wait a minute !
 📁️ Urls recorded in file `input/www.ecoindex.fr.csv`
 There are 3 url(s), do you want to process? [Y/n]:
@@ -152,6 +210,8 @@ Processing  [####################################]  100%
 🦄️ Amazing! A report has been generated to `/tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-21 21:21:27.629691/report.html`
 ```
 
+</details>
+
 Here is a sample result:
 ![Sample report](doc/report.png)
 
@@ -159,10 +219,18 @@ Here is a sample result:
 
 If you already performed an anlayzis and (for example), forgot to generate the html report, you do not need to re-run a full analyzis, you can simply request a report from your result file :
 
-```Bash
-➜ ecoindex-cli report "/tmp/ecoindex-cli/output/www.ecoindex.fr/2021-05-06 19:13:55.735935/results.csv" "www.synchrone.fr"
+```bash
+ecoindex-cli report "/tmp/ecoindex-cli/output/www.ecoindex.fr/2021-05-06 19:13:55.735935/results.csv" "www.synchrone.fr"
+```
+
+<details><summary>Result</summary>
+
+```bash
 🦄️ Amazing! A report has been generated to `/tmp/ecoindex-cli/output/www.ecoindex.fr/2021-05-06 19:13:55.735935/report.html`
 ```
+
+</details>
+
 
 ## Results example
 
@@ -193,13 +261,13 @@ Where:
 In order to develop or test, you have to use [Poetry](https://python-poetry.org/), install the dependencies and execute a poetry shell:
 
 ```bash
-poetry install
+poetry install && \
 poetry shell
 ```
 
 We use Pytest to run unit tests for this project. The test suite are in the `tests` folder. Just execute :
 
-```Bash
+```bash
 pytest --cov-report term-missing:skip-covered --cov=. --cov-config=.coveragerc tests
 ```
 
