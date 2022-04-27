@@ -145,7 +145,9 @@ def analyze(
 
     time_now = datetime.now()
 
-    output_folder = f"/tmp/ecoindex-cli/output/{file_prefix}/{time_now}"
+    output_folder = (
+        f"/tmp/ecoindex-cli/output/{file_prefix}/{time_now.strftime('%Y-%d-%m_%H%M%S')}"
+    )
     output_filename = f"{output_folder}/results.csv"
 
     if output_file:
