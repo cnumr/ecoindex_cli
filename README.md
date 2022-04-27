@@ -67,7 +67,7 @@ ecoindex-cli analyze --url http://www.ecoindex.fr
 There are 1 url(s), do you want to process? [Y/n]:
 1 urls for 1 window size
 Processing  [####################################]  100%
-🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-20 16:44:33.468755/results.csv written !
+🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-20_164433/results.csv written !
 ```
 
 </details>
@@ -106,7 +106,7 @@ ecoindex-cli analyze --url http://www.ecoindex.fr --url https://www.greenit.fr/
 There are 2 url(s), do you want to process? [Y/n]:
 2 urls for 1 window size
 Processing  [####################################]  100%
-🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-20 16:45:24.458052/results.csv written !
+🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-20_164524/results.csv written !
 ```
 
 </details>
@@ -125,7 +125,7 @@ ecoindex-cli analyze --urls-file input/ecoindex.csv
 There are 2 url(s), do you want to process? [Y/n]:
 2 urls for 1 window size
 Processing  [####################################]  100%
-🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-20 16:45:24.458052/results.csv written !
+🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-20_164524/results.csv written !
 ```
 
 </details>
@@ -146,7 +146,7 @@ ecoindex-cli analyze --url http://www.ecoindex.fr --recursive
 There are 3 url(s), do you want to process? [Y/n]:
 3 urls for 1 window size
 Processing  [####################################]  100%
-🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-20 16:47:29.072472/results.csv written !
+🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-20_164729/results.csv written !
 ```
 
 </details>
@@ -166,7 +166,7 @@ ecoindex-cli analyze --url http://www.ecoindex.fr --recursive --no-interaction
 📁️ Urls recorded in file `/tmp/ecoindex-cli/input/www.ecoindex.fr.csv`
 3 urls for 1 window size
 Processing  [####################################]  100%
-🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-11-04 08:19:13.410571/results.csv written !
+🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-11-04_081913/results.csv written !
 ```
 
 </details>
@@ -185,7 +185,7 @@ ecoindex-cli analyze --url http://www.ecoindex.fr --window-size 1920,1080 --wind
 There are 1 url(s), do you want to process? [Y/n]:
 1 urls for 2 window size
 Processing  [####################################]  100%
-🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-21 21:22:44.309077/results.csv written !
+🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-21_212244/results.csv written !
 ```
 
 </details>
@@ -206,8 +206,8 @@ ecoindex-cli analyze --url http://www.ecoindex.fr --recursive --html-report
 There are 3 url(s), do you want to process? [Y/n]:
 3 urls for 1 window size
 Processing  [####################################]  100%
-🙌️ File output/www.ecoindex.fr/2021-04-21 21:21:27.629691/results.csv written !
-🦄️ Amazing! A report has been generated to `/tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-21 21:21:27.629691/report.html`
+🙌️ File output/www.ecoindex.fr/2021-04-21_212127/results.csv written !
+🦄️ Amazing! A report has been generated to `/tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-21_212127/report.html`
 ```
 
 </details>
@@ -220,13 +220,13 @@ Here is a sample result:
 If you already performed an anlayzis and (for example), forgot to generate the html report, you do not need to re-run a full analyzis, you can simply request a report from your result file :
 
 ```bash
-ecoindex-cli report "/tmp/ecoindex-cli/output/www.ecoindex.fr/2021-05-06 19:13:55.735935/results.csv" "www.synchrone.fr"
+ecoindex-cli report "/tmp/ecoindex-cli/output/www.ecoindex.fr/2021-05-06_191355/results.csv" "www.synchrone.fr"
 ```
 
 <details><summary>Result</summary>
 
 ```bash
-🦄️ Amazing! A report has been generated to `/tmp/ecoindex-cli/output/www.ecoindex.fr/2021-05-06 19:13:55.735935/report.html`
+🦄️ Amazing! A report has been generated to `/tmp/ecoindex-cli/output/www.ecoindex.fr/2021-05-06_191355/report.html`
 ```
 
 </details>
