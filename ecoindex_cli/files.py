@@ -3,7 +3,7 @@ from os import makedirs
 from os.path import exists
 from typing import List
 
-from ecoindex.models import Result
+from ecoindex_scraper.models import Result
 
 
 def create_folder(path: str) -> None:
