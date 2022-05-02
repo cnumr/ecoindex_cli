@@ -1,10 +1,10 @@
-from ecoindex.models import WindowSize
 from ecoindex_cli.cli.arguments_handler import (
     get_file_prefix_input_file_logger_file,
     get_url_from_args,
     get_urls_from_file,
     get_window_sizes_from_args,
 )
+from ecoindex_scraper.models import WindowSize
 from pydantic import ValidationError
 from pytest import raises
 
