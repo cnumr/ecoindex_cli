@@ -72,7 +72,7 @@ Processing  [####################################]  100%
 
 </details>
 
-> This makes an analysis with a screen resolution of 1920x1080px by default and uses maximum 5 threads
+> This makes an analysis with a screen resolution of 1920x1080px by default
 
 ### Set the output file
 
