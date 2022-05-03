@@ -61,6 +61,7 @@ def analyze(
     export_format: Optional[ExportFormat] = Option(
         default=ExportFormat.csv.value,
         help="You can export the results in json or csv. Default is csv",
+        case_sensitive=False,
     ),
 ):
     """
