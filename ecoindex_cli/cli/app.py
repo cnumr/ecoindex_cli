@@ -59,9 +59,8 @@ def analyze(
         help="You can define the number of workers to use for the analysis. Default is the number of cpu cores",
     ),
     export_format: Optional[ExportFormat] = Option(
-        default=ExportFormat.csv,
+        default=ExportFormat.csv.value,
         help="You can export the results in json or csv. Default is csv",
-        case_sensitive=False,
     ),
 ):
     """
