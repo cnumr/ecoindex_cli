@@ -94,6 +94,26 @@ Processing  [####################################]  100%
 
 </details>
 
+### Export to JSON file
+
+By default, the results are exported to a CSV file. But, you can specify to export the results to a JSON file.
+
+```bash
+ecoindex-cli analyze --url http://www.ecoindex.fr --export-format json
+```
+
+<details><summary>Result</summary>
+
+```bash
+📁️ Urls recorded in file `input/www.ecoindex.fr.csv`
+There are 1 url(s), do you want to process? [Y/n]:
+1 urls for 1 window size with 2 maximum workers
+Processing  [####################################]  100%
+🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2022-03-05_215320/results.json written !
+```
+
+</details>
+
 ### Multiple url analysis
 
 ```bash
