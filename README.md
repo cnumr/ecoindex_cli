@@ -275,16 +275,56 @@ ecoindex-cli report "/tmp/ecoindex-cli/output/www.ecoindex.fr/2021-05-06_191355/
 
 ## Results example
 
-The result of the analysis is a CSV file which can be easily used for further analysis:
+The result of the analysis is a CSV or JSON file which can be easily used for further analysis:
+
+### CSV example
 
 ```csv
-size,nodes,requests,grade,score,ges,water,url,date,resolution,page_type
-119.095,45,8,A,89,1.22,1.83,http://www.ecoindex.fr,2021-04-20 16:45:28.570179,"1920,1080",
-769.252,730,94,D,41,2.18,3.27,https://www.greenit.fr/,2021-04-20 16:45:32.199242,"1920,1080",website
+width,height,url,size,nodes,requests,grade,score,ges,water,date,page_type
+1920,1080,http://www.ecoindex.fr,521.54,45,68,B,75.0,1.5,2.25,2022-05-03 22:28:49.280479,
+1920,1080,https://www.greenit.fr,1374.641,666,167,E,32.0,2.36,3.54,2022-05-03 22:28:51.176216,website
 ```
 
-Where:
+### JSON example
 
+```json
+[
+    {
+        "width": 1920,
+        "height": 1080,
+        "url": "http://www.ecoindex.fr",
+        "size": 521.54,
+        "nodes": 45,
+        "requests": 68,
+        "grade": "B",
+        "score": 75.0,
+        "ges": 1.5,
+        "water": 2.25,
+        "date": "2022-05-03 22:25:01.016749",
+        "page_type": null
+    },
+    {
+        "width": 1920,
+        "height": 1080,
+        "url": "https://www.greenit.fr",
+        "size": 1163.386,
+        "nodes": 666,
+        "requests": 148,
+        "grade": "E",
+        "score": 34.0,
+        "ges": 2.32,
+        "water": 3.48,
+        "date": "2022-05-03 22:25:04.516676",
+        "page_type": "website"
+    }
+]
+```
+
+### Fields description
+
+- `width` is the screen width used for the page analysis (in pixels)
+- `height` is the screen height used for the page analysis (in pixels)
+- `url` is the analysed page url
 - `size` is the size of the page and of the downloaded elements of the page in KB
 - `nodes` is the number of the DOM elements in the page
 - `requests` is the number of external requests made by the page
@@ -292,9 +332,7 @@ Where:
 - `score` is the corresponding ecoindex score of the page (0 to 100)
 - `ges` is the equivalent of greenhouse gases emission (in `gCO2e`) of the page
 - `water`is the equivalent water consumption (in `cl`) of the page
-- `url` is the analysed page url
 - `date` is the datetime of the page analysis
-- `resolution` is the screen resolution used for the page analysis (`width,height`)
 - `page_type` is the type of the page, based ton the [opengraph type tag](https://ogp.me/#types)
 
 ## Testing
