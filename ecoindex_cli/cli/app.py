@@ -1,5 +1,6 @@
-import asyncio
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
+from multiprocessing import cpu_count
 from os.path import dirname
 from pathlib import Path
 from typing import List, Optional
@@ -14,10 +15,10 @@ from ecoindex_cli.cli.arguments_handler import (
     get_urls_recursive,
     get_window_sizes_from_args,
 )
+from ecoindex_cli.cli.helper import run_page_analysis
 from ecoindex_cli.files import write_results_to_file, write_urls_to_file
 from ecoindex_cli.logger import Logger
 from ecoindex_cli.report.report import generate_report
-from ecoindex_scraper import get_page_analysis
 from pydantic.error_wrappers import ValidationError
 from typer import Argument, Option, colors, confirm, progressbar, secho
 from typer.main import Typer
@@ -51,6 +52,10 @@ def analyze(
     no_interaction: Optional[bool] = Option(
         default=False,
         help="Answer 'yes' to all questions",
+    ),
+    max_workers: Optional[int] = Option(
+        default=None,
+        help="You can define the number of workers to use for the analysis. Default is the number of cpu cores",
     ),
 ):
     """
@@ -116,25 +121,35 @@ def analyze(
             default=True,
         )
 
+    max_workers = max_workers if max_workers else cpu_count()
     results = []
-    secho(f"{len(urls)} urls for {len(window_sizes)} window size", fg=colors.GREEN)
+
+    secho(
+        f"{len(urls)} urls for {len(window_sizes)} window size with {max_workers} maximum workers",
+        fg=colors.GREEN,
+    )
+
     with progressbar(
         length=len(urls) * len(window_sizes),
         label="Processing",
     ) as progress:
         error_found = False
-        for url in urls:
-            for w_s in window_sizes:
-                if url:
-                    try:
-                        results.append(
-                            asyncio.run(
-                                get_page_analysis(url=url.strip(), window_size=w_s)
-                            )
-                        )
-                    except Exception as e:
-                        error_found = True
-                        log.error(" -- " + url + " -- " + e.msg)
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            future_to_analysis = {}
+
+            for url in urls:
+                for window_size in window_sizes:
+                    future_to_analysis[
+                        executor.submit(run_page_analysis, url, window_size)
+                    ] = (url, window_size)
+
+            for future in as_completed(future_to_analysis):
+                try:
+                    results.append(future.result())
+                except Exception as e:
+                    error_found = True
+                    log.error(" -- " + url + " -- " + e.msg)
+
                 progress.update(1)
 
         if error_found:

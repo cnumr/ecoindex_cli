@@ -3,7 +3,7 @@
 [![Quality check](https://github.com/cnumr/ecoindex_cli/workflows/Quality%20checks/badge.svg)](https://github.com/cnumr/ecoindex_cli/actions/workflows/quality.yml)
 [![PyPI version](https://badge.fury.io/py/ecoindex-cli.svg)](https://badge.fury.io/py/ecoindex-cli)
 
-This tool provides an easy way to analyze websites with [Ecoindex](http://www.ecoindex.fr) from your local computer. You have the ability to:
+This tool provides an easy way to analyze websites with [Ecoindex](http://www.ecoindex.fr) from your local computer using multi-threading. You have the ability to:
 
 - Make the analysis on multiple pages
 - Define multiple screen resolution
@@ -72,7 +72,7 @@ Processing  [####################################]  100%
 
 </details>
 
-> This makes an analysis with a screen resolution of 1920x1080px by default
+> This makes an analysis with a screen resolution of 1920x1080px by default and uses maximum 5 threads
 
 ### Set the output file
 
@@ -87,7 +87,7 @@ ecoindex-cli analyze --url http://www.ecoindex.fr --output-file ~/ecoindex-resul
 ```bash
 📁️ Urls recorded in file `input/www.ecoindex.fr.csv`
 There are 1 url(s), do you want to process? [Y/n]:
-1 urls for 1 window size
+1 urls for 1 window size with 2 maximum workers
 Processing  [####################################]  100%
 🙌️ File /home/vvatelot/ecoindex-results/ecoindex.csv written !
 ```
@@ -104,7 +104,7 @@ ecoindex-cli analyze --url http://www.ecoindex.fr --url https://www.greenit.fr/
 
 ```bash
 There are 2 url(s), do you want to process? [Y/n]:
-2 urls for 1 window size
+2 urls for 1 window size with 2 maximum workers
 Processing  [####################################]  100%
 🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-20_164524/results.csv written !
 ```
@@ -123,7 +123,7 @@ ecoindex-cli analyze --urls-file input/ecoindex.csv
 
 ```bash
 There are 2 url(s), do you want to process? [Y/n]:
-2 urls for 1 window size
+2 urls for 1 window size with 2 maximum workers
 Processing  [####################################]  100%
 🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-20_164524/results.csv written !
 ```
@@ -144,10 +144,31 @@ ecoindex-cli analyze --url http://www.ecoindex.fr --recursive
 ⏲️ Crawling root url http://www.ecoindex.fr -> Wait a minute !
 📁️ Urls recorded in file `/tmp/ecoindex-cli/input/www.ecoindex.fr.csv`
 There are 3 url(s), do you want to process? [Y/n]:
-3 urls for 1 window size
+3 urls for 1 window size with 2 maximum workers
 Processing  [####################################]  100%
 🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-20_164729/results.csv written !
 ```
+
+</details>
+
+### Using multi-threadging
+
+You can use multi-threading to speed up the analysis when you have a lot of websites to analyze. In this case, you can define the maximum number of workers to use:
+
+```bash
+ecoindex-cli analyze --url http://www.ecoindex.fr --url https://www.greenit.fr/ --max-workers 10
+```
+
+<details><summary>Result</summary>
+
+```bash
+There are 2 url(s), do you want to process? [Y/n]:
+2 urls for 1 window size with 10 maximum workers
+Processing  [####################################]  100%
+🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-20_164524/results.csv written !
+```
+
+> By default, the number of maximum workers is set to CPU count.
 
 </details>
 
@@ -164,7 +185,7 @@ ecoindex-cli analyze --url http://www.ecoindex.fr --recursive --no-interaction
 ```bash
 ⏲️ Crawling root url http://www.ecoindex.fr -> Wait a minute !
 📁️ Urls recorded in file `/tmp/ecoindex-cli/input/www.ecoindex.fr.csv`
-3 urls for 1 window size
+3 urls for 1 window size with 2 maximum workers
 Processing  [####################################]  100%
 🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-11-04_081913/results.csv written !
 ```
@@ -183,7 +204,7 @@ ecoindex-cli analyze --url http://www.ecoindex.fr --window-size 1920,1080 --wind
 
 ```bash
 There are 1 url(s), do you want to process? [Y/n]:
-1 urls for 2 window size
+1 urls for 2 window size with 2 maximum workers
 Processing  [####################################]  100%
 🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-21_212244/results.csv written !
 ```
@@ -204,7 +225,7 @@ ecoindex-cli analyze --url http://www.ecoindex.fr --recursive --html-report
 ⏲️ Crawling root url http://www.ecoindex.fr -> Wait a minute !
 📁️ Urls recorded in file `input/www.ecoindex.fr.csv`
 There are 3 url(s), do you want to process? [Y/n]:
-3 urls for 1 window size
+3 urls for 1 window size with 2 maximum workers
 Processing  [####################################]  100%
 🙌️ File output/www.ecoindex.fr/2021-04-21_212127/results.csv written !
 🦄️ Amazing! A report has been generated to `/tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-21_212127/report.html`
