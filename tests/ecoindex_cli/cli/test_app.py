@@ -91,3 +91,12 @@ def test_no_interaction():
     result = runner.invoke(app=app, args=["analyze", "--recursive", "--no-interaction"])
     assert "[Y/n]" not in result.stdout
     assert result.exit_code == 1
+
+
+def test_unauthorized_export_format():
+    result = runner.invoke(app=app, args=["analyze", "--export-format", "txt"])
+    assert result.exit_code == 2
+    assert (
+        "Error: Invalid value for '--export-format': 'txt' is not one of 'csv', 'json'."
+        in result.stdout
+    )

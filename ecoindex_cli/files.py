@@ -1,9 +1,13 @@
+from abc import ABC, abstractmethod
 from csv import DictWriter
+from json import dump
 from os import makedirs
 from os.path import exists
-from typing import List
+from typing import List, Optional
 
 from ecoindex_scraper.models import Result
+
+from ecoindex_cli.enums import ExportFormat
 
 
 def create_folder(path: str) -> None:
@@ -11,15 +15,57 @@ def create_folder(path: str) -> None:
         makedirs(path)
 
 
-def write_results_to_file(filename: str, results: List[Result]) -> None:
-    headers = results[0].__dict__
+class File(ABC):
+    def __init__(
+        self,
+        filename: str,
+        results: List[Result],
+        export_format: Optional[ExportFormat] = ExportFormat.csv,
+    ):
+        self.filename = filename
+        self.results = results
+        self.export_format = export_format
 
-    with open(filename, "w") as fp:
-        writer = DictWriter(fp, fieldnames=headers)
+    @abstractmethod
+    def write(self) -> None:
+        pass
 
-        writer.writeheader()
-        for ecoindex in results:
-            writer.writerow(ecoindex.__dict__)
+
+class CsvFile(File):
+    def write(self) -> None:
+        headers = self.results[0].__dict__
+
+        with open(self.filename, "w") as fp:
+            writer = DictWriter(fp, fieldnames=headers)
+
+            writer.writeheader()
+            for ecoindex in self.results:
+                writer.writerow(ecoindex.__dict__)
+
+
+class JsonFile(File):
+    def write(self) -> None:
+        with open(self.filename, "w") as fp:
+            dump(
+                obj=[ecoindex.__dict__ for ecoindex in self.results],
+                fp=fp,
+                indent=4,
+                default=str,
+            )
+
+
+def write_results_to_file(
+    filename: str,
+    results: List[Result],
+    export_format: Optional[ExportFormat] = ExportFormat.csv,
+) -> None:
+    print(export_format)
+    if export_format == ExportFormat.csv:
+        file = CsvFile(filename=filename, results=results, export_format=export_format)
+    elif export_format == ExportFormat.json:
+        file = JsonFile(filename=filename, results=results, export_format=export_format)
+
+    file.write()
 
 
 def write_urls_to_file(file_prefix: str, urls: List[str]) -> None:

@@ -16,6 +16,7 @@ from ecoindex_cli.cli.arguments_handler import (
     get_window_sizes_from_args,
 )
 from ecoindex_cli.cli.helper import run_page_analysis
+from ecoindex_cli.enums import ExportFormat
 from ecoindex_cli.files import write_results_to_file, write_urls_to_file
 from ecoindex_cli.logger import Logger
 from ecoindex_cli.report.report import generate_report
@@ -56,6 +57,11 @@ def analyze(
     max_workers: Optional[int] = Option(
         default=None,
         help="You can define the number of workers to use for the analysis. Default is the number of cpu cores",
+    ),
+    export_format: Optional[ExportFormat] = Option(
+        default=ExportFormat.csv.value,
+        help="You can export the results in json or csv. Default is csv",
+        case_sensitive=False,
     ),
 ):
     """
@@ -163,14 +169,16 @@ def analyze(
     output_folder = (
         f"/tmp/ecoindex-cli/output/{file_prefix}/{time_now.strftime('%Y-%d-%m_%H%M%S')}"
     )
-    output_filename = f"{output_folder}/results.csv"
+    output_filename = f"{output_folder}/results.{export_format.value}"
 
     if output_file:
         output_filename = output_file
         output_folder = dirname(output_filename)
 
     Path(output_folder).mkdir(parents=True, exist_ok=True)
-    write_results_to_file(filename=output_filename, results=results)
+    write_results_to_file(
+        filename=output_filename, results=results, export_format=export_format
+    )
     secho(f"🙌️ File {output_filename} written !", fg=colors.GREEN)
     if html_report:
         generate_report(
