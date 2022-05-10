@@ -129,5 +129,5 @@ def generate_report(
     }
     html_out = template.render(template_vars)
 
-    with open(f"{output_path}/report.html", "w") as f:
+    with open(f"{output_path}/index.html", "w") as f:
         f.write(html_out)
