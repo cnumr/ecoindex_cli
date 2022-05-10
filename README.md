@@ -248,8 +248,10 @@ There are 3 url(s), do you want to process? [Y/n]:
 3 urls for 1 window size with 2 maximum workers
 Processing  [####################################]  100%
 🙌️ File output/www.ecoindex.fr/2021-04-21_212127/results.csv written !
-🦄️ Amazing! A report has been generated to `/tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-21_212127/report.html`
+🦄️ Amazing! A report has been generated to /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-21_212127/index.html
 ```
+
+> When generating a html report, the results are written in a CSV file and you can not specify the result file location. So options `--export-format` and `--output-file` are ignored.
 
 </details>
 
@@ -267,7 +269,7 @@ ecoindex-cli report "/tmp/ecoindex-cli/output/www.ecoindex.fr/2021-05-06_191355/
 <details><summary>Result</summary>
 
 ```bash
-🦄️ Amazing! A report has been generated to `/tmp/ecoindex-cli/output/www.ecoindex.fr/2021-05-06_191355/report.html`
+🦄️ Amazing! A report has been generated to /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-05-06_191355/index.html
 ```
 
 </details>

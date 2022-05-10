@@ -48,7 +48,7 @@ def analyze(
     ),
     output_file: Optional[Path] = Option(
         default=None,
-        help="You can define an output file for the csv results",
+        help="You can define an output file for the csv results. If you generate an HTML report, this option is ignored",
     ),
     no_interaction: Optional[bool] = Option(
         default=False,
@@ -60,7 +60,7 @@ def analyze(
     ),
     export_format: Optional[ExportFormat] = Option(
         default=ExportFormat.csv.value,
-        help="You can export the results in json or csv. Default is csv",
+        help="You can export the results in json or csv. Default is csv. If you generate an HTML report, this option is ignored",
         case_sensitive=False,
     ),
 ):
@@ -171,9 +171,9 @@ def analyze(
     )
     output_filename = f"{output_folder}/results.{export_format.value}"
 
-    if output_file:
-        output_filename = output_file
-        output_folder = dirname(output_filename)
+    if output_file and not html_report:
+        output_filename = output_file.resolve()
+        output_folder = output_filename.parent
 
     Path(output_folder).mkdir(parents=True, exist_ok=True)
     write_results_to_file(
@@ -188,9 +188,9 @@ def analyze(
             date=time_now,
         )
         secho(
-            f"🦄️ Amazing! A report has been generated to `{output_folder}/report.html`"
+            f"🦄️ Amazing! A report has been generated to {output_folder}/index.html, fg=colors.GREEN"
         )
-        open_webbrowser(f"file://{output_folder}/report.html")
+        open_webbrowser(f"file://{output_folder}/index.html")
 
 
 @app.command()
@@ -219,8 +219,11 @@ def report(
         file_prefix=domain,
         date=datetime.now(),
     )
-    secho(f"🦄️ Amazing! A report has been generated to `{output_folder}/report.html`")
-    open_webbrowser(f"file:///{output_folder}/report.html")
+    secho(
+        f"🦄️ Amazing! A report has been generated to {output_folder}/index.html",
+        fg=colors.GREEN,
+    )
+    open_webbrowser(f"file:///{output_folder}/index.html")
 
 
 if __name__ == "__main__":
