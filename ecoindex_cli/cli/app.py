@@ -188,7 +188,8 @@ def analyze(
             date=time_now,
         )
         secho(
-            f"🦄️ Amazing! A report has been generated to {output_folder}/index.html, fg=colors.GREEN"
+            f"🦄️ Amazing! A report has been generated to {output_folder}/index.html",
+            fg=colors.GREEN,
         )
         open_webbrowser(f"file://{output_folder}/index.html")
 
