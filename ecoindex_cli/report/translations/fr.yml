@@ -1,0 +1,57 @@
+title: Analyse écoindex pour le site
+synthesis: Synthèse
+top10: Top 10
+indicators: Indicateurs
+all_data_title: Toutes les données
+download: Télécharger
+ecoindex_score: Le score ecoindex
+best_pages: Meilleures pages
+worst_pages: Moins bonnes pages
+number_of_requests: Nombre de requêtes
+pages_size: Taille des pages
+number_of_dom_nodes: Nombre d'éléments de la page
+
+ecoindex_body: |
+  <p>L'ecoindex est un indicateur développé par le <a href="https://collectif.greenit.fr/outils.html" target="_blank">collectif numérique responsable</a>. 
+  Il permet d'analyser une page html et d'en déduire une score en se basant sur trois critères physiques d'une page web.</p><br />
+  <p>Le calcul de l'ecoindex permet de déduire un indicateur normé (de A à G) permettant de décrire l'empreinte environnementale d'une page.</p><br />
+ecoindex_body_end_pre: Cette synthèse est basée sur l'analyse de
+ecoindex_body_end_mid: pages du site internet
+ecoindex_body_end_suf: <p>Plus d'infos sur <a href="http://www.ecoindex.fr/quest-ce-que-ecoindex/" target="_blank">Ecoindex.fr</a></p>
+
+requests_body: |
+  <strong>Le nombre de requêtes HTTP</strong> donne une bonne idée de la charge serveur. 
+  Pour le dire vite et de façon caricaturale, plus le nombre de requêtes est important pour une même page et plus il faudra de serveurs pour servir cette page.
+
+size_body: |
+  <strong>Le poids des données transférées (Ko)</strong> témoigne des efforts à faire pour transporter la page jusqu’au navigateur. 
+  Dans cette première version, nous considérons que la connexion est de type Wi-Fi via ADSL. 
+  Mais dans la prochaine version nous prendrons en compte différents types de connexions, notamment 4G. 
+  En effet, une connexion 4G nécessite jusqu’à 23 fois plus d’énergie pour transporter la même quantité de données qu’une connexion ADSL.
+
+nodes_body:
+  <strong>Le nombre d’éléments du DOM</strong> témoigne de la complexité du site et donc, a priori,
+  des efforts à faire par le navigateur pour afficher la page.
+  Plus le site est complexe et plus il faut de puissance (notamment CPU) pour l’afficher.
+  Et plus on contribue à raccourcir la durée de vie de l’ordinateur sur lequel il s’exécute.
+  A l’inverse, un site particulièrement simple et léger contribue à allonger la durée de vie de l’équipement car il nécessite peu de mémoire et un “petit” processeur.
+
+histograms:
+  grade:
+    title: Répartition écoindex
+    xlabel: Ecoindex
+    ylabel: Nombre de pages
+  size:
+    title: Répartition du poids des pages
+    xlabel: Poids des pages (Ko)
+    ylabel: Nombre de pages
+  nodes:
+    title: Répartition des éléments du DOM par page
+    xlabel: Nombre d'éléments du DOM
+    ylabel: Nombre de pages
+  requests:
+    title: Répartition des requêtes par page
+    xlabel: Nombre de requêtes
+    ylabel: Nombre de pages
+
+footer: <strong><a href="https://github.com/cnumr/ecoindex_cli">Ecoindex_cli</a></strong> par le <a href="https://github.com/cnumr">collectif Numérique Responsable</a>

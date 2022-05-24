@@ -1,5 +1,7 @@
 from pathlib import Path
 
+from ecoindex_cli.enums import Languages
+from ecoindex_cli.files import get_translations
 from jinja2 import Environment, FileSystemLoader
 from matplotlib import pyplot
 from pandas import read_csv
@@ -30,11 +32,12 @@ def create_histogram(
 def create_grade_chart(
     dataframe: DataFrame,
     output_path: str,
+    translations: dict,
 ) -> None:
     prepare_graph(
-        title="Répartition écoindex",
-        xlabel="Ecoindex",
-        ylabel="Nombre de pages",
+        title=translations["histograms"]["grade"]["title"],
+        xlabel=translations["histograms"]["grade"]["xlabel"],
+        ylabel=translations["histograms"]["grade"]["ylabel"],
     )
 
     dataframe_result = DataFrame(
@@ -63,39 +66,45 @@ def create_grade_chart(
 
 
 def generate_report(
-    results_file: str, output_path: str, file_prefix: str, date: str
+    results_file: str,
+    output_path: str,
+    file_prefix: str,
+    date: str,
+    language: Languages,
 ) -> None:
     df = read_csv(results_file)
     env = Environment(loader=FileSystemLoader(f"{Path(__file__).parent.absolute()}"))
     template = env.get_template("template.html")
+    translations = get_translations(language=language)
 
     create_histogram(
         dataframe=df,
         property="size",
-        title="Répartition du poids des pages",
-        xlabel="Poids des pages (Ko)",
-        ylabel="Nombre de pages",
+        title=translations["histograms"]["size"]["title"],
+        xlabel=translations["histograms"]["size"]["xlabel"],
+        ylabel=translations["histograms"]["size"]["ylabel"],
         output_path=output_path,
     )
     create_histogram(
         dataframe=df,
         property="nodes",
-        title="Répartition des éléments du DOM par page",
-        xlabel="Nombre d'éléments du DOM",
-        ylabel="Nombre de pages",
+        title=translations["histograms"]["nodes"]["title"],
+        xlabel=translations["histograms"]["nodes"]["xlabel"],
+        ylabel=translations["histograms"]["nodes"]["ylabel"],
         output_path=output_path,
     )
     create_histogram(
         dataframe=df,
         property="requests",
-        title="Répartition des requêtes par page",
-        xlabel="Nombre de requêtes",
-        ylabel="Nombre de pages",
+        title=translations["histograms"]["requests"]["title"],
+        xlabel=translations["histograms"]["requests"]["xlabel"],
+        ylabel=translations["histograms"]["requests"]["ylabel"],
         output_path=output_path,
     )
     create_grade_chart(
         dataframe=df,
         output_path=output_path,
+        translations=translations,
     )
 
     template_vars = {
@@ -127,7 +136,7 @@ def generate_report(
             ["url", "score", "size", "nodes", "requests"]
         ].to_html(classes="table is-hoverable is-fullwidth is-bordered"),
     }
-    html_out = template.render(template_vars)
+    html_out = template.render({**template_vars, **translations})
 
     with open(f"{output_path}/index.html", "w") as f:
         f.write(html_out)

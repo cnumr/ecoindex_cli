@@ -2,12 +2,13 @@ from abc import ABC, abstractmethod
 from csv import DictWriter
 from json import dump
 from os import makedirs
-from os.path import exists
-from typing import List, Optional
+from os.path import dirname, exists
+from typing import Dict, List, Optional
 
 from ecoindex_scraper.models import Result
+from yaml import safe_load as load_yaml
 
-from ecoindex_cli.enums import ExportFormat
+from ecoindex_cli.enums import ExportFormat, Languages
 
 
 def create_folder(path: str) -> None:
@@ -76,3 +77,9 @@ def write_urls_to_file(file_prefix: str, urls: List[str]) -> None:
     ) as input_urls_file:
         for url in urls:
             input_urls_file.write(f"{url.strip()}\n")
+
+
+def get_translations(language: Languages) -> Dict:
+    filename = f"{dirname(__file__)}/report/translations/{language.value}.yml"
+    with open(filename) as fp:
+        return load_yaml(fp)

@@ -24,6 +24,7 @@ click-spinner = "^0.1.10"
 pydantic = "^1.8.2"
 Scrapy = "^2.5.0"
 ecoindex-scraper = "^1.2.0"
+PyYAML = "^6.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1"
