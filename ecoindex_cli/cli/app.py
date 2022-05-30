@@ -213,6 +213,11 @@ def report(
         default=None,
         help="By default, we generate the report in the same folder of the results file, but you can provide another folder",
     ),
+    html_report_language: Optional[Languages] = Option(
+        default=Languages.en.value,
+        help="You can define the language of the html report. Default is english",
+        case_sensitive=False,
+    ),
 ):
     """
     If you already performed an ecoindex analysis and have your results,
@@ -225,6 +230,7 @@ def report(
         output_path=output_folder,
         file_prefix=domain,
         date=datetime.now(),
+        language=html_report_language,
     )
     secho(
         f"🦄️ Amazing! A report has been generated to {output_folder}/index.html",
