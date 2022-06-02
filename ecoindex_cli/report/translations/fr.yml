@@ -58,7 +58,7 @@ footer: <strong><a href="https://github.com/cnumr/ecoindex_cli">Ecoindex_cli</a>
 
 good_result: 😃 Très bon résultat !
 bad_result: 😞 Hum, on peut mieux faire...
-better_than: est mieux que
-worse_than: est moins bon que
-my_mean: Ma moyenne
-target_mean: Moyenne cible
+better_than: ", c'est mieux que"
+worse_than: ", c'est moins bien que"
+my_median: Ma valeur médiane
+target_median: Valeur médiane cible

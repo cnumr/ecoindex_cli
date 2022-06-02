@@ -43,15 +43,17 @@ class Report:
         property: str,
         target: int,
     ) -> None:
-        mean = round(self.dataframe[property].mean())
+        median = round(self.dataframe[property].median())
         self.prepare_graph(property=property)
         ax = self.dataframe[property].plot.hist(label="_nolegend_")
-        ax.axvline(mean, color="blue", label=f"{self.translations['my_mean']}: {mean}")
+        ax.axvline(
+            median, color="blue", label=f"{self.translations['my_median']}: {median}"
+        )
         ax.axvline(
             target,
             color="red",
             linestyle="--",
-            label=f"{self.translations['target_mean']}: {target}",
+            label=f"{self.translations['target_median']}: {target}",
         )
         pyplot.legend()
         fig = ax.get_figure()
@@ -85,14 +87,14 @@ class Report:
         fig.savefig(f"{self.output_path}/grade.svg")
 
     def get_property_comment(self, target: int, property: str) -> str:
-        if self.dataframe[property].mean() <= target:
+        if self.dataframe[property].median() <= target:
             return (
-                f"<span style='color:green'>{self.translations['good_result']} <b>{round(self.dataframe[property].mean(), 2)}</b> "
+                f"<span style='color:green'>{self.translations['good_result']} <b>{round(self.dataframe[property].median(), 2)}</b> "
                 f"{self.translations['better_than']} <b>{target}</b></span>"
             )
 
         return (
-            f"<span style='color:red'>{self.translations['bad_result']} <b>{round(self.dataframe[property].mean(), 2)}</b> "
+            f"<span style='color:red'>{self.translations['bad_result']} <b>{round(self.dataframe[property].median(), 2)}</b> "
             f"{self.translations['worse_than']} <b>{target}</b></span>"
         )
 
@@ -117,8 +119,8 @@ class Report:
             "summary": self.dataframe[
                 ["score", "size", "nodes", "requests", "ges", "water"]
             ]
-            .describe()
-            .loc[["mean", "min", "max"]]
+            .describe(percentiles=[0.5])
+            .loc[["median", "50%", "min", "max"]]
             .round(2)
             .to_html(classes="table is-hoverable is-fullwidth is-bordered"),
             "best": self.dataframe.nlargest(n=10, columns="score")[

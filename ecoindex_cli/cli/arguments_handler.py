@@ -28,8 +28,7 @@ def get_urls_from_file(urls_file: FilePath) -> List[HttpUrl]:
             if url:
                 urls_from_file.add(url)
 
-    if validate_list_of_urls(urls_from_file):
-        return urls_from_file
+    return validate_list_of_urls(urls_from_file)
 
 
 def get_urls_recursive(main_url: str) -> Tuple[str]:
@@ -49,8 +48,7 @@ def get_urls_recursive(main_url: str) -> Tuple[str]:
         temp_file.seek(0)
         urls = temp_file.readlines()
 
-    if validate_list_of_urls(urls):
-        return urls
+    return validate_list_of_urls(urls)
 
 
 @validate_arguments
