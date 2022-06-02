@@ -16,7 +16,7 @@ from ecoindex_cli.cli.arguments_handler import (
     get_window_sizes_from_args,
 )
 from ecoindex_cli.cli.helper import run_page_analysis
-from ecoindex_cli.enums import ExportFormat, Languages
+from ecoindex_cli.enums import ExportFormat, Language
 from ecoindex_cli.files import write_results_to_file, write_urls_to_file
 from ecoindex_cli.logger import Logger
 from ecoindex_cli.report.report import generate_report
@@ -63,8 +63,8 @@ def analyze(
         help="You can export the results in json or csv. Default is csv. If you generate an HTML report, this option is ignored",
         case_sensitive=False,
     ),
-    html_report_language: Optional[Languages] = Option(
-        default=Languages.en.value,
+    html_report_language: Optional[Language] = Option(
+        default=Language.en.value,
         help="You can define the language of the html report. Default is english",
         case_sensitive=False,
     ),
@@ -213,8 +213,8 @@ def report(
         default=None,
         help="By default, we generate the report in the same folder of the results file, but you can provide another folder",
     ),
-    html_report_language: Optional[Languages] = Option(
-        default=Languages.en.value,
+    html_report_language: Optional[Language] = Option(
+        default=Language.en.value,
         help="You can define the language of the html report. Default is english",
         case_sensitive=False,
     ),

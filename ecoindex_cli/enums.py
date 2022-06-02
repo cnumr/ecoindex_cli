@@ -6,7 +6,7 @@ class ExportFormat(Enum):
     json = "json"
 
 
-class Languages(Enum):
+class Language(Enum):
     fr = "fr"
     en = "en"
 

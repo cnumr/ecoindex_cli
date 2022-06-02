@@ -1,7 +1,6 @@
-from cProfile import label
 from pathlib import Path
 
-from ecoindex_cli.enums import Languages, Target
+from ecoindex_cli.enums import Language, Target
 from ecoindex_cli.files import get_translations
 from jinja2 import Environment, FileSystemLoader
 from matplotlib import pyplot
@@ -91,7 +90,7 @@ def generate_report(
     output_path: str,
     file_prefix: str,
     date: str,
-    language: Languages,
+    language: Language,
 ) -> None:
     df = read_csv(results_file)
     env = Environment(loader=FileSystemLoader(f"{Path(__file__).parent.absolute()}"))
