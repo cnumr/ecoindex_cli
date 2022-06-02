@@ -60,3 +60,5 @@ good_result: 😃 Your result is great!
 bad_result: 😞 You could do better on this...
 better_than: is better than the target
 worse_than: is worse than the target
+my_mean: My mean
+target_mean: Target mean

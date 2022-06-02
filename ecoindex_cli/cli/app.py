@@ -19,7 +19,7 @@ from ecoindex_cli.cli.helper import run_page_analysis
 from ecoindex_cli.enums import ExportFormat, Language
 from ecoindex_cli.files import write_results_to_file, write_urls_to_file
 from ecoindex_cli.logger import Logger
-from ecoindex_cli.report.report import generate_report
+from ecoindex_cli.report.report import Report
 from pydantic.error_wrappers import ValidationError
 from typer import Argument, Option, colors, confirm, progressbar, secho
 from typer.main import Typer
@@ -186,13 +186,14 @@ def analyze(
     )
     secho(f"🙌️ File {output_filename} written !", fg=colors.GREEN)
     if html_report:
-        generate_report(
+        Report(
             results_file=output_filename,
             output_path=output_folder,
-            file_prefix=file_prefix,
+            domain=file_prefix,
             date=time_now,
             language=html_report_language,
-        )
+        ).create_report()
+
         secho(
             f"🦄️ Amazing! A report has been generated to {output_folder}/index.html",
             fg=colors.GREEN,
@@ -225,13 +226,14 @@ def report(
     """
     output_folder = output_folder if output_folder else dirname(results_file)
 
-    generate_report(
+    Report(
         results_file=results_file,
         output_path=output_folder,
-        file_prefix=domain,
+        domain=domain,
         date=datetime.now(),
         language=html_report_language,
-    )
+    ).create_report()
+
     secho(
         f"🦄️ Amazing! A report has been generated to {output_folder}/index.html",
         fg=colors.GREEN,
