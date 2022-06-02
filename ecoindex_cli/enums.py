@@ -9,3 +9,9 @@ class ExportFormat(Enum):
 class Languages(Enum):
     fr = "fr"
     en = "en"
+
+
+class Target(Enum):
+    nodes = 878
+    requests = 54
+    size = 2131

@@ -1,6 +1,7 @@
+from cProfile import label
 from pathlib import Path
 
-from ecoindex_cli.enums import Languages
+from ecoindex_cli.enums import Languages, Target
 from ecoindex_cli.files import get_translations
 from jinja2 import Environment, FileSystemLoader
 from matplotlib import pyplot
@@ -22,9 +23,14 @@ def create_histogram(
     xlabel: str,
     ylabel: str,
     output_path: str,
+    target: int,
 ) -> None:
+    mean = round(dataframe[property].mean())
     prepare_graph(title=title, xlabel=xlabel, ylabel=ylabel)
-    ax = dataframe[property].plot.hist()
+    ax = dataframe[property].plot.hist(label="_nolegend_")
+    ax.axvline(mean, color="blue", label=f"My mean: {mean}")
+    ax.axvline(target, color="red", linestyle="--", label=f"Target mean: {target}")
+    pyplot.legend()
     fig = ax.get_figure()
     fig.savefig(f"{output_path}/{property}.svg")
 
@@ -65,6 +71,21 @@ def create_grade_chart(
     fig.savefig(f"{output_path}/grade.svg")
 
 
+def get_property_comment(
+    dataframe: DataFrame, target: int, translations: dict, property: str
+) -> str:
+    if dataframe[property].mean() <= target:
+        return (
+            f"<span style='color:green'>{translations['good_result']} <b>{round(dataframe[property].mean(), 2)}</b> "
+            f"{translations['better_than']} <b>{target}</b></span>"
+        )
+
+    return (
+        f"<span style='color:red'>{translations['bad_result']} <b>{round(dataframe[property].mean(), 2)}</b> "
+        f"{translations['worse_than']} <b>{target}</b></span>"
+    )
+
+
 def generate_report(
     results_file: str,
     output_path: str,
@@ -84,6 +105,7 @@ def generate_report(
         xlabel=translations["histograms"]["size"]["xlabel"],
         ylabel=translations["histograms"]["size"]["ylabel"],
         output_path=output_path,
+        target=Target.size.value,
     )
     create_histogram(
         dataframe=df,
@@ -92,6 +114,7 @@ def generate_report(
         xlabel=translations["histograms"]["nodes"]["xlabel"],
         ylabel=translations["histograms"]["nodes"]["ylabel"],
         output_path=output_path,
+        target=Target.nodes.value,
     )
     create_histogram(
         dataframe=df,
@@ -100,6 +123,7 @@ def generate_report(
         xlabel=translations["histograms"]["requests"]["xlabel"],
         ylabel=translations["histograms"]["requests"]["ylabel"],
         output_path=output_path,
+        target=Target.requests.value,
     )
     create_grade_chart(
         dataframe=df,
@@ -135,7 +159,26 @@ def generate_report(
         "worst": df.nsmallest(n=10, columns="score")[
             ["url", "score", "size", "nodes", "requests"]
         ].to_html(classes="table is-hoverable is-fullwidth is-bordered"),
+        "size_comment": get_property_comment(
+            dataframe=df,
+            target=Target.size.value,
+            translations=translations,
+            property="size",
+        ),
+        "nodes_comment": get_property_comment(
+            dataframe=df,
+            target=Target.nodes.value,
+            translations=translations,
+            property="nodes",
+        ),
+        "requests_comment": get_property_comment(
+            dataframe=df,
+            target=Target.requests.value,
+            translations=translations,
+            property="requests",
+        ),
     }
+
     html_out = template.render({**template_vars, **translations})
 
     with open(f"{output_path}/index.html", "w") as f:
