@@ -55,3 +55,10 @@ histograms:
     ylabel: Number of pages
 
 footer: <strong><a href="https://github.com/cnumr/ecoindex_cli">Ecoindex_cli</a></strong> By the <a href="https://github.com/cnumr">"collectif Numérique Responsable"</a>
+
+good_result: 😃 Your result is great!
+bad_result: 😞 You could do better on this...
+better_than: is better than the target
+worse_than: is worse than the target
+my_median: My median
+target_median: Target median
