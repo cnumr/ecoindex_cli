@@ -58,7 +58,8 @@ footer: <strong><a href="https://github.com/cnumr/ecoindex_cli">Ecoindex_cli</a>
 
 good_result: 😃 Your result is great!
 bad_result: 😞 You could do better on this...
-better_than: is better than the target
-worse_than: is worse than the target
+better_than: is better than
+worse_than: is worse than
 my_median: My median
 target_median: Target median
+global_median: Global median

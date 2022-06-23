@@ -1,7 +1,7 @@
 from datetime import datetime
 from pathlib import Path
 
-from ecoindex_cli.enums import Language, Target
+from ecoindex_cli.enums import GlobalMedian, Language, Target
 from ecoindex_cli.files import get_translations
 from jinja2 import Environment, FileSystemLoader
 from matplotlib import pyplot
@@ -26,9 +26,21 @@ class Report:
         self.translations = get_translations(language=language)
 
     def create_report(self) -> None:
-        self.create_histogram(property="requests", target=Target.requests.value)
-        self.create_histogram(property="size", target=Target.size.value)
-        self.create_histogram(property="nodes", target=Target.nodes.value)
+        self.create_histogram(
+            property="requests",
+            target=Target.requests.value,
+            global_median=GlobalMedian.requests.value,
+        )
+        self.create_histogram(
+            property="size",
+            target=Target.size.value,
+            global_median=GlobalMedian.size.value,
+        )
+        self.create_histogram(
+            property="nodes",
+            target=Target.nodes.value,
+            global_median=GlobalMedian.nodes.value,
+        )
         self.create_grade_chart()
         self.create_report_file()
 
@@ -42,6 +54,7 @@ class Report:
         self,
         property: str,
         target: int,
+        global_median: int,
     ) -> None:
         median = round(self.dataframe[property].median())
         self.prepare_graph(property=property)
@@ -50,10 +63,16 @@ class Report:
             median, color="blue", label=f"{self.translations['my_median']}: {median}"
         )
         ax.axvline(
-            target,
+            x=target,
             color="red",
-            linestyle="--",
+            linestyle=":",
             label=f"{self.translations['target_median']}: {target}",
+        )
+        ax.axvline(
+            x=global_median,
+            color="black",
+            linestyle=":",
+            label=f"{self.translations['global_median']}: {global_median}",
         )
         pyplot.legend()
         fig = ax.get_figure()
@@ -86,16 +105,16 @@ class Report:
         fig = ax.get_figure()
         fig.savefig(f"{self.output_path}/grade.svg")
 
-    def get_property_comment(self, target: int, property: str) -> str:
-        if self.dataframe[property].median() <= target:
+    def get_property_comment(self, global_median: int, property: str) -> str:
+        if self.dataframe[property].median() <= global_median:
             return (
                 f"<span style='color:green'>{self.translations['good_result']} <b>{round(self.dataframe[property].median(), 2)}</b> "
-                f"{self.translations['better_than']} <b>{target}</b></span>"
+                f"{self.translations['better_than']} <b>{global_median}</b></span>"
             )
 
         return (
             f"<span style='color:red'>{self.translations['bad_result']} <b>{round(self.dataframe[property].median(), 2)}</b> "
-            f"{self.translations['worse_than']} <b>{target}</b></span>"
+            f"{self.translations['worse_than']} <b>{global_median}</b></span>"
         )
 
     def create_report_file(self) -> None:
@@ -120,7 +139,7 @@ class Report:
                 ["score", "size", "nodes", "requests", "ges", "water"]
             ]
             .describe(percentiles=[0.5])
-            .loc[["median", "50%", "min", "max"]]
+            .loc[["mean", "50%", "min", "max"]]
             .round(2)
             .to_html(classes="table is-hoverable is-fullwidth is-bordered"),
             "best": self.dataframe.nlargest(n=10, columns="score")[
@@ -130,15 +149,15 @@ class Report:
                 ["url", "score", "size", "nodes", "requests"]
             ].to_html(classes="table is-hoverable is-fullwidth is-bordered"),
             "size_comment": self.get_property_comment(
-                target=Target.size.value,
+                global_median=GlobalMedian.size.value,
                 property="size",
             ),
             "nodes_comment": self.get_property_comment(
-                target=Target.nodes.value,
+                global_median=GlobalMedian.nodes.value,
                 property="nodes",
             ),
             "requests_comment": self.get_property_comment(
-                target=Target.requests.value,
+                global_median=GlobalMedian.requests.value,
                 property="requests",
             ),
         }
