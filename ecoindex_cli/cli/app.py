@@ -143,6 +143,8 @@ def analyze(
     with progressbar(
         length=len(urls) * len(window_sizes),
         label="Processing",
+        show_percent=True,
+        show_pos=True,
     ) as progress:
         error_found = False
         with ThreadPoolExecutor(max_workers=max_workers) as executor:
@@ -159,7 +161,7 @@ def analyze(
                     results.append(future.result())
                 except Exception as e:
                     error_found = True
-                    log.error(" -- " + url + " -- " + e.msg)
+                    log.error(f" -- {url} -- {e.msg if hasattr(e, 'msg') else e}")
 
                 progress.update(1)
 
