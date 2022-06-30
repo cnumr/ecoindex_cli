@@ -195,7 +195,7 @@ sqlmodel = ">=0.0.4,<0.0.7"
 
 [[package]]
 name = "ecoindex-scraper"
-version = "1.6.0"
+version = "1.6.1"
 description = "Ecoindex_scraper module provides a way to scrape data from given website while simulating a real web browser"
 category = "main"
 optional = false
@@ -1276,8 +1276,8 @@ ecoindex = [
     {file = "ecoindex-4.1.0.tar.gz", hash = "sha256:3d9aedcf74c95e4f62d9503b71909cf5e187e52fcab9713daa60d69ab66c49f8"},
 ]
 ecoindex-scraper = [
-    {file = "ecoindex_scraper-1.6.0-py3-none-any.whl", hash = "sha256:6301c4db7d0874b4e1dd2755ad4cbcef007184f10154f3f5bca8bcfcd16c0809"},
-    {file = "ecoindex_scraper-1.6.0.tar.gz", hash = "sha256:c95018ef106223258b716c146f8dbffdcc1e8b13ad2f27e741d1d23768062844"},
+    {file = "ecoindex_scraper-1.6.1-py3-none-any.whl", hash = "sha256:5954fbb85dbc8eaae346993f9111dc41293ddca0d4e849c86d96175c69ae4281"},
+    {file = "ecoindex_scraper-1.6.1.tar.gz", hash = "sha256:2b306b2717a6ca96bcabca799dd5c9d3962d7e975ff7bbe621643936a0f14b0a"},
 ]
 filelock = [
     {file = "filelock-3.7.1-py3-none-any.whl", hash = "sha256:37def7b658813cda163b56fc564cdc75e86d338246458c4c28ae84cabefa2404"},
