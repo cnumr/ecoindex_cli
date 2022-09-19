@@ -23,6 +23,12 @@
             "labels": [
                 "chore"
             ]
+        },
+        {
+            "title": "## ♻️ Refactor",
+            "labels": [
+                "refactor"
+            ]
         }
     ],
     "sort": "ASC",
