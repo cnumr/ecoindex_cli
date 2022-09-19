@@ -23,12 +23,12 @@ matplotlib = "^3.4.3"
 click-spinner = "^0.1.10"
 pydantic = "^1.8.2"
 Scrapy = "^2.5.0"
-ecoindex-scraper = "^1.6.0"
+ecoindex-scraper = ">=1.6,<3.0"
 PyYAML = "^6.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1"
-black = {version = "^22.3", allow-prereleases = true}
+black = {version = "^22.8", allow-prereleases = true}
 pytest-cov = "^3.0.0"
 
 [build-system]
