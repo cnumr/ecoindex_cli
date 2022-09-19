@@ -12,9 +12,9 @@ class Language(Enum):
 
 
 class Target(Enum):
-    nodes = 500
-    requests = 27
-    size = 900
+    nodes = 600
+    requests = 40
+    size = 1024
 
 
 class GlobalMedian(Enum):
