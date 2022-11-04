@@ -356,7 +356,7 @@ pytest --cov-report term-missing:skip-covered --cov=. --cov-config=.coveragerc t
 
 ## Disclaimer
 
-The LCA values used by [ecoindex](https://github.com/cnumr/ecoindex_python) to evaluate environmental impacts are not under free license - ©Frédéric Bordage
+The LCA values used by [ecoindex_cli](https://github.com/cnumr/ecoindex_cli) to evaluate environmental impacts are not under free license - ©Frédéric Bordage
 Please also refer to the mentions provided in the code files for specifics on the IP regime.
 
 ## [License](LICENSE)
