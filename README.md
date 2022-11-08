@@ -354,6 +354,13 @@ pytest --cov-report term-missing:skip-covered --cov=. --cov-config=.coveragerc t
 
 > This runs pytest and also generate a [coverage report](https://pytest-cov.readthedocs.io/en/latest/) (terminal and html)
 
+## Disclaimer
+
+The LCA values used by [ecoindex_cli](https://github.com/cnumr/ecoindex_cli) to evaluate environmental impacts are not under free license - ©Frédéric Bordage
+Please also refer to the mentions provided in the code files for specifics on the IP regime.
+
+## [License](LICENSE)
+
 ## [Contributing](CONTRIBUTING.md)
 
 ## [Code of conduct](CODE_OF_CONDUCT.md)
