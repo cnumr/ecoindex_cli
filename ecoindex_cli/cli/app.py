@@ -3,11 +3,15 @@ from datetime import datetime
 from multiprocessing import cpu_count
 from os.path import dirname
 from pathlib import Path
-from typing import List, Optional
+from typing import List
 from webbrowser import open as open_webbrowser
 
 from click.exceptions import Exit
 from click_spinner import spinner
+from pydantic.error_wrappers import ValidationError
+from typer import Argument, Option, colors, confirm, progressbar, secho
+from typer.main import Typer
+
 from ecoindex_cli.cli.arguments_handler import (
     get_file_prefix_input_file_logger_file,
     get_url_from_args,
@@ -20,53 +24,54 @@ from ecoindex_cli.enums import ExportFormat, Language
 from ecoindex_cli.files import write_results_to_file, write_urls_to_file
 from ecoindex_cli.logger import Logger
 from ecoindex_cli.report.report import Report
-from pydantic.error_wrappers import ValidationError
-from typer import Argument, Option, colors, confirm, progressbar, secho
-from typer.main import Typer
 
 app = Typer(help="Ecoindex cli to make analysis of webpages")
 
 
 @app.command()
 def analyze(
-    url: Optional[List[str]] = Option(default=None, help="List of urls to analyze"),
-    window_size: Optional[List[str]] = Option(
+    url: List[str] = Option(default=None, help="List of urls to analyze"),
+    window_size: List[str] = Option(
         default=["1920,1080"],
         help="You can set multiple window sizes to make ecoindex test. You have to use the format `width,height` in pixel",
     ),
-    recursive: Optional[bool] = Option(
+    recursive: bool = Option(
         default=False,
         help="You can make a recursive analysis of a website. In this case, just provide one root url. Be carreful with this option. Can take a loooong long time !",
     ),
-    urls_file: Optional[str] = Option(
+    urls_file: str = Option(
         default=None,
         help="If you want to analyze multiple urls, you can also set them in a file and provide the file name",
     ),
-    html_report: Optional[bool] = Option(
+    html_report: bool = Option(
         default=False,
         help="You can generate a html report of the analysis",
     ),
-    output_file: Optional[Path] = Option(
+    output_file: Path = Option(
         default=None,
         help="You can define an output file for the csv results. If you generate an HTML report, this option is ignored",
     ),
-    no_interaction: Optional[bool] = Option(
+    no_interaction: bool = Option(
         default=False,
         help="Answer 'yes' to all questions",
     ),
-    max_workers: Optional[int] = Option(
+    max_workers: int = Option(
         default=None,
         help="You can define the number of workers to use for the analysis. Default is the number of cpu cores",
     ),
-    export_format: Optional[ExportFormat] = Option(
+    export_format: ExportFormat = Option(
         default=ExportFormat.csv.value,
         help="You can export the results in json or csv. Default is csv. If you generate an HTML report, this option is ignored",
         case_sensitive=False,
     ),
-    html_report_language: Optional[Language] = Option(
+    html_report_language: Language = Option(
         default=Language.en.value,
         help="You can define the language of the html report. Default is english",
         case_sensitive=False,
+    ),
+    chrome_version: int = Option(
+        default=None,
+        help="Main chrome version used for chromedriver. By default, chromedriver tries to use latest version of chrome, but if you have a specific version installed you can specify using it (IE `107`)",
     ),
 ):
     """
@@ -153,8 +158,10 @@ def analyze(
             for url in urls:
                 for window_size in window_sizes:
                     future_to_analysis[
-                        executor.submit(run_page_analysis, url, window_size)
-                    ] = (url, window_size)
+                        executor.submit(
+                            run_page_analysis, url, window_size, chrome_version
+                        )
+                    ] = (url, window_size, chrome_version)
 
             for future in as_completed(future_to_analysis):
                 try:
@@ -212,11 +219,11 @@ def report(
         ...,
         help="You have to explicitly tell what is the domain of this result analysis from",
     ),
-    output_folder: Optional[str] = Option(
+    output_folder: str = Option(
         default=None,
         help="By default, we generate the report in the same folder of the results file, but you can provide another folder",
     ),
-    html_report_language: Optional[Language] = Option(
+    html_report_language: Language = Option(
         default=Language.en.value,
         help="You can define the language of the html report. Default is english",
         case_sensitive=False,
