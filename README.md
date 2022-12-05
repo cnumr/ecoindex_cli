@@ -363,10 +363,3 @@ Please also refer to the mentions provided in the code files for specifics on th
 ## [Contributing](CONTRIBUTING.md)
 
 ## [Code of conduct](CODE_OF_CONDUCT.md)
-
-## TODO
-
-- [x] Update scraper
-- [ ] Add screenshot option
-- [x] Add Chromedriver main version option
-- [x] Type hinting python 3.10
