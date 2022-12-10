@@ -13,11 +13,9 @@ This CLI is built on top of [ecoindex-python](https://pypi.org/project/ecoindex/
 
 The output is always a CSV file with the results of the analysis.
 
-> **Current limitation:** This does not work well with SPA.
-
 ## Requirements
 
-- Python ^3.8
+- Python ^3.10
 - [pip](https://pip.pypa.io/en/stable/)
 
 ## Setup
