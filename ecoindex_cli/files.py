@@ -3,9 +3,9 @@ from csv import DictWriter
 from json import dump
 from os import makedirs
 from os.path import dirname, exists
-from typing import Dict, List, Optional
+from typing import Dict, List
 
-from ecoindex_scraper.models import Result
+from ecoindex.models import Result
 from yaml import safe_load as load_yaml
 
 from ecoindex_cli.enums import ExportFormat, Language
@@ -21,7 +21,7 @@ class File(ABC):
         self,
         filename: str,
         results: List[Result],
-        export_format: Optional[ExportFormat] = ExportFormat.csv,
+        export_format: ExportFormat | None = ExportFormat.csv,
     ):
         self.filename = filename
         self.results = results
@@ -58,7 +58,7 @@ class JsonFile(File):
 def write_results_to_file(
     filename: str,
     results: List[Result],
-    export_format: Optional[ExportFormat] = ExportFormat.csv,
+    export_format: ExportFormat | None = ExportFormat.csv,
 ) -> None:
     print(export_format)
     if export_format == ExportFormat.csv:

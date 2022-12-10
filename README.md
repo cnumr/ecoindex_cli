@@ -72,7 +72,7 @@ Processing  [####################################]  100%
 
 </details>
 
-> This makes an analysis with a screen resolution of 1920x1080px by default
+> This makes an analysis with a screen resolution of 1920x1080px by default and with the last known version of chromedriver. You can set those settings with options: `--window-size` and `--chrome-version`
 
 ### Set the output file
 
@@ -273,7 +273,6 @@ ecoindex-cli report "/tmp/ecoindex-cli/output/www.ecoindex.fr/2021-05-06_191355/
 ```
 
 </details>
-
 
 ## Results example
 

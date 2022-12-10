@@ -1,15 +1,16 @@
 from tempfile import NamedTemporaryFile
-from typing import List, Optional, Set, Tuple
+from typing import List, Set, Tuple
 from urllib.parse import urlparse
 
 from click.exceptions import BadParameter
-from ecoindex_cli.crawl import EcoindexSpider
-from ecoindex_scraper.models import WindowSize
+from ecoindex.models import WindowSize
 from pydantic import validate_arguments
 from pydantic.error_wrappers import ErrorWrapper, ValidationError
 from pydantic.networks import HttpUrl
 from pydantic.types import FilePath
 from scrapy.crawler import CrawlerProcess
+
+from ecoindex_cli.crawl import EcoindexSpider
 
 
 @validate_arguments
@@ -84,7 +85,7 @@ def get_window_sizes_from_args(window_sizes: List[str]) -> List[WindowSize]:
 
 
 def get_file_prefix_input_file_logger_file(
-    urls: List[HttpUrl], urls_file: Optional[str] = None
+    urls: List[HttpUrl], urls_file: str | None = None
 ) -> Tuple[str, str, str]:
     """
     Returns file prefix, input file and logger file based on provided urls
