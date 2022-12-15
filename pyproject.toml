@@ -23,7 +23,7 @@ matplotlib = "^3.4.3"
 click-spinner = "^0.1.10"
 pydantic = "^1.10.2"
 Scrapy = "^2.5.0"
-ecoindex-scraper = {version = "^2.9.0", allow-prereleases = true}
+ecoindex-scraper = {version = "^2.11.0", allow-prereleases = true}
 PyYAML = "^6.0"
 
 [tool.poetry.dev-dependencies]
