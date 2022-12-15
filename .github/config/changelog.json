@@ -32,7 +32,7 @@
         }
     ],
     "sort": "ASC",
-    "template": "${{CHANGELOG}}\n\n<details>\n<summary>Uncategorized</summary>\n\n${{UNCATEGORIZED}}\n</details>\n\n View [full changelog](https://github.com/cnumr/ecoindex_python/compare/${{FROM_TAG}}...${{TO_TAG}})",
+    "template": "${{CHANGELOG}}\n\n<details>\n<summary>Uncategorized</summary>\n\n${{UNCATEGORIZED}}\n</details>\n\n View [full changelog](https://github.com/cnumr/ecoindex_cli/compare/${{FROM_TAG}}...${{TO_TAG}})",
     "pr_template": "- ${{TITLE}} by @${{AUTHOR}} in #${{NUMBER}}",
     "empty_template": "- No Changes",
     "max_pull_requests": 1000,
