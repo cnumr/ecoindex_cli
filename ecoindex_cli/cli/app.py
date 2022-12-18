@@ -93,6 +93,8 @@ def analyze(
             secho(f"⏲️ Crawling root url {url[0]} -> Wait a minute!", fg=colors.MAGENTA)
             with spinner():
                 urls = get_urls_recursive(main_url=url[0])
+                urls = urls if urls else url
+
             (
                 file_prefix,
                 input_file,
