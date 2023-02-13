@@ -205,7 +205,7 @@ pydantic = ">=1.10.2,<2.0.0"
 
 [[package]]
 name = "ecoindex-scraper"
-version = "2.14.0"
+version = "2.15.0"
 description = "Ecoindex_scraper module provides a way to scrape data from given website while simulating a real web browser"
 category = "main"
 optional = false
@@ -214,7 +214,7 @@ python-versions = ">=3.10,<4.0"
 [package.dependencies]
 ecoindex = ">=5.4.1,<6.0.0"
 Pillow = ">=9.2.0,<10.0.0"
-undetected-chromedriver = "3.4.5"
+undetected-chromedriver = "3.4.6"
 
 [[package]]
 name = "exceptiongroup"
@@ -958,7 +958,7 @@ python-versions = ">=3.7"
 
 [[package]]
 name = "undetected-chromedriver"
-version = "3.4.5"
+version = "3.4.6"
 description = "('Selenium.webdriver.Chrome replacement with compatiblity for Brave, and other Chromium based browsers.', 'Not triggered by CloudFlare/Imperva/hCaptcha and such.', 'NOTE: results may vary due to many factors. No guarantees are given, except for ongoing efforts in understanding detection algorithms.')"
 category = "main"
 optional = false
@@ -1031,7 +1031,7 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "6a725e25531bea70e87afa86c2265339ee8f124316521557bc6cc24ac05cae63"
+content-hash = "871ef7cc56f0950f3044cb3104924331148ef2a6c06a97edcb26b8efd24d0b1f"
 
 [metadata.files]
 async-generator = [
@@ -1397,8 +1397,8 @@ ecoindex = [
     {file = "ecoindex-5.4.1.tar.gz", hash = "sha256:fb37608d0aa50328ce977cf40a97875c1a80c6922653a10256689ff1491aea2c"},
 ]
 ecoindex-scraper = [
-    {file = "ecoindex_scraper-2.14.0-py3-none-any.whl", hash = "sha256:e6d423b52e8899715cdc35574cb736b390ea1b87c8b58eea1a43a70f8b017fe5"},
-    {file = "ecoindex_scraper-2.14.0.tar.gz", hash = "sha256:a3d303688935e03224c4eda7a9fa6ac5cdc428c787544212d3f36d3867a79916"},
+    {file = "ecoindex_scraper-2.15.0-py3-none-any.whl", hash = "sha256:061a1970c658bbec5bd07510f949972b2fe424d7e16238adc77f9ec29c3658c5"},
+    {file = "ecoindex_scraper-2.15.0.tar.gz", hash = "sha256:f025ca711481ec464d18eabcff822ca2742e447637a9b2faea3270f7978e5e57"},
 ]
 exceptiongroup = [
     {file = "exceptiongroup-1.1.0-py3-none-any.whl", hash = "sha256:327cbda3da756e2de031a3107b81ab7b3770a602c4d16ca618298c526f4bec1e"},
@@ -2076,7 +2076,7 @@ typing-extensions = [
     {file = "typing_extensions-4.4.0.tar.gz", hash = "sha256:1511434bb92bf8dd198c12b1cc812e800d4181cfcb867674e0f8279cc93087aa"},
 ]
 undetected-chromedriver = [
-    {file = "undetected-chromedriver-3.4.5.tar.gz", hash = "sha256:fba28ea8db97b3ffa06b678bdea6c8943aa068fef5786e87c7f669963c67e29d"},
+    {file = "undetected-chromedriver-3.4.6.tar.gz", hash = "sha256:871485624f7a2e1c15fde75ab7b8ceb30ebc06dad90cd66173ea8036c046367f"},
 ]
 urllib3 = [
     {file = "urllib3-1.26.14-py2.py3-none-any.whl", hash = "sha256:75edcdc2f7d85b137124a6c3c9fc3933cdeaa12ecb9a6a959f22797a0feca7e1"},
