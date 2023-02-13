@@ -1,10 +1,10 @@
-FROM python:3.10-slim as requirements-stage
+FROM python:3.11-slim as requirements-stage
 WORKDIR /tmp
 RUN pip install poetry
 COPY ./ ./
 RUN poetry build
 
-FROM python:3.10-slim
+FROM python:3.11-slim
 ARG CHROME_VERSION=107.0.5304.121-1
 ENV CHROME_VERSION=$CHROME_VERSION
 WORKDIR /code
