@@ -169,6 +169,20 @@ Processing  [####################################]  100%
 
 </details>
 
+### Using a specific Chrome version
+
+You can use a specific Chrome version to make the analysis. This is useful if you use an old chrome version. You just have to provide the main Chrome version number.
+
+```bash
+ecoindex-cli analyze --url https://www.ecoindex.fr --chrome-version 107
+```
+
+Or if you do not know the Chrome version number, you can use the one line command
+
+```bash
+ecoindex-cli analyze --url https://www.ecoindex.fr --chrome-version (google-chrome --version  | grep --only -P '(?<=\\s)\\d{3}')
+```
+
 ### Using multi-threadging
 
 You can use multi-threading to speed up the analysis when you have a lot of websites to analyze. In this case, you can define the maximum number of workers to use:
@@ -330,14 +344,18 @@ docker build -t ecoindex-cli .
 Then you can run the container with the following command:
 
 ```bash
-docker build --build-arg CHROME_VERSION=107.0.5304.121-1 -t ecoindex-cli .
+docker build -t ecoindex-cli .
 ```
+
+> You can set a sepcific chrome version using `--build-arg CHROME_VERSION=107.0.5304.121-1` (default is `107.0.5304.121-1`)
 
 And then you can run the container with the following command:
 
 ```bash
 docker run -it --rm -v $(pwd)/output:/tmp ecoindex-cli analyze --url https://www.ecoindex.fr --recursive --chrome-version 107
 ```
+
+> You have to set the `--chrome-version` option to the same main version as the one used to build the image.
 
 ### Fields description
 
