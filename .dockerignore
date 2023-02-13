@@ -1,0 +1,11 @@
+dist
+__pycache__
+.github
+.pytest_cache
+.venv
+.vscode
+doc
+.coverage
+.gitignore
+LICENSE
+*.csv
