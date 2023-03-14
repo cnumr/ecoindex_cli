@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ecoindex-cli"
-version = "2.17.0"
+version = "2.17.1a0"
 description = "`ecoindex-cli` is a CLI tool that let you make ecoindex tests on given pages"
 authors = ["Vincent Vatelot <vincent.vatelot@ik.me>"]
 license = "MIT"
@@ -23,7 +23,7 @@ matplotlib = "^3.4.3"
 click-spinner = "^0.1.10"
 pydantic = "^1.10.2"
 Scrapy = "^2.5.0"
-ecoindex-scraper = {version = "^2.15.0", allow-prereleases = true}
+ecoindex-scraper = {version = "^2.15.1a0", allow-prereleases = true}
 PyYAML = "^6.0"
 
 [tool.poetry.dev-dependencies]
