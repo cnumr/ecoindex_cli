@@ -14,8 +14,14 @@ from ecoindex_cli.crawl import EcoindexSpider
 
 
 @validate_arguments
-def validate_list_of_urls(urls: List[HttpUrl]) -> HttpUrl:
-    return urls
+def validate_list_of_urls(urls: List[HttpUrl]) -> Tuple[HttpUrl]:
+    result = set()
+
+    for url in urls:
+        splitted_url = url.split("?")
+        result.add(splitted_url[0])
+
+    return result
 
 
 @validate_arguments
