@@ -183,7 +183,7 @@ Or if you do not know the Chrome version number, you can use the one line comman
 ecoindex-cli analyze --url https://www.ecoindex.fr --chrome-version (google-chrome --version  | grep --only -P '(?<=\\s)\\d{3}')
 ```
 
-### Using multi-threadging
+### Using multi-threading
 
 You can use multi-threading to speed up the analysis when you have a lot of websites to analyze. In this case, you can define the maximum number of workers to use:
 
