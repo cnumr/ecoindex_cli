@@ -1,12 +1,13 @@
 from datetime import datetime
 from pathlib import Path
 
-from ecoindex_cli.enums import GlobalMedian, Language, Target
-from ecoindex_cli.files import get_translations
 from jinja2 import Environment, FileSystemLoader
 from matplotlib import pyplot
-from pandas import read_csv
+from pandas import read_csv, read_json
 from pandas.core.frame import DataFrame
+
+from ecoindex_cli.enums import GlobalMedian, Language, Target
+from ecoindex_cli.files import get_translations
 
 
 class Report:
@@ -18,7 +19,14 @@ class Report:
         output_path: str,
         results_file: Path,
     ) -> None:
-        self.dataframe = read_csv(results_file)
+        self.results_file = results_file
+
+        if "csv" in results_file:
+            self.dataframe = read_csv(results_file)
+
+        if "json" in results_file:
+            self.dataframe = read_json(results_file)
+
         self.date = date
         self.domain = domain
         self.language = language
@@ -121,6 +129,7 @@ class Report:
         template_vars = {
             "site": self.domain,
             "date": self.date,
+            "result_file": self.results_file,
             "nb_page": len(self.dataframe.index),
             "all_data": self.dataframe.to_html(
                 columns=[
