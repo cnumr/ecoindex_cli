@@ -1,6 +1,7 @@
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 from multiprocessing import cpu_count
+from os import getenv
 from os.path import dirname
 from pathlib import Path
 from typing import List
@@ -79,8 +80,12 @@ def analyze(
         case_sensitive=False,
     ),
     chrome_version: int = Option(
-        default=None,
+        default=getenv("CHROME_VERSION_MAIN", None),
         help="Main chrome version used for chromedriver. By default, chromedriver tries to use latest version of chrome, but if you have a specific version installed you can specify using it (IE `107`)",
+    ),
+    chromedriver_path: str = Option(
+        default=getenv("CHROMEDRIVER_PATH", ""),
+        help="Path to chromedriver executable. By default, chromedriver tries to use latest version of chrome, but if you have a specific version installed you can specify using it (IE `107`)",
     ),
 ):
     """
@@ -184,9 +189,18 @@ def analyze(
                 for window_size in window_sizes:
                     future_to_analysis[
                         executor.submit(
-                            run_page_analysis, url, window_size, chrome_version
+                            run_page_analysis,
+                            url,
+                            window_size,
+                            chrome_version,
+                            chromedriver_path,
                         )
-                    ] = (url, window_size, chrome_version)
+                    ] = (
+                        url,
+                        window_size,
+                        chrome_version,
+                        chromedriver_path,
+                    )
 
             for future in as_completed(future_to_analysis):
                 try:

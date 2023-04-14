@@ -356,15 +356,11 @@ You can use this application in a docker container. You can build the image with
 docker build -t ecoindex-cli .
 ```
 
-> You can set a sepcific chrome version using `--build-arg CHROME_VERSION=107.0.5304.121-1` (default is `107.0.5304.121-1`)
-
 And then you can run the container with the following command:
 
 ```bash
-docker run -it --rm -v $(pwd)/output:/tmp ecoindex-cli:latest ecoindex-cli analyze --url https://www.ecoindex.fr --recursive --chrome-version 107
+docker run -it --rm --user $(id -u):$(id -g) -v $(pwd)/output:/tmp/ecoindex-cli/output ecoindex-cli:latest ecoindex-cli analyze --url https://www.ecoindex.fr --recursive --html-report 
 ```
-
-> You have to set the `--chrome-version` option to the same main version as the one used to build the image.
 
 ### Fields description
 
