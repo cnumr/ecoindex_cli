@@ -87,6 +87,14 @@ def analyze(
         default=getenv("CHROMEDRIVER_PATH", ""),
         help="Path to chromedriver executable. By default, chromedriver tries to use latest version of chrome, but if you have a specific version installed you can specify using it (IE `107`)",
     ),
+    wait_after_scroll: int = Option(
+        default=3,
+        help="Wait time after each scroll in seconds. Default is 3 seconds",
+    ),
+    wait_before_scroll: int = Option(
+        default=3,
+        help="Wait time before each scroll in seconds. Default is 3 seconds",
+    ),
 ):
     """
     Make an ecoindex analysis of given webpages or website. You
@@ -194,12 +202,16 @@ def analyze(
                             window_size,
                             chrome_version,
                             chromedriver_path,
+                            wait_after_scroll,
+                            wait_before_scroll,
                         )
                     ] = (
                         url,
                         window_size,
                         chrome_version,
                         chromedriver_path,
+                        wait_after_scroll,
+                        wait_before_scroll,
                     )
 
             for future in as_completed(future_to_analysis):
