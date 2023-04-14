@@ -350,16 +350,10 @@ width,height,url,size,nodes,requests,grade,score,ges,water,date,page_type
 
 ## Docker
 
-You can use this application in a docker container. You can build the image with the following command:
+You can use this application in a docker container. You can simply run the container with the following command:
 
 ```bash
-docker build -t ecoindex-cli .
-```
-
-And then you can run the container with the following command:
-
-```bash
-docker run -it --rm --user $(id -u):$(id -g) -v $(pwd)/output:/tmp/ecoindex-cli/output ecoindex-cli:latest ecoindex-cli analyze --url https://www.ecoindex.fr --recursive --html-report 
+docker run -it --rm -v /tmp/ecoindex-cli:/tmp/ecoindex-cli ecoindex-cli:latest ecoindex-cli analyze --url https://www.ecoindex.fr --recursive --html-report 
 ```
 
 ### Fields description
