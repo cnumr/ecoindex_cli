@@ -62,10 +62,16 @@ ecoindex-cli analyze --url https://www.ecoindex.fr
 <details><summary>Result</summary>
 
 ```bash
-There are 1 url(s), do you want to process? [Y/n]:
-1 urls for 1 window size
-Processing  [####################################]  100%
-🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-20_164433/results.csv written !
+📁️ Urls recorded in file `/tmp/ecoindex-cli/input/www.ecoindex.fr.csv`
+There are 1 url(s), do you want to process? [Y/n]: 
+1 urls for 1 window size with 8 maximum workers
+100% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1/1 • 0:00:10 • 0:00:00
+┏━━━━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━┓
+┃ Total analysis ┃ Success ┃ Failed ┃
+┡━━━━━━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━┩
+│ 1              │ 1       │ 0      │
+└────────────────┴─────────┴────────┘
+🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2023-14-04_140013/results.csv written !
 ```
 
 </details>
@@ -83,11 +89,16 @@ ecoindex-cli analyze --url https://www.ecoindex.fr --output-file ~/ecoindex-resu
 <details><summary>Result</summary>
 
 ```bash
-📁️ Urls recorded in file `input/www.ecoindex.fr.csv`
-There are 1 url(s), do you want to process? [Y/n]:
-1 urls for 1 window size with 2 maximum workers
-Processing  [####################################]  100%
-🙌️ File /home/vvatelot/ecoindex-results/ecoindex.csv written !
+📁️ Urls recorded in file `/tmp/ecoindex-cli/input/www.ecoindex.fr.csv`
+There are 1 url(s), do you want to process? [Y/n]: 
+1 urls for 1 window size with 8 maximum workers
+100% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1/1 • 0:00:12 • 0:00:00
+┏━━━━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━┓
+┃ Total analysis ┃ Success ┃ Failed ┃
+┡━━━━━━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━┩
+│ 1              │ 1       │ 0      │
+└────────────────┴─────────┴────────┘
+🙌️ File /home/20100229/ecoindex-results/ecoindex.csv written !
 ```
 
 </details>
@@ -103,11 +114,16 @@ ecoindex-cli analyze --url https://www.ecoindex.fr --export-format json
 <details><summary>Result</summary>
 
 ```bash
-📁️ Urls recorded in file `input/www.ecoindex.fr.csv`
-There are 1 url(s), do you want to process? [Y/n]:
-1 urls for 1 window size with 2 maximum workers
-Processing  [####################################]  100%
-🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2022-03-05_215320/results.json written !
+📁️ Urls recorded in file `/tmp/ecoindex-cli/input/www.ecoindex.fr.csv`
+There are 1 url(s), do you want to process? [Y/n]: 
+1 urls for 1 window size with 8 maximum workers
+100% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1/1 • 0:00:11 • 0:00:00
+┏━━━━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━┓
+┃ Total analysis ┃ Success ┃ Failed ┃
+┡━━━━━━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━┩
+│ 1              │ 1       │ 0      │
+└────────────────┴─────────┴────────┘
+🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2023-14-04_140153/results.json written !
 ```
 
 </details>
@@ -115,16 +131,23 @@ Processing  [####################################]  100%
 ### Multiple url analysis
 
 ```bash
-ecoindex-cli analyze --url https://www.ecoindex.fr --url https://www.greenit.fr/
+ecoindex-cli analyze --url https://www.ecoindex.fr --url https://www.greenit.fr/ --url https://donotwork.com
 ```
 
 <details><summary>Result</summary>
 
 ```bash
-There are 2 url(s), do you want to process? [Y/n]:
-2 urls for 1 window size with 2 maximum workers
-Processing  [####################################]  100%
-🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-20_164524/results.csv written !
+📁️ Urls recorded in file `/tmp/ecoindex-cli/input/www.ecoindex.fr.csv`
+There are 3 url(s), do you want to process? [Y/n]: 
+3 urls for 1 window size with 8 maximum workers
+100% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3/3 • 0:00:17 • 0:00:00
+Errors found: please look at /tmp/ecoindex-cli/logs/www.ecoindex.fr.log)
+┏━━━━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━┓
+┃ Total analysis ┃ Success ┃ Failed ┃
+┡━━━━━━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━┩
+│ 3              │ 2       │ 1      │
+└────────────────┴─────────┴────────┘
+🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2023-14-04_140317/results.csv written !
 ```
 
 </details>
@@ -140,10 +163,16 @@ ecoindex-cli analyze --urls-file input/ecoindex.csv
 <details><summary>Result</summary>
 
 ```bash
-There are 2 url(s), do you want to process? [Y/n]:
-2 urls for 1 window size with 2 maximum workers
-Processing  [####################################]  100%
-🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-20_164524/results.csv written !
+📁️ Urls recorded in file `/tmp/ecoindex-cli/input/www.ecoindex.fr.csv`
+There are 2 url(s), do you want to process? [Y/n]: 
+2 urls for 1 window size with 8 maximum workers
+100% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2/2 • 0:00:14 • 0:00:00
+┏━━━━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━┓
+┃ Total analysis ┃ Success ┃ Failed ┃
+┡━━━━━━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━┩
+│ 2              │ 2       │ 0      │
+└────────────────┴─────────┴────────┘
+🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr.csv/2023-14-04_140853/results.csv written !
 ```
 
 </details>
@@ -159,12 +188,22 @@ ecoindex-cli analyze --url https://www.ecoindex.fr --recursive
 <details><summary>Result</summary>
 
 ```bash
-⏲️ Crawling root url https://www.ecoindex.fr -> Wait a minute !
+You are about to perform a recursive website scraping. This can take a long time. Are you sure to want to proceed? [Y/n]: 
+⏲️ Crawling root url https://www.ecoindex.fr -> Wait a minute!
+-2023-04-14 14:09:38 [scrapy.utils.log] INFO: Scrapy 2.8.0 started (bot: scrapybot)
+2023-04-14 14:09:38 [scrapy.utils.log] INFO: Versions: lxml 4.9.2.0, libxml2 2.9.14, cssselect 1.2.0, parsel 1.7.0, w3lib 2.1.1, Twisted 22.10.0, Python 3.11.3 (main, Apr  5 2023, 14:15:06) [GCC 9.4.0], pyOpenSSL 23.0.0 (OpenSSL 3.0.8 7 Feb 2023), cryptography 39.0.2, Platform Linux-5.15.0-67-generic-x86_64-with-glibc2.31
+2023-04-14 14:09:38 [scrapy.crawler] INFO: Overridden settings:
+{'LOG_ENABLED': False}
 📁️ Urls recorded in file `/tmp/ecoindex-cli/input/www.ecoindex.fr.csv`
-There are 3 url(s), do you want to process? [Y/n]:
-3 urls for 1 window size with 2 maximum workers
-Processing  [####################################]  100%
-🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-20_164729/results.csv written !
+There are 7 url(s), do you want to process? [Y/n]: 
+7 urls for 1 window size with 8 maximum workers
+100% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7/7 • 0:00:25 • 0:00:00
+┏━━━━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━┓
+┃ Total analysis ┃ Success ┃ Failed ┃
+┡━━━━━━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━┩
+│ 7              │ 7       │ 0      │
+└────────────────┴─────────┴────────┘
+🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2023-14-04_141011/results.csv written !
 ```
 
 </details>
@@ -191,18 +230,7 @@ You can use multi-threading to speed up the analysis when you have a lot of webs
 ecoindex-cli analyze --url https://www.ecoindex.fr --url https://www.greenit.fr/ --max-workers 10
 ```
 
-<details><summary>Result</summary>
-
-```bash
-There are 2 url(s), do you want to process? [Y/n]:
-2 urls for 1 window size with 10 maximum workers
-Processing  [####################################]  100%
-🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-20_164524/results.csv written !
-```
-
 > By default, the number of maximum workers is set to CPU count.
-
-</details>
 
 ### Disable console interaction
 
@@ -212,18 +240,6 @@ You can disable confirmations, and force the app to answer yes to all of them. I
 ecoindex-cli analyze --url https://www.ecoindex.fr --recursive --no-interaction
 ```
 
-<details><summary>Result</summary>
-
-```bash
-⏲️ Crawling root url https://www.ecoindex.fr -> Wait a minute !
-📁️ Urls recorded in file `/tmp/ecoindex-cli/input/www.ecoindex.fr.csv`
-3 urls for 1 window size with 2 maximum workers
-Processing  [####################################]  100%
-🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-11-04_081913/results.csv written !
-```
-
-</details>
-
 ### Set other screen resolutions
 
 You can provide other screen resolutions. By default, the screen resolution is `1920x1080px` but you can provide other resolution for example if you want to test ecoindex for mobile.
@@ -231,17 +247,6 @@ You can provide other screen resolutions. By default, the screen resolution is `
 ```bash
 ecoindex-cli analyze --url https://www.ecoindex.fr --window-size 1920,1080 --window-size 386,540
 ```
-
-<details><summary>Result</summary>
-
-```bash
-There are 1 url(s), do you want to process? [Y/n]:
-1 urls for 2 window size with 2 maximum workers
-Processing  [####################################]  100%
-🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-21_212244/results.csv written !
-```
-
-</details>
 
 ### Generate a html report
 
@@ -254,13 +259,23 @@ ecoindex-cli analyze --url https://www.ecoindex.fr --recursive --html-report
 <details><summary>Result</summary>
 
 ```bash
-⏲️ Crawling root url https://www.ecoindex.fr -> Wait a minute !
-📁️ Urls recorded in file `input/www.ecoindex.fr.csv`
-There are 3 url(s), do you want to process? [Y/n]:
-3 urls for 1 window size with 2 maximum workers
-Processing  [####################################]  100%
-🙌️ File output/www.ecoindex.fr/2021-04-21_212127/results.csv written !
-🦄️ Amazing! A report has been generated to /tmp/ecoindex-cli/output/www.ecoindex.fr/2021-04-21_212127/index.html
+You are about to perform a recursive website scraping. This can take a long time. Are you sure to want to proceed? [Y/n]: 
+⏲️ Crawling root url https://www.ecoindex.fr -> Wait a minute!
+-2023-04-14 14:16:13 [scrapy.utils.log] INFO: Scrapy 2.8.0 started (bot: scrapybot)
+2023-04-14 14:16:13 [scrapy.utils.log] INFO: Versions: lxml 4.9.2.0, libxml2 2.9.14, cssselect 1.2.0, parsel 1.7.0, w3lib 2.1.1, Twisted 22.10.0, Python 3.11.3 (main, Apr  5 2023, 14:15:06) [GCC 9.4.0], pyOpenSSL 23.0.0 (OpenSSL 3.0.8 7 Feb 2023), cryptography 39.0.2, Platform Linux-5.15.0-67-generic-x86_64-with-glibc2.31
+2023-04-14 14:16:13 [scrapy.crawler] INFO: Overridden settings:
+{'LOG_ENABLED': False}
+📁️ Urls recorded in file `/tmp/ecoindex-cli/input/www.ecoindex.fr.csv`
+There are 7 url(s), do you want to process? [Y/n]: 
+7 urls for 1 window size with 8 maximum workers
+100% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7/7 • 0:00:28 • 0:00:00
+┏━━━━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━┓
+┃ Total analysis ┃ Success ┃ Failed ┃
+┡━━━━━━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━┩
+│ 7              │ 7       │ 0      │
+└────────────────┴─────────┴────────┘
+🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2023-14-04_141645/results.csv written !
+🦄️ Amazing! A report has been generated to /tmp/ecoindex-cli/output/www.ecoindex.fr/2023-14-04_141645/index.html
 ```
 
 > When generating a html report, the results are written in a CSV file and you can not specify the result file location. So options `--export-format` and `--output-file` are ignored.

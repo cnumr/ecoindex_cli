@@ -60,7 +60,6 @@ def write_results_to_file(
     results: List[Result],
     export_format: ExportFormat | None = ExportFormat.csv,
 ) -> None:
-    print(export_format)
     if export_format == ExportFormat.csv:
         file = CsvFile(filename=filename, results=results, export_format=export_format)
     elif export_format == ExportFormat.json:

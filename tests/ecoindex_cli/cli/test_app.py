@@ -1,7 +1,8 @@
 from os import remove
 
-from ecoindex_cli.cli.app import app
 from typer.testing import CliRunner
+
+from ecoindex_cli.cli.app import app
 
 runner = CliRunner()
 
@@ -40,7 +41,7 @@ def test_analyze_one_valid_url():
     result = runner.invoke(app=app, args=["analyze", "--url", valid_url], input="n\n")
     assert "There are 1 url(s), do you want to process?" in result.stdout
     assert result.exit_code == 1
-    assert "Aborted!" in result.stdout
+    assert "Aborted" in result.stdout
     assert f"📁️ Urls recorded in file `input/{domain}.csv`"
     remove(f"/tmp/ecoindex-cli/input/{domain}.csv")
 
@@ -83,7 +84,7 @@ def test_analyze_abort_recursive():
         "You are about to perform a recursive website scraping. This can take a long time. Are you sure to want to proceed?"
         in result.stdout
     )
-    assert "Aborted!" in result.stdout
+    assert "Aborted" in result.stdout
     assert result.exit_code == 1
 
 
@@ -96,7 +97,4 @@ def test_no_interaction():
 def test_unauthorized_export_format():
     result = runner.invoke(app=app, args=["analyze", "--export-format", "txt"])
     assert result.exit_code == 2
-    assert (
-        "Error: Invalid value for '--export-format': 'txt' is not one of 'csv', 'json'."
-        in result.stdout
-    )
+    assert "'txt' is not one of 'csv', 'json'." in result.stdout

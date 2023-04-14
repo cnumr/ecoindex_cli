@@ -91,7 +91,9 @@ def get_window_sizes_from_args(window_sizes: List[str]) -> List[WindowSize]:
 
 
 def get_file_prefix_input_file_logger_file(
-    urls: List[HttpUrl], urls_file: str | None = None
+    urls: List[HttpUrl],
+    urls_file: str | None = None,
+    tmp_folder: str = "/tmp/ecoindex-cli",
 ) -> Tuple[str, str, str]:
     """
     Returns file prefix, input file and logger file based on provided urls
@@ -101,10 +103,8 @@ def get_file_prefix_input_file_logger_file(
     if urls_file:
         file_prefix = urls_file.split("/")[-1]
         input_file = urls_file
-        logger_file = f"{file_prefix}.log"
     else:
         file_prefix = urlparse(next(iter(urls))).netloc
-        input_file = f"/tmp/ecoindex-cli/input/{file_prefix}.csv"
-        logger_file = f"{file_prefix}.log"
+        input_file = f"{tmp_folder}/input/{file_prefix}.csv"
 
-    return (file_prefix, input_file, logger_file)
+    return (file_prefix, input_file, f"{tmp_folder}/logs/{file_prefix}.log")

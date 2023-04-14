@@ -46,7 +46,7 @@ def test_get_file_prefix_input_file_logger_file():
     assert get_file_prefix_input_file_logger_file(urls=urls) == (
         "test.com",
         "/tmp/ecoindex-cli/input/test.com.csv",
-        "test.com.log",
+        "/tmp/ecoindex-cli/logs/test.com.log",
     )
 
     assert get_file_prefix_input_file_logger_file(
@@ -54,7 +54,7 @@ def test_get_file_prefix_input_file_logger_file():
     ) == (
         "my_urls.csv",
         "/home/user/my_urls.csv",
-        "my_urls.csv.log",
+        "/tmp/ecoindex-cli/logs/my_urls.csv.log",
     )
 
 
