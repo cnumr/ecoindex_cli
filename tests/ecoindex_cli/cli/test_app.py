@@ -97,7 +97,4 @@ def test_no_interaction():
 def test_unauthorized_export_format():
     result = runner.invoke(app=app, args=["analyze", "--export-format", "txt"])
     assert result.exit_code == 2
-    assert (
-        "Invalid value for '--export-format': 'txt' is not one of 'csv', 'json'."
-        in result.stdout
-    )
+    assert "'txt' is not one of 'csv', 'json'." in result.stdout
