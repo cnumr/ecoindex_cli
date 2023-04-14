@@ -8,8 +8,17 @@ from webbrowser import open as open_webbrowser
 
 from click.exceptions import Exit
 from click_spinner import spinner
+from loguru import logger
 from pydantic.error_wrappers import ValidationError
-from typer import Argument, Option, colors, confirm, progressbar, secho
+from rich.progress import (
+    BarColumn,
+    MofNCompleteColumn,
+    Progress,
+    TextColumn,
+    TimeElapsedColumn,
+    TimeRemainingColumn,
+)
+from typer import Argument, Option, colors, confirm, secho
 from typer.main import Typer
 
 from ecoindex_cli.cli.arguments_handler import (
@@ -19,10 +28,10 @@ from ecoindex_cli.cli.arguments_handler import (
     get_urls_recursive,
     get_window_sizes_from_args,
 )
+from ecoindex_cli.cli.console_output import display_result_synthesis
 from ecoindex_cli.cli.helper import run_page_analysis
 from ecoindex_cli.enums import ExportFormat, Language
 from ecoindex_cli.files import write_results_to_file, write_urls_to_file
-from ecoindex_cli.logger import Logger
 from ecoindex_cli.report.report import Report
 
 app = Typer(help="Ecoindex cli to make analysis of webpages")
@@ -87,6 +96,7 @@ def analyze(
 
     try:
         window_sizes = get_window_sizes_from_args(window_size)
+        tmp_folder = "/tmp/ecoindex-cli"
 
         urls = set()
         if url and recursive:
@@ -107,7 +117,7 @@ def analyze(
                 file_prefix,
                 input_file,
                 logger_file,
-            ) = get_file_prefix_input_file_logger_file(urls=urls)
+            ) = get_file_prefix_input_file_logger_file(urls=urls, tmp_folder=tmp_folder)
 
         elif urls_file:
             urls = get_urls_from_file(urls_file=urls_file)
@@ -115,7 +125,9 @@ def analyze(
                 file_prefix,
                 input_file,
                 logger_file,
-            ) = get_file_prefix_input_file_logger_file(urls=urls, urls_file=urls_file)
+            ) = get_file_prefix_input_file_logger_file(
+                urls=urls, urls_file=urls_file, tmp_folder=tmp_folder
+            )
 
         else:
             secho("🔥 You must provide an url...", fg=colors.RED)
@@ -126,7 +138,12 @@ def analyze(
             secho(f"📁️ Urls recorded in file `{input_file}`")
 
         if logger_file:
-            log = Logger(filename=logger_file)
+            logger.remove()
+            logger.add(
+                f"{logger_file}",
+                format="{time} | {level} | {message}",
+                level="INFO",
+            )
 
     except ValidationError as e:
         secho(str(e), fg=colors.RED)
@@ -147,13 +164,19 @@ def analyze(
         fg=colors.GREEN,
     )
 
-    with progressbar(
-        length=len(urls) * len(window_sizes),
-        label="Processing",
-        show_percent=True,
-        show_pos=True,
+    error_found = False
+
+    with Progress(
+        TextColumn("[progress.percentage]{task.percentage:>3.0f}%"),
+        BarColumn(),
+        MofNCompleteColumn(),
+        TextColumn("•"),
+        TimeElapsedColumn(),
+        TextColumn("•"),
+        TimeRemainingColumn(),
     ) as progress:
-        error_found = False
+        task = progress.add_task("Processing", total=len(urls) * len(window_sizes))
+
         with ThreadPoolExecutor(max_workers=max_workers) as executor:
             future_to_analysis = {}
 
@@ -170,20 +193,26 @@ def analyze(
                     results.append(future.result())
                 except Exception as e:
                     error_found = True
-                    log.error(f" -- {url} -- {e.msg if hasattr(e, 'msg') else e}")
+                    url, _, _ = future_to_analysis[future]
+                    logger.error(f"{url} -- {e.msg if hasattr(e, 'msg') else e}")
 
-                progress.update(1)
+                progress.update(task, advance=1)
 
-        if error_found:
-            secho(
-                f"\nErrors found: please look at {log.path}/{log.file_name})",
-                fg=colors.RED,
-            )
+    if error_found:
+        secho(
+            f"Errors found: please look at {logger_file})",
+            fg=colors.RED,
+        )
+
+    display_result_synthesis(total=len(urls) * len(window_sizes), success=len(results))
+
+    if not results:
+        raise Exit(code=1)
 
     time_now = datetime.now()
 
     output_folder = (
-        f"/tmp/ecoindex-cli/output/{file_prefix}/{time_now.strftime('%Y-%d-%m_%H%M%S')}"
+        f"{tmp_folder}/output/{file_prefix}/{time_now.strftime('%Y-%d-%m_%H%M%S')}"
     )
     output_filename = f"{output_folder}/results.{export_format.value}"
 
