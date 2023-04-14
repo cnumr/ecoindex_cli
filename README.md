@@ -11,7 +11,7 @@ This tool provides an easy way to analyze websites with [Ecoindex](https://www.e
 
 This CLI is built on top of [ecoindex-python](https://pypi.org/project/ecoindex/) with [Typer](https://typer.tiangolo.com/)
 
-The output is always a CSV file with the results of the analysis.
+The output is a CSV or JSON file with the results of the analysis.
 
 ## Requirements
 
@@ -77,80 +77,11 @@ There are 1 url(s), do you want to process? [Y/n]:
 </details>
 
 > This makes an analysis with a screen resolution of 1920x1080px by default and with the last known version of chromedriver. You can set those settings with options: `--window-size` and `--chrome-version`
-
-### Set the output file
-
-You can define the csv output file
+> You can add multiple urls to analyze with the option `--url`. For example:
 
 ```bash
-ecoindex-cli analyze --url https://www.ecoindex.fr --output-file ~/ecoindex-results/ecoindex.csv
+ecoindex-cli analyze --url https://www.ecoindex.fr --url https://www.ecoindex.fr/a-propos/
 ```
-
-<details><summary>Result</summary>
-
-```bash
-📁️ Urls recorded in file `/tmp/ecoindex-cli/input/www.ecoindex.fr.csv`
-There are 1 url(s), do you want to process? [Y/n]: 
-1 urls for 1 window size with 8 maximum workers
-100% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1/1 • 0:00:12 • 0:00:00
-┏━━━━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━┓
-┃ Total analysis ┃ Success ┃ Failed ┃
-┡━━━━━━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━┩
-│ 1              │ 1       │ 0      │
-└────────────────┴─────────┴────────┘
-🙌️ File /home/20100229/ecoindex-results/ecoindex.csv written !
-```
-
-</details>
-
-### Export to JSON file
-
-By default, the results are exported to a CSV file. But, you can specify to export the results to a JSON file.
-
-```bash
-ecoindex-cli analyze --url https://www.ecoindex.fr --export-format json
-```
-
-<details><summary>Result</summary>
-
-```bash
-📁️ Urls recorded in file `/tmp/ecoindex-cli/input/www.ecoindex.fr.csv`
-There are 1 url(s), do you want to process? [Y/n]: 
-1 urls for 1 window size with 8 maximum workers
-100% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1/1 • 0:00:11 • 0:00:00
-┏━━━━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━┓
-┃ Total analysis ┃ Success ┃ Failed ┃
-┡━━━━━━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━┩
-│ 1              │ 1       │ 0      │
-└────────────────┴─────────┴────────┘
-🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2023-14-04_140153/results.json written !
-```
-
-</details>
-
-### Multiple url analysis
-
-```bash
-ecoindex-cli analyze --url https://www.ecoindex.fr --url https://www.greenit.fr/ --url https://donotwork.com
-```
-
-<details><summary>Result</summary>
-
-```bash
-📁️ Urls recorded in file `/tmp/ecoindex-cli/input/www.ecoindex.fr.csv`
-There are 3 url(s), do you want to process? [Y/n]: 
-3 urls for 1 window size with 8 maximum workers
-100% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3/3 • 0:00:17 • 0:00:00
-Errors found: please look at /tmp/ecoindex-cli/logs/www.ecoindex.fr.log)
-┏━━━━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━┓
-┃ Total analysis ┃ Success ┃ Failed ┃
-┡━━━━━━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━┩
-│ 3              │ 2       │ 1      │
-└────────────────┴─────────┴────────┘
-🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2023-14-04_140317/results.csv written !
-```
-
-</details>
 
 ### Provide urls from a file
 
@@ -208,6 +139,71 @@ There are 7 url(s), do you want to process? [Y/n]:
 
 </details>
 
+### Generate a html report
+
+You can generate a html report easily at the end of the analysis. You just have to add the option `--html-report`.
+
+```bash
+ecoindex-cli analyze --url https://www.ecoindex.fr --recursive --html-report
+```
+
+<details><summary>Result</summary>
+
+```bash
+You are about to perform a recursive website scraping. This can take a long time. Are you sure to want to proceed? [Y/n]: 
+⏲️ Crawling root url https://www.ecoindex.fr -> Wait a minute!
+-2023-04-14 14:16:13 [scrapy.utils.log] INFO: Scrapy 2.8.0 started (bot: scrapybot)
+2023-04-14 14:16:13 [scrapy.utils.log] INFO: Versions: lxml 4.9.2.0, libxml2 2.9.14, cssselect 1.2.0, parsel 1.7.0, w3lib 2.1.1, Twisted 22.10.0, Python 3.11.3 (main, Apr  5 2023, 14:15:06) [GCC 9.4.0], pyOpenSSL 23.0.0 (OpenSSL 3.0.8 7 Feb 2023), cryptography 39.0.2, Platform Linux-5.15.0-67-generic-x86_64-with-glibc2.31
+2023-04-14 14:16:13 [scrapy.crawler] INFO: Overridden settings:
+{'LOG_ENABLED': False}
+📁️ Urls recorded in file `/tmp/ecoindex-cli/input/www.ecoindex.fr.csv`
+There are 7 url(s), do you want to process? [Y/n]: 
+7 urls for 1 window size with 8 maximum workers
+100% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7/7 • 0:00:28 • 0:00:00
+┏━━━━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━┓
+┃ Total analysis ┃ Success ┃ Failed ┃
+┡━━━━━━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━┩
+│ 7              │ 7       │ 0      │
+└────────────────┴─────────┴────────┘
+🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2023-14-04_141645/results.csv written !
+🦄️ Amazing! A report has been generated to /tmp/ecoindex-cli/output/www.ecoindex.fr/2023-14-04_141645/index.html
+```
+
+</details>
+
+> When generating a html report, the results are written in a CSV file and you can not specify the result file location. So options `--export-format` and `--output-file` are ignored.
+
+Here is a sample result:
+![Sample report](doc/report.png)
+
+### Other features
+
+#### Set the output file
+
+You can define the csv output file
+
+```bash
+ecoindex-cli analyze --url https://www.ecoindex.fr --output-file ~/ecoindex-results/ecoindex.csv
+```
+
+#### Export to JSON file
+
+By default, the results are exported to a CSV file. But, you can specify to export the results to a JSON file.
+
+```bash
+ecoindex-cli analyze --url https://www.ecoindex.fr --export-format json
+```
+
+### Change wait before / after scroll
+
+By default, the scenario waits 3 seconds before and after scrolling to bottom of the page so that the analysis results are conform to the Ecoindex main API methodology.
+
+You can change this value with the option `--wait-before-scroll` and `--wait-after-scroll` to fit your needs.
+
+```bash
+ecoindex-cli analyze --url https://www.ecoindex.fr --wait-before-scroll 1 --wait-after-scroll 1
+```
+
 ### Using a specific Chrome version
 
 You can use a specific Chrome version to make the analysis. This is useful if you use an old chrome version. You just have to provide the main Chrome version number.
@@ -239,51 +235,6 @@ You can disable confirmations, and force the app to answer yes to all of them. I
 ```bash
 ecoindex-cli analyze --url https://www.ecoindex.fr --recursive --no-interaction
 ```
-
-### Set other screen resolutions
-
-You can provide other screen resolutions. By default, the screen resolution is `1920x1080px` but you can provide other resolution for example if you want to test ecoindex for mobile.
-
-```bash
-ecoindex-cli analyze --url https://www.ecoindex.fr --window-size 1920,1080 --window-size 386,540
-```
-
-### Generate a html report
-
-You can generate a html report easily at the end of the analysis. You just have to add the option `--html-report`.
-
-```bash
-ecoindex-cli analyze --url https://www.ecoindex.fr --recursive --html-report
-```
-
-<details><summary>Result</summary>
-
-```bash
-You are about to perform a recursive website scraping. This can take a long time. Are you sure to want to proceed? [Y/n]: 
-⏲️ Crawling root url https://www.ecoindex.fr -> Wait a minute!
--2023-04-14 14:16:13 [scrapy.utils.log] INFO: Scrapy 2.8.0 started (bot: scrapybot)
-2023-04-14 14:16:13 [scrapy.utils.log] INFO: Versions: lxml 4.9.2.0, libxml2 2.9.14, cssselect 1.2.0, parsel 1.7.0, w3lib 2.1.1, Twisted 22.10.0, Python 3.11.3 (main, Apr  5 2023, 14:15:06) [GCC 9.4.0], pyOpenSSL 23.0.0 (OpenSSL 3.0.8 7 Feb 2023), cryptography 39.0.2, Platform Linux-5.15.0-67-generic-x86_64-with-glibc2.31
-2023-04-14 14:16:13 [scrapy.crawler] INFO: Overridden settings:
-{'LOG_ENABLED': False}
-📁️ Urls recorded in file `/tmp/ecoindex-cli/input/www.ecoindex.fr.csv`
-There are 7 url(s), do you want to process? [Y/n]: 
-7 urls for 1 window size with 8 maximum workers
-100% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7/7 • 0:00:28 • 0:00:00
-┏━━━━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━┓
-┃ Total analysis ┃ Success ┃ Failed ┃
-┡━━━━━━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━┩
-│ 7              │ 7       │ 0      │
-└────────────────┴─────────┴────────┘
-🙌️ File /tmp/ecoindex-cli/output/www.ecoindex.fr/2023-14-04_141645/results.csv written !
-🦄️ Amazing! A report has been generated to /tmp/ecoindex-cli/output/www.ecoindex.fr/2023-14-04_141645/index.html
-```
-
-> When generating a html report, the results are written in a CSV file and you can not specify the result file location. So options `--export-format` and `--output-file` are ignored.
-
-</details>
-
-Here is a sample result:
-![Sample report](doc/report.png)
 
 ### Only generate a report from existing result file
 
