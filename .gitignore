@@ -6,3 +6,4 @@ dist
 **/report.html
 .coverage
 htmlcov
+**/*.log
