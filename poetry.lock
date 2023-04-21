@@ -621,20 +621,19 @@ requests = ">=2.28.2,<3.0.0"
 
 [[package]]
 name = "ecoindex-scraper"
-version = "2.17.1a0"
+version = "2.18.0"
 description = "Ecoindex_scraper module provides a way to scrape data from given website while simulating a real web browser"
 category = "main"
 optional = false
 python-versions = ">=3.10,<4.0"
 files = [
-    {file = "ecoindex_scraper-2.17.1a0-py3-none-any.whl", hash = "sha256:b593d29355f95baed8fe00aef39df7702c1c1f6e1a0411ae70366dea11777f27"},
-    {file = "ecoindex_scraper-2.17.1a0.tar.gz", hash = "sha256:69166ba392522e56e449026d570071ea20a344cdca70f573f02e0ed68c96f18a"},
+    {file = "ecoindex_scraper-2.18.0-py3-none-any.whl", hash = "sha256:0a96ffb5aa125b73d7acaf6e1d82c167a897a0ab5c42b66cd5487531d29357a6"},
+    {file = "ecoindex_scraper-2.18.0.tar.gz", hash = "sha256:d673c7d2aec247582e982126e547e29c47eb5812218a8e8aac485be158126e98"},
 ]
 
 [package.dependencies]
 ecoindex = ">=5.4.2,<6.0.0"
 Pillow = ">=9.2.0,<10.0.0"
-selenium = ">=4.8.3,<5.0.0"
 undetected-chromedriver = "3.4.6"
 
 [[package]]
