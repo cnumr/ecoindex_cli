@@ -15,40 +15,30 @@ The output is a CSV or JSON file with the results of the analysis.
 
 ## Requirements
 
-- Python ^3.10
-- [pip](https://pip.pypa.io/en/stable/)
+- [Docker](https://docs.docker.com/get-docker/)
 
-## Setup
+## Quickstart
+
+The simplest way to start with ecoindex-cli is to install docker and then create an alias in your .bashrc or .zshrc file:
 
 ```bash
-pip install --user -U ecoindex-cli
+alias ecoindex-cli="docker run -it --rm -v /tmp/ecoindex-cli:/tmp/ecoindex-cli vvatelot/ecoindex-cli:latest ecoindex-cli"
+```
+
+Then you can use the cli as if it was installed on your computer:
+
+```bash
+ecoindex-cli --help
 ```
 
 ## Use case
 
-The cli gets 2 commands: `analyze` and `report` which can be used separately:
+The docker image [vvatelot/ecoindex-cli](https://hub.docker.com/r/vvatelot/ecoindex-cli) is available for `linux/amd64` and `linux/arm64` platforms and provides you an easy way to use this CLI on your environment.
+
+The one line command to use it is:
 
 ```bash
-ecoindex-cli --help                                
-```
-
-```bash
-Usage: ecoindex-cli [OPTIONS] COMMAND [ARGS]...
-
-  Ecoindex cli to make analysis of webpages
-
-Options:
-  --install-completion [bash|zsh|fish|powershell|pwsh]
-                                  Install completion for the specified shell.
-  --show-completion [bash|zsh|fish|powershell|pwsh]
-                                  Show completion for the specified shell, to
-                                  copy it or customize the installation.
-
-  --help                          Show this message and exit.
-
-Commands:
-  analyze  Make an ecoindex analysis of given webpages or website.
-  report   If you already performed an ecoindex analysis and have your...
+ecoindex-cli analyze --url https://www.ecoindex.fr --recursive --html-report 
 ```
 
 ### Make a simple analysis
@@ -299,14 +289,6 @@ width,height,url,size,nodes,requests,grade,score,ges,water,date,page_type
 ]
 ```
 
-## Docker
-
-You can use this application in a docker container. You can simply run the container with the following command:
-
-```bash
-docker run -it --rm -v /tmp/ecoindex-cli:/tmp/ecoindex-cli vvatelot/ecoindex-cli:latest ecoindex-cli analyze --url https://www.ecoindex.fr --recursive --html-report 
-```
-
 ### Fields description
 
 - `width` is the screen width used for the page analysis (in pixels)
@@ -322,19 +304,43 @@ docker run -it --rm -v /tmp/ecoindex-cli:/tmp/ecoindex-cli vvatelot/ecoindex-cli
 - `date` is the datetime of the page analysis
 - `page_type` is the type of the page, based ton the [opengraph type tag](https://ogp.me/#types)
 
-## Testing
+## Development
 
-In order to develop or test, you have to use [Poetry](https://python-poetry.org/), install the dependencies and execute a poetry shell:
+### Requirements
+
+- Python 3.10+
+- [Poetry](https://python-poetry.org/)
+- [Chrome](https://www.google.com/chrome/) (or [Chromium](https://www.chromium.org/))
+- [ChromeDriver](https://chromedriver.chromium.org/)
+
+### Installation
+
+At first, you need to install dependencies:
 
 ```bash
-poetry install && \
-poetry shell
+git clone
+cd ecoindex-cli
+poetry install
 ```
+
+You also need to install Google Chrome or Chromium and the corresponding [ChromeDriver](https://chromedriver.chromium.org/) for your OS.
+
+You have to download the chrome driver and put it in the project path. You can also use the `--chromedriver-path` option to specify the path to the chrome driver.
+
+### Usage
+
+```bash
+poetry run ecoindex-cli --help
+poetry run ecoindex-cli analyze --help
+poetry run ecoindex-cli report --help
+```
+
+### Testing
 
 We use Pytest to run unit tests for this project. The test suite are in the `tests` folder. Just execute :
 
 ```bash
-pytest --cov-report term-missing:skip-covered --cov=. --cov-config=.coveragerc tests
+poetry run pytest --cov-report term-missing:skip-covered --cov=. --cov-config=.coveragerc tests
 ```
 
 > This runs pytest and also generate a [coverage report](https://pytest-cov.readthedocs.io/en/latest/) (terminal and html)
