@@ -1,8 +1,9 @@
 name: Python package
+
 on:
-  push:
-    tags:
-      - "v*.*.*"
+  release:
+    types: [published]
+
 jobs:
   build:
     runs-on: ubuntu-latest
