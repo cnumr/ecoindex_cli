@@ -16,7 +16,7 @@ ecoindex-cli = "ecoindex_cli.cli.app:app"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-typer = {extras = ["all"], version = "^0.7.0"}
+typer = {extras = ["all"], version = ">=0.7,<0.9"}
 pandas = ">=1.3.3,<3.0.0"
 Jinja2 = "^3.0.1"
 matplotlib = "^3.4.3"
