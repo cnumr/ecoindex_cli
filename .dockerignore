@@ -1,11 +1,5 @@
-dist
-__pycache__
-.github
-.pytest_cache
-.venv
-.vscode
-doc
-.coverage
-.gitignore
-LICENSE
-*.csv
+*
+!ecoindex_cli
+!poetry.lock
+!pyproject.toml
+!README.md
