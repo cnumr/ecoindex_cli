@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ecoindex-cli"
-version = "2.21.0"
+version = "2.22.0"
 description = "`ecoindex-cli` is a CLI tool that let you make ecoindex tests on given pages"
 authors = ["Vincent Vatelot <vincent.vatelot@ik.me>"]
 license = "MIT"
