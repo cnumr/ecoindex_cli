@@ -43,15 +43,25 @@ def analyze(
     url: List[str] = Option(default=None, help="List of urls to analyze"),
     window_size: List[str] = Option(
         default=["1920,1080"],
-        help="You can set multiple window sizes to make ecoindex test. You have to use the format `width,height` in pixel",
+        help=(
+            "You can set multiple window sizes to make ecoindex test. "
+            "You have to use the format `width,height` in pixel"
+        ),
     ),
     recursive: bool = Option(
         default=False,
-        help="You can make a recursive analysis of a website. In this case, just provide one root url. Be carreful with this option. Can take a loooong long time !",
+        help=(
+            "You can make a recursive analysis of a website. "
+            "In this case, just provide one root url. "
+            "Be carreful with this option. Can take a loooong long time !"
+        ),
     ),
     urls_file: str = Option(
         default=None,
-        help="If you want to analyze multiple urls, you can also set them in a file and provide the file name",
+        help=(
+            "If you want to analyze multiple urls, you can also set "
+            "them in a file and provide the file name"
+        ),
     ),
     html_report: bool = Option(
         default=False,
@@ -59,7 +69,10 @@ def analyze(
     ),
     output_file: Path = Option(
         default=None,
-        help="You can define an output file for the csv results. If you generate an HTML report, this option is ignored",
+        help=(
+            "You can define an output file for the csv results. "
+            "If you generate an HTML report, this option is ignored"
+        ),
     ),
     no_interaction: bool = Option(
         default=False,
@@ -67,11 +80,17 @@ def analyze(
     ),
     max_workers: int = Option(
         default=None,
-        help="You can define the number of workers to use for the analysis. Default is the number of cpu cores",
+        help=(
+            "You can define the number of workers to use for the analysis. "
+            "Default is the number of cpu cores"
+        ),
     ),
     export_format: ExportFormat = Option(
         default=ExportFormat.csv.value,
-        help="You can export the results in json or csv. Default is csv. If you generate an HTML report, this option is ignored",
+        help=(
+            "You can export the results in json or csv. Default is csv. "
+            "If you generate an HTML report, this option is ignored"
+        ),
         case_sensitive=False,
     ),
     html_report_language: Language = Option(
@@ -81,11 +100,29 @@ def analyze(
     ),
     chrome_version: int = Option(
         default=getenv("CHROME_VERSION_MAIN", None),
-        help="Main chrome version used for chromedriver. By default, chromedriver tries to use latest version of chrome, but if you have a specific version installed you can specify using it (IE `107`)",
+        help=(
+            "Main chrome version used for chromedriver. By default, chromedriver "
+            "tries to use latest version of chrome, but if you "
+            "have a specific version installed you can specify using it (IE `107`)"
+        ),
     ),
     chromedriver_path: str = Option(
         default=getenv("CHROMEDRIVER_PATH", ""),
-        help="Path to chromedriver executable. By default, chromedriver tries to use latest version of chrome, but if you have a specific version installed you can specify using it (IE `107`)",
+        help=(
+            "Path to chromedriver executable. By default, "
+            "chromedriver tries to use latest version of chrome, "
+            "but if you have a specific version installed you can "
+            "specify using it (IE `107`)"
+        ),
+    ),
+    chrome_executable_path: str = Option(
+        default=getenv("CHROME_EXECUTABLE_PATH", ""),
+        help=(
+            "Path to chrome executable. By default, chromedriver "
+            "tries to use latest version of chrome, but if you "
+            "have a specific version installed you can specify "
+            "using it (IE `/usr/bin/google-chrome-stable`)"
+        ),
     ),
     wait_after_scroll: int = Option(
         default=3,
@@ -102,7 +139,10 @@ def analyze(
     """
     if recursive and not no_interaction:
         confirm(
-            text="You are about to perform a recursive website scraping. This can take a long time. Are you sure to want to proceed?",
+            text=(
+                "You are about to perform a recursive website scraping. "
+                "This can take a long time. Are you sure to want to proceed?"
+            ),
             abort=True,
             default=True,
         )
@@ -173,7 +213,10 @@ def analyze(
     results = []
 
     secho(
-        f"{len(urls)} urls for {len(window_sizes)} window size with {max_workers} maximum workers",
+        (
+            f"{len(urls)} urls for {len(window_sizes)} "
+            f"window size with {max_workers} maximum workers"
+        ),
         fg=colors.GREEN,
     )
 
@@ -202,21 +245,30 @@ def analyze(
                             window_size,
                             chrome_version,
                             chromedriver_path,
+                            chrome_executable_path,
                             wait_after_scroll,
                             wait_before_scroll,
+                            logger,
                         )
                     ] = (
                         url,
                         window_size,
                         chrome_version,
                         chromedriver_path,
+                        chrome_executable_path,
                         wait_after_scroll,
                         wait_before_scroll,
+                        logger,
                     )
 
             for future in as_completed(future_to_analysis):
                 try:
-                    results.append(future.result())
+                    result, success = future.result()
+                    results.append(result)
+
+                    if not success:
+                        error_found = True
+
                 except Exception as e:
                     error_found = True
                     url, _, _ = future_to_analysis[future]
@@ -274,11 +326,17 @@ def report(
     ),
     domain: str = Argument(
         ...,
-        help="You have to explicitly tell what is the domain of this result analysis from",
+        help=(
+            "You have to explicitly tell what is the domain of "
+            "this result analysis from"
+        ),
     ),
     output_folder: str = Option(
         default=None,
-        help="By default, we generate the report in the same folder of the results file, but you can provide another folder",
+        help=(
+            "By default, we generate the report in the same folder "
+            "of the results file, but you can provide another folder"
+        ),
     ),
     html_report_language: Language = Option(
         default=Language.en.value,
