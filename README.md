@@ -25,6 +25,16 @@ The simplest way to start with ecoindex-cli is to install docker and then create
 alias ecoindex-cli="docker run -it --rm -v /tmp/ecoindex-cli:/tmp/ecoindex-cli vvatelot/ecoindex-cli:latest ecoindex-cli"
 ```
 
+Launch docker-desktop
+
+```bash
+systemctl --user start docker-desktop
+```
+
+Configure shared paths from Docker -> Preferences (cog) -> Resources -> File Sharing
+Add path `/tmp/ecoindex-cli`
+Restart Docker-desktop
+
 Then you can use the cli as if it was installed on your computer:
 
 ```bash
